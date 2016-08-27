@@ -1,6 +1,7 @@
 package ludum.mighty.ld36.world;
 
 import ludum.mighty.ld36.actors.BasicMaruto;
+import ludum.mighty.ld36.settings.DefaultValues;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,6 +19,7 @@ public class MightyWorld {
 	// 2. Actors perform this turn's actions (first the AI is updated, then the
 	// mechanics of the world are calculated and translated into actors
 	// actions and last the actions of the turn are displayed)
+	private int currentState;
 
 	private Stage stage;
 
@@ -41,6 +43,7 @@ public class MightyWorld {
 
 		// TODO: define user input here
 
+		this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 		initPlayers();
 		updatePowerUps();
 	}
@@ -49,9 +52,14 @@ public class MightyWorld {
 	// state of the world)
 	// this is called in the screen render or update
 	public void update() {
+		if (this.currentState == DefaultValues.WORLD_STATE_ENTERING_COMMAND) {
+			// TODO: update user input here
 
-		// TODO: update user input here
+		} else if (this.currentState == DefaultValues.WORLD_STATE_ACTION) {
 
+		}
+
+		this.stage.act(Gdx.graphics.getDeltaTime());
 	}
 
 	public void render() {

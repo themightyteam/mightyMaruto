@@ -25,4 +25,8 @@ public class DefaultValues {
 
     // World constants
     public static final int TILESIZE = 32;
+
+	// World state
+	public static final int WORLD_STATE_ENTERING_COMMAND = 0;
+	public static final int WORLD_STATE_ACTION = 1;
 }
