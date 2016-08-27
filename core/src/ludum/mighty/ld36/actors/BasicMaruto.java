@@ -104,7 +104,7 @@ public class BasicMaruto extends Actor implements BasicActor {
 		if (this.getActions().size == 0) {
 			moveFlag = false;
 		}
-		System.out.println("BasicMaruto: " + this.getX() + " " + this.getY());
+		//System.out.println("BasicMaruto: " + this.getX() + " " + this.getY());
 		
 	}
 	

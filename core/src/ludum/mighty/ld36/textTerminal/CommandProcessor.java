@@ -106,19 +106,23 @@ public class CommandProcessor {
                 tempcommands.add(todo);
             }
         }
-        commands.addAll(tempcommands);
+        this.commands.addAll(tempcommands);
         String toprint = "";
         for (Action command:tempcommands) {
             toprint += command + " then ";
         }
         toprint = toprint.substring(0,toprint.lastIndexOf(" then "));
+
         return toprint;
     }
 
     public Action getNextAction () {
     	if (commands.size() == 0) return null;
+        //System.out.println(commands.size());
         Action next = commands.firstElement();
+        //System.out.println(next);
         commands.remove(next);
+        //System.out.println(commands.size());
         return next;
     }
 
