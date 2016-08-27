@@ -3,6 +3,7 @@ package ludum.mighty.ld36.world;
 import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
+import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -30,8 +31,9 @@ public class MightyWorld {
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private OrthographicCamera cam;
 
-	SpriteBatch batch;
+	private SpriteBatch batch;
 	private TextTerminal textTerminal;
+	private TimeLeftLabel timeLeftLabel;
 
 	// // WORLD API
 	// Loads stuff like the map and initializes things
@@ -52,6 +54,10 @@ public class MightyWorld {
 				100);
 		Gdx.input.setInputProcessor(this.textTerminal);
 
+		this.timeLeftLabel = new TimeLeftLabel(new Vector2(10f, h - 10f), 120,
+				20);
+		this.timeLeftLabel.setTimeLeft(3.0f);
+
 		// TODO: define user input here
 
 		this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
@@ -66,6 +72,8 @@ public class MightyWorld {
 		if (this.currentState == DefaultValues.WORLD_STATE_ENTERING_COMMAND) {
 			// TODO: update user input here
 
+			this.timeLeftLabel
+					.setTimeLeft(this.timeLeftLabel.getTimeLeft() - 0.001f);
 		} else if (this.currentState == DefaultValues.WORLD_STATE_ACTION) {
 
 		}
@@ -86,6 +94,7 @@ public class MightyWorld {
 
 		this.stage.draw();
 		this.textTerminal.render(batch);
+		this.timeLeftLabel.render(batch);
 	}
 
 	// // END OF WORLD API
