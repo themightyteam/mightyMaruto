@@ -25,6 +25,7 @@ public class TimeLeftLabel {
 
 	private float timeLeft;
 	private String currentString;
+	private String constantString;
 
 	public TimeLeftLabel(Vector2 startPoint, int width, int height) {
 		this.boxStartPointX = startPoint.x;
@@ -33,6 +34,8 @@ public class TimeLeftLabel {
 		this.boxHeigh = height;
 		this.hMargin = 5;
 		this.vMargin = 5;
+
+		this.constantString = new String("Time left: ");
 
 		this.backgroudColor = new Color(0f, 0f, 0f, .5f);
 
@@ -63,10 +66,22 @@ public class TimeLeftLabel {
 		batch.end();
 	}
 
+	String format(float n) {
+		String ret = String.valueOf((int) n);
+		int left = (int) (n * 100 - (Math.floor(n) * 100));
+
+		if (left < 10) {
+			ret = ret + ".0" + String.valueOf(left);
+		} else {
+			ret = ret + "." + String.valueOf(left);
+		}
+		
+		return ret;
+	}
+
 	public void setTimeLeft(float time) {
 		this.timeLeft = time;
-		this.currentString = String.format(java.util.Locale.US,
-				"Time left: %.2f", this.timeLeft);
+		this.currentString = this.constantString + format(this.timeLeft);
 		if (this.timeLeft > 2) {
 			this.bitmapFont.setColor(0f, 1f, 0f, 1f);
 		} else if (this.timeLeft > 1) {
