@@ -8,14 +8,14 @@ import ludum.mighty.ld36.settings.DefaultValues;
 public class Action {
     private int movex;
     private int movey;
-    private DefaultValues.ROTATIONS rotate;
-    private DefaultValues.DIRECTIONS shoot_direction;
+    private DefaultValues.RELATIVE_ROTATIONS rotate;
+    private DefaultValues.ABSOLUTE_DIRECTIONS shoot_direction;
 
     // Disable default constructor
     private Action(){}
 
     // Action constructor
-    public Action(int movex, int movey, DefaultValues.ROTATIONS rotate, DefaultValues.DIRECTIONS shoot) {
+    public Action(int movex, int movey, DefaultValues.RELATIVE_ROTATIONS rotate, DefaultValues.ABSOLUTE_DIRECTIONS shoot) {
 
     }
 

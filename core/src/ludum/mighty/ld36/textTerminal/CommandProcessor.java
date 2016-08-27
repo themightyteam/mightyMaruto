@@ -1,24 +1,15 @@
 package ludum.mighty.ld36.textTerminal;
 
+import ludum.mighty.ld36.actors.Action;
+
+import java.util.Vector;
+
 /**
  * Created by dchaves on 27/08/16.
  */
 
 public class CommandProcessor {
-    private InputTextTerminal inputText;
-    public CommandProcessor(InputTextTerminal itTerminal) {
-        this.inputText = itTerminal;
-    }
+    private Vector<Action> commands;
 
-    public String getMessage() {
-        return "";
-    }
 
-    public String getAction() {
-        return "";
-    }
-
-    public void done() {
-
-    }
 }

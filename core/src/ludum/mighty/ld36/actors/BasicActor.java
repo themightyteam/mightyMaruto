@@ -7,7 +7,17 @@ import ludum.mighty.ld36.settings.DefaultValues;
  */
 public interface BasicActor {
     void move(int x,int y);
-    void shoot(DefaultValues.DIRECTIONS direction);
+    void shoot(DefaultValues.RELATIVE_DIRECTIONS direction);
     void pickup(Powerup powerup);
-    void rotate(DefaultValues.ROTATIONS rotation);
+    void drop(String powerup);
+    void rotate(DefaultValues.RELATIVE_ROTATIONS rotation);
+    void setname(String name);
+    void punch(DefaultValues.RELATIVE_DIRECTIONS direction);
+
+    String getname();
+    int getlife();
+    int getspeed();
+    int getpunch();
+    boolean getvisibility();
+    DefaultValues.ABSOLUTE_DIRECTIONS getfacing();
 }
