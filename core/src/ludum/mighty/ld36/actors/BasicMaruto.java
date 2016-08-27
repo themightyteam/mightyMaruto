@@ -273,6 +273,7 @@ public class BasicMaruto extends Actor implements BasicActor {
 		
 	
 	public void checkAction() {
+		if (this.getActions().size > 0) return;
 		Action ac = commandProcessor.getNextAction();
 		if (ac == null) return;
 		switch (ac.gettype()) {
@@ -287,6 +288,25 @@ public class BasicMaruto extends Actor implements BasicActor {
 					mba.setAmount(DefaultValues.TILESIZE, 0);
 				} else if (anim == animLEFT) {
 					mba.setAmount(-DefaultValues.TILESIZE, 0);
+				}
+					mba.setDuration(1f);
+					this.addAction(mba);
+
+				moveFlag = true;
+
+			}			
+			break;
+		case MOONWALK:
+			if (moveFlag == false) {
+				mba = new MoveByAction();
+				if (anim == animDOWN) {
+					mba.setAmount(0, DefaultValues.TILESIZE);
+				} else if (anim == animUP) {
+					mba.setAmount(0, -DefaultValues.TILESIZE);
+				} else if (anim == animRIGHT) {
+					mba.setAmount(-DefaultValues.TILESIZE, 0);
+				} else if (anim == animLEFT) {
+					mba.setAmount(DefaultValues.TILESIZE, 0);
 				}
 					mba.setDuration(1f);
 					this.addAction(mba);
