@@ -21,6 +21,7 @@ import static ludum.mighty.ld36.settings.DefaultValues.LINELENGTH;
 public class TextTerminal implements InputProcessor {
 
     private CommandProcessor commandProcessor;
+    private boolean isdone = false;
 
     // a introduced string line with some status codes
     private class Line {
@@ -156,6 +157,7 @@ public class TextTerminal implements InputProcessor {
             this.linesList.add(new Line(this.currentString));
             this.currentString = this.prompt;
             this.linesList.add(new Line(this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2)), true));
+            this.isdone = true;
         }
         if (keycode == Keys.BACKSPACE) {
             if (this.currentString.length() > 2) {
@@ -181,6 +183,12 @@ public class TextTerminal implements InputProcessor {
             this.currentString = this.currentString + character;
         }
         return false;
+    }
+
+    public boolean isdone() {
+        boolean result = this.isdone;
+        this.isdone = false;
+        return result;
     }
 
     @Override
