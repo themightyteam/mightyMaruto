@@ -1,5 +1,6 @@
 package ludum.mighty.ld36.screen;
 
+import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.world.MightyWorld;
 
 import com.badlogic.gdx.Game;
@@ -14,7 +15,7 @@ public class GameScreen extends DefaultScreen implements Screen {
 	private TiledMap map;
 	MightyWorld gameWorld;
 
-	int waitFramesForHandle = 100;
+	int waitFramesForHandle = DefaultValues.WAIT_TIME;
 
 	public GameScreen(Game game) {
 		super(game);

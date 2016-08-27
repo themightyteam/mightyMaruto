@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import ludum.mighty.ld36.settings.DefaultValues;
 
 public class InstructionsScreen extends DefaultScreen implements Screen {
 
@@ -19,7 +20,7 @@ public class InstructionsScreen extends DefaultScreen implements Screen {
 	OrthographicCamera cam;
 	StretchViewport sv;
 
-	int waitFramesForHandle = 100;
+	int waitFramesForHandle = DefaultValues.WAIT_TIME;
 
 	public InstructionsScreen(Game game) {
 		super(game);

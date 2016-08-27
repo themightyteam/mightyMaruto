@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import com.badlogic.gdx.Screen;
+import ludum.mighty.ld36.settings.DefaultValues;
 
 public class IntroScreen extends DefaultScreen implements Screen {
 
@@ -20,7 +21,7 @@ public class IntroScreen extends DefaultScreen implements Screen {
 	OrthographicCamera cam;
 	StretchViewport sv;
 
-	int waitFramesForHandle = 100;
+	int waitFramesForHandle = DefaultValues.WAIT_TIME;
 
 	public IntroScreen(Game game) {
 		super(game);

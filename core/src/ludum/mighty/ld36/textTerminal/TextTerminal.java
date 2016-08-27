@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
+import ludum.mighty.ld36.settings.DefaultValues;
 
 public class TextTerminal implements InputProcessor {
 
@@ -76,15 +77,6 @@ public class TextTerminal implements InputProcessor {
         shapeRenderer = new ShapeRenderer();
 
         linesList = new ArrayList<Line>();
-        linesList.add(new Line("> line 1"));
-        linesList.add(new Line("> line 2"));
-        linesList.add(new Line("> line 3"));
-        linesList.add(new Line("> line 4"));
-        linesList.add(new Line("> line 5"));
-        linesList.add(new Line("> line 6"));
-        linesList.add(new Line("> line 7"));
-        linesList.add(new Line("> line 8"));
-        linesList.add(new Line("> line 9"));
 
         this.prompt = new String("> ");
         this.currentString = new String(this.prompt);
@@ -110,7 +102,7 @@ public class TextTerminal implements InputProcessor {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
         batch.begin();
-        int firstLineToDisplay = linesList.size() - 4;
+        int firstLineToDisplay = (linesList.size() >= DefaultValues.NUMBEROFLINES) ? (linesList.size() - DefaultValues.NUMBEROFLINES) : 0;
         int i = firstLineToDisplay;
         for (; i < linesList.size(); i++) {
             bitmapFont.draw(batch, this.linesList.get(i).text,
@@ -156,7 +148,7 @@ public class TextTerminal implements InputProcessor {
         if (keycode == Keys.ENTER) {
             this.linesList.add(new Line(this.currentString));
             this.currentString = this.prompt;
-            this.commandProcessor.next(this.getOldestUnprocessedLine());
+            this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2));
         }
         if (keycode == Keys.BACKSPACE) {
             if (this.currentString.length() > 2) {

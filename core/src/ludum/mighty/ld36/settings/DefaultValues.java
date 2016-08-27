@@ -29,4 +29,29 @@ public class DefaultValues {
 	// World state
 	public static final int WORLD_STATE_ENTERING_COMMAND = 0;
 	public static final int WORLD_STATE_ACTION = 1;
+
+    // Screen values
+    public static final int WAIT_TIME = 10;
+
+    // Text processor
+    public static final int NUMBEROFLINES = 4;
+    public static final String ERRORS[] = {
+        "Wrong!  You cheating scum!",
+        "And you call yourself a Rocket Scientist!",
+        "No soap, honkie-lips.",
+        "Where did you learn to type?",
+        "Are you on drugs?",
+        "My pet ferret can type better than you!",
+        "You type like I drive.",
+        "Do you think like you type?",
+        "Your mind just hasn't been the same since the electro-shock, has it?",
+        "Just what do you think you're doing Dave?",
+        "It can only be attributed to human error.",
+        "That's something I cannot allow to happen.",
+        "My mind is going. I can feel it.",
+        "Sorry about this, I know it's a bit silly.",
+        "Take a stress pill and think things over.",
+        "This mission is too important for me to allow you to jeopardize it.",
+        "I feel much better now."
+    };
 }

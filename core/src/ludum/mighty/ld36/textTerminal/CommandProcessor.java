@@ -4,6 +4,7 @@ import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -19,10 +20,11 @@ public class CommandProcessor {
 
 
     // Parse string to get action or list of actions
-    public void next(String line) {
+    public String next(String line) {
 
         Action todo = null;
 
+        System.out.println(line);
         String[] actions = line.split(";");
         for (String action:actions) {
             String[] parts = action.split(" ");
@@ -31,7 +33,7 @@ public class CommandProcessor {
                 // Valid command; zero additional parameters
                 if (parts.length != 1) {
                     // TODO : error "too many parameters"
-                    return;
+                    return getRandomString(DefaultValues.ERRORS);
                 }
                 if(command.compareToIgnoreCase("walk") == 0) {
                     todo = new Action(DefaultValues.ACTIONS.WALK);
@@ -50,7 +52,7 @@ public class CommandProcessor {
                 // Valid command; one additional parameter
                 if (parts.length != 2) {
                     // TODO : error "invalid parameter number"
-                    return;
+                    return getRandomString(DefaultValues.ERRORS);
                 }
                 if(command.compareToIgnoreCase("rotate") == 0) {
                     if (parts[1].compareToIgnoreCase("left") == 0) {
@@ -59,7 +61,7 @@ public class CommandProcessor {
                         todo = new Action(DefaultValues.ACTIONS.ROTATE,DefaultValues.RELATIVE_ROTATIONS.RIGHT);
                     } else {
                         // TODO : invalid direction
-                        return;
+                        return getRandomString(DefaultValues.ERRORS);
                     }
                 } else if (command.compareToIgnoreCase("drop") == 0) {
                     if (parts[1].compareToIgnoreCase("arrrggghhh") == 0) {
@@ -88,18 +90,27 @@ public class CommandProcessor {
                 }
             } else {
                 // TODO : invalid command
-                return;
+                return getRandomString(DefaultValues.ERRORS);
             }
 
             if (todo != null) {
                 commands.add(todo);
+                return todo.toString();
             }
         }
+
+        return getRandomString(DefaultValues.ERRORS);
     }
 
     public Action getNextAction () {
         Action next = commands.firstElement();
         commands.remove(next);
         return next;
+    }
+
+    private String getRandomString (String[] library) {
+        int idx = new Random().nextInt(library.length);
+        String random = (library[idx]);
+        return random;
     }
 }
