@@ -52,7 +52,7 @@ public class MightyWorld {
 		this.sv.apply();
 		this.cam.position.set(640, 480, 0);
 
-
+        batch = new SpriteBatch();
 		
 		stage = new Stage(sv);
 
