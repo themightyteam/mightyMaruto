@@ -1,17 +1,17 @@
 package ludum.mighty.ld36.screen;
 
+import ludum.mighty.ld36.assets.SoundAssets;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import com.badlogic.gdx.Screen;
-import ludum.mighty.ld36.settings.DefaultValues;
 
 public class IntroScreen extends DefaultScreen implements Screen {
 
@@ -21,10 +21,10 @@ public class IntroScreen extends DefaultScreen implements Screen {
 	OrthographicCamera cam;
 	StretchViewport sv;
 
-	int waitFramesForHandle = DefaultValues.WAIT_TIME;
+	int waitFramesForHandle = 100;
 
-	public IntroScreen(Game game) {
-		super(game);
+	public IntroScreen(Game game, SoundAssets sa) {
+		super(game, sa);
 
 		this.cam = new OrthographicCamera();
 		this.sv = new StretchViewport(100, 100, this.cam);
@@ -61,7 +61,8 @@ public class IntroScreen extends DefaultScreen implements Screen {
 
 	private void handleInput() {
 		if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			this.mightyGame.setScreen(new HistoryScreen(this.mightyGame));
+			this.mightyGame.setScreen(new HistoryScreen(this.mightyGame,
+					this.soundAssets));
 		}
 	}	
 	

@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 
@@ -30,6 +31,11 @@ public class MightyWorld {
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private OrthographicCamera cam;
 
+    public StretchViewport sv;
+	
+    public BasicMaruto basicMaruto;
+    
+
 	SpriteBatch batch;
 	private TextTerminal textTerminal;
 
@@ -39,16 +45,18 @@ public class MightyWorld {
 
 		
 		// Render init
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-		this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / 32f);
-		this.cam = new OrthographicCamera(20, 15 * (h / w));
-		this.cam.position.set(20, 20, 0);
-		this.batch = new SpriteBatch();
 
-		stage = new Stage(new StretchViewport(w, h));
+		this.mapRenderer = new OrthogonalTiledMapRenderer(map);
+		this.cam = new OrthographicCamera();
+		this.sv = new StretchViewport(640, 480, this.cam);
+		this.sv.apply();
+		this.cam.position.set(640, 480, 0);
 
-		this.textTerminal = new TextTerminal(new Vector2(0f, 100f), (int) w,
+        batch = new SpriteBatch();
+		
+		stage = new Stage(sv);
+
+		this.textTerminal = new TextTerminal(new Vector2(0f, 100f), (int) Gdx.graphics.getWidth(),
 				100);
 		Gdx.input.setInputProcessor(this.textTerminal);
 
@@ -70,7 +78,7 @@ public class MightyWorld {
 
 		}
 
-		this.stage.act(Gdx.graphics.getDeltaTime());
+		//this.stage.act(Gdx.graphics.getDeltaTime());
 	}
 
 	public void render() {
@@ -78,12 +86,14 @@ public class MightyWorld {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		updatePowerUps();
-
+		
+		this.cam.position.x = basicMaruto.getX();
+		this.cam.position.y = basicMaruto.getY();
 		this.cam.update();
 		this.mapRenderer.setView(this.cam);
 
 		this.mapRenderer.render();
-
+		this.stage.act(Gdx.graphics.getDeltaTime());
 		this.stage.draw();
 		this.textTerminal.render(batch);
 	}
@@ -93,10 +103,10 @@ public class MightyWorld {
 	// Creates all players
 	private void initPlayers() {
 		// Add playable player
-		BasicMaruto basicMaruto = new BasicMaruto();
+		basicMaruto = new BasicMaruto();
 		// set the xy for the tiles and stage position
-		basicMaruto.setTilePosX(21);
-		basicMaruto.setTilePosY(21);
+		basicMaruto.setTilePosX(20);
+		basicMaruto.setTilePosY(20);
 		this.stage.addActor(basicMaruto);
 
 		// TODO: Add rest of players

@@ -1,4 +1,4 @@
-package ludum.mighty.ld36.screen;
+package ludum.mighty.ld36.elede;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -8,10 +8,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import ludum.mighty.ld36.screen.DefaultScreen;
+
 import com.badlogic.gdx.Screen;
-import ludum.mighty.ld36.settings.DefaultValues;
 
 public class GameFakeScreen extends DefaultScreen implements Screen {
 
@@ -20,22 +23,30 @@ public class GameFakeScreen extends DefaultScreen implements Screen {
 	Sprite spr;
 	OrthographicCamera cam;
 	StretchViewport sv;
-
-	int waitFramesForHandle = DefaultValues.WAIT_TIME;
+    private KidActor kid;
+    
+    Stage stage;
+    
+	
+	int waitFramesForHandle = 100;
 
 	public GameFakeScreen(Game game) {
 		super(game);
 
 		this.cam = new OrthographicCamera();
-		this.sv = new StretchViewport(100, 100, this.cam);
+		this.sv = new StretchViewport(640, 480, this.cam);
 		this.sv.apply();
-		this.cam.position.set(50, 50, 0);
+		this.cam.position.set(320, 240, 0);
 
 		this.batch = new SpriteBatch();
 		this.img = new Texture("game.png");
 		this.spr = new Sprite(this.img);
 		this.spr.setPosition(0, 0);
-		this.spr.setSize(100, 100);
+		//this.spr.setSize(100, 100);
+		
+		this.kid = new KidActor();
+		stage = new Stage(sv);
+		stage.addActor(kid);
 	}
 
 	public void render(float delta) {
@@ -46,11 +57,17 @@ public class GameFakeScreen extends DefaultScreen implements Screen {
 		if (this.waitFramesForHandle <= 0)
 			handleInput();
 
+		kid.checkMovement();
+		
+		
 		batch.setProjectionMatrix(this.cam.combined);
 
 		this.batch.begin();
 		this.spr.draw(batch);
 		this.batch.end();
+		
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
 	}
 
 	@Override
@@ -61,8 +78,13 @@ public class GameFakeScreen extends DefaultScreen implements Screen {
 
 	private void handleInput() {
 		if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			this.mightyGame.setScreen(new ScoresScreen(this.mightyGame));
+			//this.mightyGame.setScreen(new ScoresScreen(this.mightyGame));
 		}
-	}	
+	}
+	
+	@Override
+	public void dispose () {
+		stage.dispose();
+	}
 	
 }
