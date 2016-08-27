@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,7 +14,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class TextTerminal implements InputTextTerminal {
+public class TextTerminal implements InputProcessor {
+
+    private CommandProcessor commandProcessor;
 
     // a introduced string line with some status codes
     private class Line {
@@ -49,6 +52,8 @@ public class TextTerminal implements InputTextTerminal {
     private long millisToChangeCursor;
     private boolean isCursorShowing;
 
+    // TODO: Enable/disable text input
+
     public TextTerminal(Vector2 startPoint, int width, int height) {
 
         this.boxStartPointX = startPoint.x;
@@ -57,6 +62,7 @@ public class TextTerminal implements InputTextTerminal {
         this.boxHeigh = height;
         this.hMargin = 5;
         this.vMargin = 5;
+        this.commandProcessor = new CommandProcessor();
 
         this.backgroudColor = new Color(0f, 0f, 0f, .5f);
 
@@ -145,6 +151,7 @@ public class TextTerminal implements InputTextTerminal {
         if (keycode == Keys.ENTER) {
             this.linesList.add(new Line(this.currentString));
             this.currentString = this.prompt;
+            this.commandProcessor.next(this.getOldestUnprocessedLine());
         }
         if (keycode == Keys.BACKSPACE) {
             if (this.currentString.length() > 2) {
@@ -193,4 +200,5 @@ public class TextTerminal implements InputTextTerminal {
     public boolean scrolled(int amount) {
         return false;
     }
+
 }
