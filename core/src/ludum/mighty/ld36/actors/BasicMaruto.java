@@ -51,6 +51,7 @@ public class BasicMaruto extends Actor implements BasicActor {
 	
 	public BasicMaruto(CommandProcessor cm) {
 		
+		facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
 		commandProcessor = cm;
 		
 		kidTexture = new Texture("maruto_spreadsheet.png");
@@ -274,21 +275,73 @@ public class BasicMaruto extends Actor implements BasicActor {
 	public void checkAction() {
 		Action ac = commandProcessor.getNextAction();
 		if (ac == null) return;
-		if (ac.gettype() == DefaultValues.ACTIONS.WALK){
+		switch (ac.gettype()) {
+		case WALK:
 			if (moveFlag == false) {
-				anim = animDOWN;
-				//if (Math.round(getY()) > 0) {
-					mba = new MoveByAction();
-					mba.setAmount(0,-32);
+				mba = new MoveByAction();
+				if (anim == animDOWN) {
+					mba.setAmount(0, -DefaultValues.TILESIZE);
+				} else if (anim == animUP) {
+					mba.setAmount(0, DefaultValues.TILESIZE);
+				} else if (anim == animRIGHT) {
+					mba.setAmount(DefaultValues.TILESIZE, 0);
+				} else if (anim == animLEFT) {
+					mba.setAmount(-DefaultValues.TILESIZE, 0);
+				}
 					mba.setDuration(1f);
 					this.addAction(mba);
-				//}
 
 				moveFlag = true;
 
-			}
+			}			
+			break;
+		case PUNCH:
+
+				if (moveFlag == false) {
+				if (anim == animDOWN) {
+					anim = animPunchDOWN;
+				} else if (anim == animUP) {
+					anim = animPunchUP;
+				} else if (anim == animRIGHT) {
+					anim = animPunchRIGHT;
+				} else if (anim == animLEFT) {
+					anim = animPunchLEFT;
+				}
+				mba = new MoveByAction();
+				mba.setAmount(0, 0);
+				mba.setDuration(1f);
+				this.addAction(mba);
+				
+				moveFlag = true;
+				}
+				break;
+		case TURN:
+				if (moveFlag == false) {
+					this.rotate(ac.getdirection());
+					switch (getfacing()) {
+					case NORTH:
+						anim = animUP;
+						break;
+					case EAST:
+						anim = animRIGHT;
+						break;
+					case SOUTH:
+						anim = animDOWN;
+						break;
+					case WEST:
+						anim = animLEFT;
+						break;
+					}
+					mba = new MoveByAction();
+					mba.setAmount(0, 0);
+					mba.setDuration(1f);
+					this.addAction(mba);
+				}
 		}
 		
+
+
+			
 		
 		
 	}
