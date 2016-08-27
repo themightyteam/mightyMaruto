@@ -1,4 +1,4 @@
-package ludum.mighty.screen;
+package ludum.mighty.ld36.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

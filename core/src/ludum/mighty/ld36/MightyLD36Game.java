@@ -2,7 +2,7 @@ package ludum.mighty.ld36;
 
 import com.badlogic.gdx.Game;
 
-import ludum.mighty.screen.IntroScreen;
+import ludum.mighty.ld36.screen.IntroScreen;
 
 
 public class MightyLD36Game extends Game {
