@@ -63,11 +63,11 @@ public class TextTerminal implements InputProcessor {
     private long lastCursorChange;
     private long millisToChangeCursor;
     private boolean isCursorShowing;
-
-    // TODO: Enable/disable text input
+    private boolean enabled;
 
     public TextTerminal(Vector2 startPoint, int width, int height) {
 
+        this.enabled = true;
         this.boxStartPointX = startPoint.x;
         this.boxStartPointY = startPoint.y;
         this.boxWidth = width;
@@ -98,7 +98,6 @@ public class TextTerminal implements InputProcessor {
 
 
     public void render(SpriteBatch batch) {
-
         updateCursor();
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -121,17 +120,19 @@ public class TextTerminal implements InputProcessor {
                             - ((i - firstLineToDisplay) * this.lineHeigh),
                     this.boxWidth - (this.hMargin * 2), Align.left, true);
         }
-        if (this.isCursorShowing) {
-            bitmapFont.draw(batch, this.currentString + this.cursor,
-                    this.boxStartPointX + this.hMargin, this.boxStartPointY
-                            - this.vMargin
-                            - ((i - firstLineToDisplay) * this.lineHeigh),
-                    this.boxWidth - (this.hMargin * 2), Align.left, true);
-        } else {
-            bitmapFont.draw(batch, this.currentString, this.boxStartPointX
-                            + this.hMargin, this.boxStartPointY - this.vMargin
-                            - ((i - firstLineToDisplay) * this.lineHeigh),
-                    this.boxWidth - (this.hMargin * 2), Align.left, true);
+        if(this.enabled) {
+            if (this.isCursorShowing) {
+                bitmapFont.draw(batch, this.currentString + this.cursor,
+                        this.boxStartPointX + this.hMargin, this.boxStartPointY
+                                - this.vMargin
+                                - ((i - firstLineToDisplay) * this.lineHeigh),
+                        this.boxWidth - (this.hMargin * 2), Align.left, true);
+            } else {
+                bitmapFont.draw(batch, this.currentString, this.boxStartPointX
+                                + this.hMargin, this.boxStartPointY - this.vMargin
+                                - ((i - firstLineToDisplay) * this.lineHeigh),
+                        this.boxWidth - (this.hMargin * 2), Align.left, true);
+            }
         }
         batch.end();
     }
@@ -155,11 +156,13 @@ public class TextTerminal implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if(!this.enabled) return false;
         if (keycode == Keys.ENTER) {
             this.linesList.add(new Line(this.currentString));
-            this.currentString = this.prompt;
             this.linesList.add(new Line(this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2)), true));
             this.isdone = true;
+            this.enabled = false;
+            this.currentString = this.prompt;
         }
         if (keycode == Keys.BACKSPACE) {
             if (this.currentString.length() > 2) {
@@ -177,6 +180,7 @@ public class TextTerminal implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
+        if(!this.enabled) return false;
         if (((character >= 'a' & character <= 'z') |
                 (character >= 'A' & character <= 'Z') |
                 character == ' ' |
@@ -191,6 +195,10 @@ public class TextTerminal implements InputProcessor {
         boolean result = this.isdone;
         this.isdone = false;
         return result;
+    }
+
+    public void enable(){
+        this.enabled = true;
     }
 
     @Override
