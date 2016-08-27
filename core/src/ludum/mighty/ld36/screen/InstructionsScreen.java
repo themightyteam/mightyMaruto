@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import com.badlogic.gdx.Screen;
 
-public class IntroScreen extends DefaultScreen implements Screen {
+public class InstructionsScreen extends DefaultScreen implements Screen {
 
 	SpriteBatch batch;
 	Texture img;
@@ -22,7 +22,7 @@ public class IntroScreen extends DefaultScreen implements Screen {
 
 	int waitFramesForHandle = 100;
 
-	public IntroScreen(Game game) {
+	public InstructionsScreen(Game game) {
 		super(game);
 
 		this.cam = new OrthographicCamera();
@@ -31,7 +31,7 @@ public class IntroScreen extends DefaultScreen implements Screen {
 		this.cam.position.set(50, 50, 0);
 
 		this.batch = new SpriteBatch();
-		this.img = new Texture("intro.png");
+		this.img = new Texture("instructions.png");
 		this.spr = new Sprite(this.img);
 		this.spr.setPosition(0, 0);
 		this.spr.setSize(100, 100);
@@ -60,7 +60,7 @@ public class IntroScreen extends DefaultScreen implements Screen {
 
 	private void handleInput() {
 		if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			this.mightyGame.setScreen(new HistoryScreen(this.mightyGame));
+			this.mightyGame.setScreen(new GameFakeScreen(this.mightyGame));
 		}
 	}	
 	
