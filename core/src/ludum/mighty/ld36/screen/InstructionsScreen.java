@@ -1,5 +1,7 @@
 package ludum.mighty.ld36.screen;
 
+import ludum.mighty.ld36.assets.SoundAssets;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -21,8 +23,8 @@ public class InstructionsScreen extends DefaultScreen implements Screen {
 
 	int waitFramesForHandle = 100;
 
-	public InstructionsScreen(Game game) {
-		super(game);
+	public InstructionsScreen(Game game, SoundAssets sa) {
+		super(game, sa);
 
 		this.cam = new OrthographicCamera();
 		this.sv = new StretchViewport(100, 100, this.cam);
@@ -34,6 +36,8 @@ public class InstructionsScreen extends DefaultScreen implements Screen {
 		this.spr = new Sprite(this.img);
 		this.spr.setPosition(0, 0);
 		this.spr.setSize(100, 100);
+
+		this.soundAssets.playHastalavista();
 	}
 
 	public void render(float delta) {
@@ -59,7 +63,8 @@ public class InstructionsScreen extends DefaultScreen implements Screen {
 
 	private void handleInput() {
 		if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			this.mightyGame.setScreen(new GameScreen(this.mightyGame));
+			this.mightyGame.setScreen(new GameScreen(this.mightyGame,
+					this.soundAssets));
 		}
 	}	
 	

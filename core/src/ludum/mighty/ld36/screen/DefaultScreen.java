@@ -1,14 +1,18 @@
 package ludum.mighty.ld36.screen;
 
-import com.badlogic.gdx.Screen;
+import ludum.mighty.ld36.assets.SoundAssets;
+
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 
 public class DefaultScreen implements Screen {
 
 	Game mightyGame;
+	SoundAssets soundAssets;
 	
-	public DefaultScreen (Game game) {
+	public DefaultScreen(Game game, SoundAssets sa) {
 		this.mightyGame = game;
+		this.soundAssets = sa;
 	}
 	
 	

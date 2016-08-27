@@ -1,5 +1,6 @@
 package ludum.mighty.ld36.screen;
 
+import ludum.mighty.ld36.assets.SoundAssets;
 import ludum.mighty.ld36.world.MightyWorld;
 
 import com.badlogic.gdx.Game;
@@ -16,13 +17,15 @@ public class GameScreen extends DefaultScreen implements Screen {
 
 	int waitFramesForHandle = 100;
 
-	public GameScreen(Game game) {
-		super(game);
+	public GameScreen(Game game, SoundAssets sa) {
+		super(game, sa);
 
 		this.map = new TmxMapLoader().load("maps/tatami.tmx");
 
 		this.gameWorld = new MightyWorld();
 		this.gameWorld.init(this.map);
+
+		this.soundAssets.playTheme();
 	}
 
 	public void render(float delta) {
