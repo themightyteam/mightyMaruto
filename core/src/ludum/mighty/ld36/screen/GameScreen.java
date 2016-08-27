@@ -1,10 +1,10 @@
 package ludum.mighty.ld36.screen;
 
+import ludum.mighty.ld36.assets.SoundAssets;
 import ludum.mighty.ld36.world.MightyWorld;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,22 +19,21 @@ public class GameScreen extends DefaultScreen implements Screen {
 	
 	int waitFramesForHandle = 100;
 
-	public GameScreen(Game game) {
-		super(game);
+	public GameScreen(Game game, SoundAssets sa) {
+		super(game, sa);
 
 		this.map = new TmxMapLoader().load("maps/tatami.tmx");
 
 		this.gameWorld = new MightyWorld();
 		this.gameWorld.init(this.map);
+
+		this.soundAssets.playTheme();
 	}
 
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//		this.waitFramesForHandle -= 1;
-//		if (this.waitFramesForHandle <= 0)
-//			handleInput();
 
 		this.gameWorld.update();
 		this.gameWorld.render();
@@ -45,12 +44,5 @@ public class GameScreen extends DefaultScreen implements Screen {
 		this.gameWorld.sv.update(width, height);
 	}
 
-	private void handleInput() {
-		if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			//this.mightyGame.setScreen(new ScoresScreen(this.mightyGame));
-		}
-	}
 
-	
-	
 }
