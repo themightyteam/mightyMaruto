@@ -18,7 +18,8 @@ public class BasicMaruto extends Actor implements BasicActor {
     private int powerlimit = DefaultValues.ACTOR_MAX_POWERUPS;
     private Vector<Powerup> powerups;
     private DefaultValues.ABSOLUTE_DIRECTIONS facing;
-    
+	private int tilePosX;
+	private int tilePosY;
 	private boolean isPlayable = false; // If this basic Maruto is controlled by
 										// the user
 
@@ -152,5 +153,27 @@ public class BasicMaruto extends Actor implements BasicActor {
 	@Override
 	public void setPlayable(boolean playable) {
 		this.isPlayable = playable;
+	}
+
+	@Override
+	public int getTilePosX() {
+		return this.tilePosX;
+	}
+
+	@Override
+	public void setTilePosX(int newPos) {
+		this.tilePosX = newPos;
+		this.setX(newPos * DefaultValues.TILESIZE);
+	}
+
+	@Override
+	public int getTilePosY() {
+		return this.tilePosY;
+	}
+
+	@Override
+	public void setTilePosY(int newPos) {
+		this.tilePosY = newPos;
+		this.setY(newPos * DefaultValues.TILESIZE);
 	}
 }
