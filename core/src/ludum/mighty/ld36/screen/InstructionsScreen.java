@@ -3,14 +3,13 @@ package ludum.mighty.ld36.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import com.badlogic.gdx.Screen;
 
 public class InstructionsScreen extends DefaultScreen implements Screen {
 
@@ -60,7 +59,7 @@ public class InstructionsScreen extends DefaultScreen implements Screen {
 
 	private void handleInput() {
 		if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			this.mightyGame.setScreen(new GameFakeScreen(this.mightyGame));
+			this.mightyGame.setScreen(new GameScreen(this.mightyGame));
 		}
 	}	
 	
