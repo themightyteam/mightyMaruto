@@ -18,6 +18,9 @@ public class BasicMaruto extends Actor implements BasicActor {
     private int powerlimit = DefaultValues.ACTOR_MAX_POWERUPS;
     private Vector<Powerup> powerups;
     private DefaultValues.ABSOLUTE_DIRECTIONS facing;
+    
+	private boolean isPlayable = false; // If this basic Maruto is controlled by
+										// the user
 
     @Override
     public void move(int x, int y) {
@@ -140,4 +143,14 @@ public class BasicMaruto extends Actor implements BasicActor {
     public DefaultValues.ABSOLUTE_DIRECTIONS getfacing() {
         return this.facing;
     }
+
+	@Override
+	public boolean isPlayable() {
+		return isPlayable;
+	}
+
+	@Override
+	public void setPlayable(boolean playable) {
+		this.isPlayable = playable;
+	}
 }

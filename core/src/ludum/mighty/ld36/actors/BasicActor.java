@@ -20,4 +20,8 @@ public interface BasicActor {
     int getpunch();
     boolean getvisibility();
     DefaultValues.ABSOLUTE_DIRECTIONS getfacing();
+
+	boolean isPlayable();
+
+	void setPlayable(boolean playable);
 }
