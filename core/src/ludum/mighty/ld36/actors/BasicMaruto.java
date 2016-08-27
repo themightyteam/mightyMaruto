@@ -8,5 +8,5 @@ import ludum.mighty.ld36.settings.DefaultValues;
  */
 public class BasicMaruto extends Actor {
     private String name = DefaultValues.name;
-    private int life =
+    private int life = 0;
 }
