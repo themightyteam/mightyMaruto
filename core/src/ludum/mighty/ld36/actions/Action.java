@@ -22,21 +22,26 @@ public class Action {
                 (type == DefaultValues.ACTIONS.STOP) ||
                 (type == DefaultValues.ACTIONS.HELP)) {
             this.type = type;
+            this.direction = null;
+            this.powerup = null;
         }
     }
 
     // Constructor for actions with direction parameters
     public Action(DefaultValues.ACTIONS type, DefaultValues.RELATIVE_ROTATIONS param) {
-        if (type != DefaultValues.ACTIONS.ROTATE) {
+        if (type == DefaultValues.ACTIONS.TURN) {
             this.type = type;
             this.direction = param;
+            this.powerup = null;
         }
     }
 
     // Constructor for actions with powerup parameters
     public Action(DefaultValues.ACTIONS type, DefaultValues.POWERUPS powerup) {
-        if (!((type == DefaultValues.ACTIONS.DROP) || (type == DefaultValues.ACTIONS.SHOOT))) {
+        if ((type == DefaultValues.ACTIONS.DROP) || (type == DefaultValues.ACTIONS.SHOOT)) {
+            this.type = type;
             this.powerup = powerup;
+            this.direction = null;
         }
     }
 
@@ -64,5 +69,17 @@ public class Action {
             return null;
         }
         return this.powerup;
+    }
+
+    @Override
+    public String toString(){
+        String result = this.type.name();
+        if (powerup != null) {
+            result += " " + this.powerup.name();
+        }
+        if (direction != null) {
+            result += " " + this.direction.name();
+        }
+        return result;
     }
 }

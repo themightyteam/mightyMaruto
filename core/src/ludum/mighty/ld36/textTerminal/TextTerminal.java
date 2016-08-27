@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import ludum.mighty.ld36.settings.DefaultValues;
 
+import static ludum.mighty.ld36.settings.DefaultValues.LINELENGTH;
+
 public class TextTerminal implements InputProcessor {
 
     private CommandProcessor commandProcessor;
@@ -29,6 +31,11 @@ public class TextTerminal implements InputProcessor {
         Line(String text) {
             this.text = text;
             this.hasBeenSent = false;
+        }
+
+        Line (String text, boolean hasBeenSent) {
+            this.text = text;
+            this.hasBeenSent = hasBeenSent;
         }
     }
 
@@ -83,7 +90,7 @@ public class TextTerminal implements InputProcessor {
 
         this.cursor = '_';
         this.lastCursorChange = TimeUtils.millis();
-        this.millisToChangeCursor = 1000;
+        this.millisToChangeCursor = 500;
     }
 
 
@@ -148,7 +155,7 @@ public class TextTerminal implements InputProcessor {
         if (keycode == Keys.ENTER) {
             this.linesList.add(new Line(this.currentString));
             this.currentString = this.prompt;
-            this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2));
+            this.linesList.add(new Line(this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2)), true));
         }
         if (keycode == Keys.BACKSPACE) {
             if (this.currentString.length() > 2) {
@@ -166,8 +173,11 @@ public class TextTerminal implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        if ((character >= 'a' & character <= 'z')
-                | (character >= 'A' & character <= 'Z') | character == ' ') {
+        if (((character >= 'a' & character <= 'z') |
+                (character >= 'A' & character <= 'Z') |
+                character == ' ' |
+                character == ';') &&
+                (this.currentString.length() < LINELENGTH)){
             this.currentString = this.currentString + character;
         }
         return false;

@@ -14,20 +14,23 @@ import java.util.Vector;
 public class CommandProcessor {
     private Vector<Action> commands;
     private static final String[] validcommands_zero = {"walk", "moonwalk", "run", "punch", "stop", "help"};
-    private static final String[] validcommands_one = {"rotate", "drop", "shoot"};
+    private static final String[] validcommands_one = {"turn", "drop", "shoot"};
     private static final String[] powerups = {"arrrggghhh", "yendor", "choco", "grenade", "random" };
     private static final String[] directions = {"left","right"};
 
+    public CommandProcessor() {
+        this.commands = new Vector<Action>();
+    }
 
     // Parse string to get action or list of actions
     public String next(String line) {
 
         Action todo = null;
+        Vector<Action> tempcommands = new Vector<Action>();
 
-        System.out.println(line);
         String[] actions = line.split(";");
         for (String action:actions) {
-            String[] parts = action.split(" ");
+            String[] parts = action.trim().split(" ");
             String command = parts[0].toLowerCase();
             if(Arrays.asList(validcommands_zero).contains(parts[0].toLowerCase())) {
                 // Valid command; zero additional parameters
@@ -48,21 +51,24 @@ public class CommandProcessor {
                 } else if (command.compareToIgnoreCase("help") == 0) {
                     todo = new Action(DefaultValues.ACTIONS.HELP);
                 }
+
+                //System.out.println("---> " + todo);
             } else if (Arrays.asList(validcommands_one).contains(parts[0].toLowerCase())) {
                 // Valid command; one additional parameter
                 if (parts.length != 2) {
                     // TODO : error "invalid parameter number"
                     return getRandomString(DefaultValues.ERRORS);
                 }
-                if(command.compareToIgnoreCase("rotate") == 0) {
+                if (command.compareToIgnoreCase("turn") == 0) {
                     if (parts[1].compareToIgnoreCase("left") == 0) {
-                        todo = new Action(DefaultValues.ACTIONS.ROTATE,DefaultValues.RELATIVE_ROTATIONS.LEFT);
+                        todo = new Action(DefaultValues.ACTIONS.TURN,DefaultValues.RELATIVE_ROTATIONS.LEFT);
                     } else if (parts[1].compareToIgnoreCase("right") == 0){
-                        todo = new Action(DefaultValues.ACTIONS.ROTATE,DefaultValues.RELATIVE_ROTATIONS.RIGHT);
+                        todo = new Action(DefaultValues.ACTIONS.TURN,DefaultValues.RELATIVE_ROTATIONS.RIGHT);
                     } else {
                         // TODO : invalid direction
                         return getRandomString(DefaultValues.ERRORS);
                     }
+                    //System.out.println("---> " + todo);
                 } else if (command.compareToIgnoreCase("drop") == 0) {
                     if (parts[1].compareToIgnoreCase("arrrggghhh") == 0) {
                         todo = new Action(DefaultValues.ACTIONS.DROP, DefaultValues.POWERUPS.ARRRGGGHHH);
@@ -75,6 +81,8 @@ public class CommandProcessor {
                     } else if (parts[1].compareToIgnoreCase("random") == 0){
                         todo = new Action(DefaultValues.ACTIONS.DROP, DefaultValues.POWERUPS.RANDOM);
                     }
+
+                    //System.out.println("---> " + todo);
                 } else if (command.compareToIgnoreCase("shoot") == 0) {
                     if (parts[1].compareToIgnoreCase("arrrggghhh") == 0) {
                         todo = new Action(DefaultValues.ACTIONS.SHOOT, DefaultValues.POWERUPS.ARRRGGGHHH);
@@ -87,19 +95,24 @@ public class CommandProcessor {
                     } else if (parts[1].compareToIgnoreCase("random") == 0){
                         todo = new Action(DefaultValues.ACTIONS.SHOOT, DefaultValues.POWERUPS.RANDOM);
                     }
+
+                    //System.out.println("---> " + todo);
                 }
             } else {
                 // TODO : invalid command
                 return getRandomString(DefaultValues.ERRORS);
             }
-
             if (todo != null) {
-                commands.add(todo);
-                return todo.toString();
+                tempcommands.add(todo);
             }
         }
-
-        return getRandomString(DefaultValues.ERRORS);
+        commands.addAll(tempcommands);
+        String toprint = "";
+        for (Action command:tempcommands) {
+            toprint += command + " then ";
+        }
+        toprint = toprint.substring(0,toprint.lastIndexOf(" then "));
+        return toprint;
     }
 
     public Action getNextAction () {

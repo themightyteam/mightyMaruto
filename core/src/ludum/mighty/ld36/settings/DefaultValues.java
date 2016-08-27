@@ -20,7 +20,7 @@ public class DefaultValues {
     public enum ABSOLUTE_DIRECTIONS {NORTH, SOUTH, EAST, WEST}
     public enum RELATIVE_ROTATIONS {RIGHT, LEFT}
     public enum RELATIVE_DIRECTIONS {FORWARD, BACKWADS, RIGHT, LEFT}
-    public enum ACTIONS {WALK, MOONWALK, RUN, PUNCH, STOP, HELP, ROTATE, DROP, SHOOT}
+    public enum ACTIONS {WALK, MOONWALK, RUN, PUNCH, STOP, HELP, TURN, DROP, SHOOT}
     public enum POWERUPS {ARRRGGGHHH, YENDOR, CHOCO, GRENADE, RANDOM}
 
     // World constants
@@ -35,6 +35,7 @@ public class DefaultValues {
 
     // Text processor
     public static final int NUMBEROFLINES = 4;
+    public static final int LINELENGTH = 89;
     public static final String ERRORS[] = {
         "Wrong!  You cheating scum!",
         "And you call yourself a Rocket Scientist!",
