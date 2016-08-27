@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 
@@ -26,20 +27,24 @@ public class MightyWorld {
 	// Rendering objects
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private OrthographicCamera cam;
-
+    public StretchViewport sv;
+	
+    public BasicMaruto basicMaruto;
+    
 	// // WORLD API
 	// Loads stuff like the map and initializes things
 	public void init(TiledMap map) {
 
 		
 		// Render init
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-		this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / 32f);
-		this.cam = new OrthographicCamera(20, 15 * (h / w));
-		this.cam.position.set(20, 20, 0);
+		this.mapRenderer = new OrthogonalTiledMapRenderer(map);
+		this.cam = new OrthographicCamera();
+		this.sv = new StretchViewport(640, 480, this.cam);
+		this.sv.apply();
+		this.cam.position.set(640, 480, 0);
 
-		stage = new Stage(new StretchViewport(w, h));
+		
+		stage = new Stage(sv);
 
 		// TODO: define user input here
 
@@ -59,7 +64,7 @@ public class MightyWorld {
 
 		}
 
-		this.stage.act(Gdx.graphics.getDeltaTime());
+		//this.stage.act(Gdx.graphics.getDeltaTime());
 	}
 
 	public void render() {
@@ -67,12 +72,14 @@ public class MightyWorld {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		updatePowerUps();
-
+		
+		this.cam.position.x = basicMaruto.getX();
+		this.cam.position.y = basicMaruto.getY();
 		this.cam.update();
 		this.mapRenderer.setView(this.cam);
 
 		this.mapRenderer.render();
-
+		this.stage.act(Gdx.graphics.getDeltaTime());
 		this.stage.draw();
 	}
 
@@ -81,10 +88,10 @@ public class MightyWorld {
 	// Creates all players
 	private void initPlayers() {
 		// Add playable player
-		BasicMaruto basicMaruto = new BasicMaruto();
+		basicMaruto = new BasicMaruto();
 		// set the xy for the tiles and stage position
-		basicMaruto.setTilePosX(21);
-		basicMaruto.setTilePosY(21);
+		basicMaruto.setTilePosX(20);
+		basicMaruto.setTilePosY(20);
 		this.stage.addActor(basicMaruto);
 
 		// TODO: Add rest of players
