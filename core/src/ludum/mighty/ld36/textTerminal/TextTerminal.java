@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class TextTerminal implements InputProcessor {
 
-    private CommandProcessor commandProcessor;
+    public CommandProcessor commandProcessor;
 
     // a introduced string line with some status codes
     private class Line {

@@ -86,6 +86,7 @@ public class MightyWorld {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		updatePowerUps();
+		basicMaruto.checkAction();
 		
 		this.cam.position.x = basicMaruto.getX();
 		this.cam.position.y = basicMaruto.getY();
@@ -103,7 +104,7 @@ public class MightyWorld {
 	// Creates all players
 	private void initPlayers() {
 		// Add playable player
-		basicMaruto = new BasicMaruto();
+		basicMaruto = new BasicMaruto(textTerminal.commandProcessor);
 		// set the xy for the tiles and stage position
 		basicMaruto.setTilePosX(20);
 		basicMaruto.setTilePosY(20);

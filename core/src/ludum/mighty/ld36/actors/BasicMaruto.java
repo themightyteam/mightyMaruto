@@ -2,7 +2,9 @@ package ludum.mighty.ld36.actors;
 
 import java.util.Vector;
 
+import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.textTerminal.CommandProcessor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -45,7 +47,12 @@ public class BasicMaruto extends Actor implements BasicActor {
 	private MoveByAction mba;
 	private boolean moveFlag = false;
 	
-	public BasicMaruto() {
+	private CommandProcessor commandProcessor;
+	
+	public BasicMaruto(CommandProcessor cm) {
+		
+		commandProcessor = cm;
+		
 		kidTexture = new Texture("maruto_spreadsheet.png");
 		kidTR = TextureRegion.split(kidTexture, KID_WIDTH, KID_HEIGHT);
 		kidTRflip = TextureRegion.split(kidTexture, KID_WIDTH, KID_HEIGHT);
@@ -263,4 +270,25 @@ public class BasicMaruto extends Actor implements BasicActor {
 		this.setY(newPos * DefaultValues.TILESIZE);
 	}
 		
+	
+	public void checkAction() {
+		Action ac = commandProcessor.getNextAction();
+		if (ac.gettype() == DefaultValues.ACTIONS.WALK){
+			if (moveFlag == false) {
+				anim = animDOWN;
+				//if (Math.round(getY()) > 0) {
+					mba = new MoveByAction();
+					mba.setAmount(0,-32);
+					mba.setDuration(1f);
+					this.addAction(mba);
+				//}
+
+				moveFlag = true;
+
+			}
+		}
+		
+		
+		
+	}
 }

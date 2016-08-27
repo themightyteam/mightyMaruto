@@ -17,10 +17,10 @@ public class CommandProcessor {
     private static final String[] powerups = {"arrrggghhh", "yendor", "choco", "grenade", "random" };
     private static final String[] directions = {"left","right"};
 
-
+    
     // Parse string to get action or list of actions
     public void next(String line) {
-
+    	
         Action todo = null;
 
         String[] actions = line.split(";");
