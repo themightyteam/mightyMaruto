@@ -2,12 +2,15 @@ package ludum.mighty.ld36.world;
 
 import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.textTerminal.TextTerminal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
@@ -27,6 +30,9 @@ public class MightyWorld {
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private OrthographicCamera cam;
 
+	SpriteBatch batch;
+	private TextTerminal textTerminal;
+
 	// // WORLD API
 	// Loads stuff like the map and initializes things
 	public void init(TiledMap map) {
@@ -38,8 +44,13 @@ public class MightyWorld {
 		this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / 32f);
 		this.cam = new OrthographicCamera(20, 15 * (h / w));
 		this.cam.position.set(20, 20, 0);
+		this.batch = new SpriteBatch();
 
 		stage = new Stage(new StretchViewport(w, h));
+
+		this.textTerminal = new TextTerminal(new Vector2(0f, 100f), (int) w,
+				100);
+		Gdx.input.setInputProcessor(this.textTerminal);
 
 		// TODO: define user input here
 
@@ -74,6 +85,7 @@ public class MightyWorld {
 		this.mapRenderer.render();
 
 		this.stage.draw();
+		this.textTerminal.render(batch);
 	}
 
 	// // END OF WORLD API
