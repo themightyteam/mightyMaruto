@@ -1,4 +1,4 @@
-package ludum.mighty.ld36;
+package ludum.mighty.ld36.game;
 
 import com.badlogic.gdx.Game;
 
