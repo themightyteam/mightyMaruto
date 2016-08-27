@@ -273,6 +273,7 @@ public class BasicMaruto extends Actor implements BasicActor {
 	
 	public void checkAction() {
 		Action ac = commandProcessor.getNextAction();
+		if (ac == null) return;
 		if (ac.gettype() == DefaultValues.ACTIONS.WALK){
 			if (moveFlag == false) {
 				anim = animDOWN;

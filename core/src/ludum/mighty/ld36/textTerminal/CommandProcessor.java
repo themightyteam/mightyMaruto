@@ -116,6 +116,7 @@ public class CommandProcessor {
     }
 
     public Action getNextAction () {
+    	if (commands.size() == 0) return null;
         Action next = commands.firstElement();
         commands.remove(next);
         return next;
