@@ -122,6 +122,12 @@ public class MightyWorld {
 		{
 		case DefaultValues.WORLD_STATE_ENTERING_COMMAND:
 
+			this.timeSinceTurnStarted = TimeUtils.millis()
+					- this.timeWhenTurnStarted;
+			this.timeLeftLabel
+					.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
+							- (float) this.timeSinceTurnStarted / 1000);
+
 			// if something new typed we parse it and load to the actor
 			if (this.textTerminal.isThereALineNotSent()) {
 				this.textTerminal.addLine(this.parser.next(this.textTerminal
@@ -129,33 +135,35 @@ public class MightyWorld {
 				this.textTerminal.disable();
 				// this.parser.getNextAction(); // this has to be feed to the
 				// actor!
-			}
 
-			this.timeSinceTurnStarted = TimeUtils.millis()
-					- this.timeWhenTurnStarted;
-			this.timeLeftLabel
-					.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
-							- (float) this.timeSinceTurnStarted / 1000);
+				this.currentState = DefaultValues.WORLD_STATE_TURN_INIT;
+				this.timeLeftLabel.setTimeLeft(0);
+			}
 
 			if (this.timeSinceTurnStarted > DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT * 1000) {
 				this.currentState = DefaultValues.WORLD_STATE_TURN_INIT;
-				System.out.println("moving to state WORLD_STATE_TURN_INIT");
+				this.timeLeftLabel.setTimeLeft(0);
+				this.textTerminal.disable();
 			}
 			break;
 		case DefaultValues.WORLD_STATE_TURN_INIT:
+			System.out.println("WORLD_STATE_TURN_INIT");
 			this.checkTurnUpdate();
 			this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 			break;
 		case DefaultValues.WORLD_STATE_TURN_END:
+			System.out.println("WORLD_STATE_TURN_END");
 			//TODO: Doing Nothing?
 			//Update turn-based items, respawn, etc
 			this.finishTurn();
 
 			this.textTerminal.enable();
+			this.timeWhenTurnStarted = TimeUtils.millis();
 			this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_INIT:
+			System.out.println("WORLD_STATE_MOVEMENT_INIT");
 
 			if (this.isMovementStepFinished())
 			{
@@ -170,7 +178,7 @@ public class MightyWorld {
 			}
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_END:
-
+			System.out.println("WORLD_STATE_MOVEMENT_END");
 			//Wait till movements are finished
 			if (this.isMovementStepFinished())
 			{
