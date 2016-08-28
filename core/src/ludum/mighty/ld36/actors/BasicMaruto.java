@@ -38,7 +38,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	private float elapsedTime = 0;
 
 	private MoveByAction mba;
-	private boolean moveFlag = false;
+
 
 
 	private CommandProcessor commandProcessor;
@@ -270,6 +270,8 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 				//}			
 				break;
 			case SHOOT:
+
+				// The shoot animation is independent of the the item type
 				switch(nextAction.getpowerup()) {
 				case PUNCH:
 					//if (moveFlag == false) {
@@ -324,9 +326,6 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 				break;
 			}
 
-
-
-
 		}
 
 	}
@@ -344,18 +343,33 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 			mba = new MoveByAction();
 			switch (getfacing()) {
 			case NORTH:
+
+				// Logic here (moving tiles)
+				this.tilePosY = this.tilePosY + 1;
+
 				anim = animUP;
 				mba.setAmount(0, DefaultValues.TILESIZE);
 				break;
 			case EAST:
+
+				// Logic here (moving tiles)
+				this.tilePosX = this.tilePosX + 1;
+
 				anim = animRIGHT;
 				mba.setAmount(DefaultValues.TILESIZE, 0);				
 				break;
 			case SOUTH:
+				// Logic here
+				this.tilePosY = this.tilePosY - 1;
+
 				anim = animDOWN;
 				mba.setAmount(0, -DefaultValues.TILESIZE);
 				break;
 			case WEST:
+
+				// Logic here
+				this.tilePosX = this.tilePosX - 1;
+
 				anim = animLEFT;
 				mba.setAmount(-DefaultValues.TILESIZE, 0);
 				break;
@@ -372,18 +386,34 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 			mba = new MoveByAction();
 			switch (getfacing()) {
 			case NORTH:
+
+				// Logic here (moving tiles)
+				this.tilePosY = this.tilePosY - 1;
+
 				anim = animUP;
 				mba.setAmount(0, -DefaultValues.TILESIZE);
 				break;
 			case EAST:
+
+				// Logic here (moving tiles)
+				this.tilePosX = this.tilePosX - 1;
+
 				anim = animRIGHT;
 				mba.setAmount(-DefaultValues.TILESIZE, 0);				
 				break;
 			case SOUTH:
+
+				// Logic here (moving tiles)
+				this.tilePosY = this.tilePosY + 1;
+
 				anim = animDOWN;
 				mba.setAmount(0, DefaultValues.TILESIZE);
 				break;
 			case WEST:
+
+				// Logic here (moving tiles)
+				this.tilePosX = this.tilePosX + 1;
+
 				anim = animLEFT;
 				mba.setAmount(DefaultValues.TILESIZE, 0);
 				break;
@@ -396,34 +426,31 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 			//}			
 			break;
 		case SHOOT:
-			switch(action.getpowerup()) {
-			case PUNCH:
-				//if (moveFlag == false) {
-				switch (getfacing()) {
-				case NORTH:
-					anim = animPunchUP;
-					break;
-				case EAST:
-					anim = animPunchRIGHT;
-					break;
-				case SOUTH:
-					anim = animPunchDOWN;
-					break;
-				case WEST:
-					anim = animPunchLEFT;
-					break;
-				}
-				mba = new MoveByAction();
-				mba.setAmount(0, 0);
-				mba.setDuration(1f);
-				this.addAction(mba);
 
-				moveFlag = true;
-				//}
+			// if (moveFlag == false) {
+			switch (getfacing()) {
+			case NORTH:
+				anim = animPunchUP;
+				break;
+			case EAST:
+				anim = animPunchRIGHT;
+				break;
+			case SOUTH:
+				anim = animPunchDOWN;
+				break;
+			case WEST:
+				anim = animPunchLEFT;
 				break;
 			}
+			mba = new MoveByAction();
+			mba.setAmount(0, 0);
+			mba.setDuration(1f);
+			this.addAction(mba);
 
+			moveFlag = true;
+			// }
 			break;
+
 
 		case TURN:
 			//if (moveFlag == false) {

@@ -110,6 +110,9 @@ public class MightyWorld {
 			//TODO: Doing Nothing?
 			//Update turn-based items, respawn, etc
 			this.finishTurn();
+
+			this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
+
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_INIT:
 
@@ -241,7 +244,7 @@ public class MightyWorld {
 		{
 			CommonActor myActor = (CommonActor) actor;
 
-			if (!myActor.isMovementFinished())
+			if (myActor.isMoveFlag())
 			{
 				allMovementsFinished = false;
 			}
@@ -270,7 +273,7 @@ public class MightyWorld {
 
 					Action movement = mypowerup.getMovementList().remove(0);
 
-					mypowerup.setMovementFinished(false); //TODO:shold be set to true by the Actor after the render is finished
+
 					mypowerup.doMovement(movement);
 
 					//Check action outcome
@@ -347,7 +350,65 @@ public class MightyWorld {
 				{
 					Action movement = myMaruto.getMovementList().remove(0);
 
-					myMaruto.setMovementFinished(false); //TODO:shold be set to true by the Actor after the render is finished
+					// Check changes
+					if (movement.gettype() == DefaultValues.ACTIONS.SHOOT) {
+
+						switch (movement.getpowerup()) {
+
+						case ARRRGGGHHH:
+						case CHOCO:
+						case SONICBOMB:
+						case GRENADE:
+						case PUNCH:
+							
+							break;
+						case DIAG_SONICBOMB:
+							break;
+						case RANDOM:
+							break;
+
+						default:
+							break;
+						}
+
+					} else if (movement.gettype() == DefaultValues.ACTIONS.DROP) {
+
+						switch (movement.getpowerup()) {
+						case ARRRGGGHHH:
+						case CHOCO:
+						case SONICBOMB:
+						case GRENADE:
+						case RING:
+						case YENDOR:
+						case SHIELD:
+						case SNEAKERS:
+						case INVISIBILITY:
+						case DIAG_SONICBOMB:
+
+							break;
+					
+						default:
+							 break;
+						}
+
+					} else if (movement.gettype() == DefaultValues.ACTIONS.UPDATE) {
+
+						switch (movement.getpowerup()) {
+						case RING:
+							break;
+						case SHIELD:
+							break;
+						case INVISIBILITY:
+							break;
+						case DIZZY:
+							break;
+						case SNEAKERS:
+							break;
+						default:
+							break;
+						}
+					}
+
 					myMaruto.doMovement(movement);
 
 					//Check action outcome
@@ -563,6 +624,7 @@ public class MightyWorld {
 			for (int i = 0; i< moveMultiplier; i++)
 				moveList.add(new Action(DefaultValues.ACTIONS.WALK));
 		}
+
 		else
 		{
 			moveList.add(action);

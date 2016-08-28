@@ -1,6 +1,5 @@
 package ludum.mighty.ld36.settings;
 
-import ludum.mighty.ld36.actions.Action;
 
 /**
  * Created by dchaves on 27/08/16.
@@ -30,11 +29,15 @@ public class DefaultValues {
 
     public enum RELATIVE_DIRECTIONS {FORWARD, BACKWADS, RIGHT, LEFT}
    // public enum ACTIONS {WALK, MOONWALK, RUN, PUNCH, STOP, HELP, TURN, DROP, SHOOT}
-    public enum POWERUPS {ARRRGGGHHH, YENDOR, CHOCO, GRENADE, RANDOM, SHIELD, INVISBILITY, 
-    	RING, SONICBOMB, DIAG_SONICBOMB, SNEAKERS, DIZZY, PUNCH}
+	public enum POWERUPS {
+		ARRRGGGHHH, YENDOR, CHOCO, GRENADE, RANDOM, SHIELD, INVISIBILITY,
+ RING, SONICBOMB, DIAG_SONICBOMB, SNEAKERS, DIZZY, PUNCH
+	}
 
 
-    public enum ACTIONS {RUN, WALK, TURN, MOONWALK, SHOOT, UPDATE, HIT, SHIFT_HIT, DEATH, DROP, IDLE, STOP, HELP}
+	public enum ACTIONS {
+		RUN, WALK, TURN, MOONWALK, SHOOT, UPDATE, HIT, SHIFT_HIT, DEATH, DROP, IDLE, STOP, HELP, CONFUSION
+	}
     	    
    
     // World constants
