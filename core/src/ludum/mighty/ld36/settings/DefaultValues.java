@@ -44,12 +44,38 @@ public class DefaultValues {
     public static final int TILESIZE = 32;
 
 	// World state
+	/*
+	 * The user enter commands and a timer goes down from 3 sec to 0. If the
+	 * timer reaches 0 or the user presses enter the world changes to
+	 * WORLD_STATE_TURN_INIT
+	 */
 	public static final int WORLD_STATE_ENTERING_COMMAND = 0;
-	public static final int WORLD_STATE_ACTION = 1;
-	public static final int WORLD_STATE_TURN_INIT = 2;
-	public static final int WORLD_STATE_TURN_END = 3;
-	public static final int WORLD_STATE_MOVEMENT_INIT = 4;
-	public static final int WORLD_STATE_MOVEMENT_END = 5;
+	/*
+	 * The world gets the actions from the users, executes the AI to get the
+	 * next action and gets the actions for other non playable actors (bullets).
+	 * These actions are translated to movements (atomic actions, for example,
+	 * the action RUN can be translated into two movements WALK performed in
+	 * sucesive movement loops) The state changes to WORLD_STATE_MOVEMENT_INIT
+	 */
+	public static final int WORLD_STATE_TURN_INIT = 1;
+	/*
+	 * The world send to every actor it's next atomic action. The actors perform
+	 * their action until finish (then they update a flag). When the movement
+	 * has finished, the world steps to WORLD_STATE_MOVEMENT_END
+	 */
+	public static final int WORLD_STATE_MOVEMENT_INIT = 2;
+	/*
+	 * Cleaning (dispose used bullets, for example). If there are actions to be
+	 * performed in this turn the world goes to WORLD_STATE_MOVEMENT_INIT. If
+	 * not it goes to WORLD_STATE_TURN_END.
+	 */
+	public static final int WORLD_STATE_MOVEMENT_END = 3;
+
+	/*
+	 * End turn tasks: respawning, update things that change per turn (powerups)
+	 * Go back to WORLD_STATE_ENTERING_COMMAND.
+	 */
+	public static final int WORLD_STATE_TURN_END = 4;
 
     // Screen values
     public static final int WAIT_TIME = 10;
