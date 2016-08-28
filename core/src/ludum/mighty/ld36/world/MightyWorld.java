@@ -801,12 +801,12 @@ public class MightyWorld {
 			if (actor instanceof Actor_Powerup) {
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
-				if ((mypowerup.getTilePosX() > this.mapWidthInTiles / 4)
-						&& (mypowerup.getTilePosX() < this.mapWidthInTiles
+				if ((mypowerup.getTilePosX() >= this.mapWidthInTiles / 4)
+						&& (mypowerup.getTilePosX() <= this.mapWidthInTiles
 								- this.mapWidthInTiles / 4)) {
 
-					if ((mypowerup.getTilePosY() > this.mapHeightInTiles / 4)
-							&& (mypowerup.getTilePosY() < this.mapHeightInTiles
+					if ((mypowerup.getTilePosY() >= this.mapHeightInTiles / 4)
+							&& (mypowerup.getTilePosY() <= this.mapHeightInTiles
 									- this.mapHeightInTiles / 4)) {
 
 						newActorList.add(actor);
@@ -833,7 +833,7 @@ public class MightyWorld {
 				}
 				if ((myMaruto.getTilePosY() < this.mapHeightInTiles / 4 - 1)
 						|| (myMaruto.getTilePosY() > this.mapHeightInTiles
-								- this.mapHeightInTiles / 4)) {
+								- this.mapHeightInTiles / 4 - 1)) {
 
 					if (myMaruto.getlife() > 0) {
 						myMaruto.getMovementList().clear();
