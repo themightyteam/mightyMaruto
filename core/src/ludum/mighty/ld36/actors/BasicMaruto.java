@@ -202,6 +202,19 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		for (Item_Powerup pup : this.powerups) {
 			if (pup.getName().compareToIgnoreCase(name) == 0) {
 				if(pup.candrop()) {
+
+					if (pup.getType() == DefaultValues.POWERUPS.INVISIBILITY)
+					{
+						this.visibility = true;
+					}
+ else if (pup.getType() == DefaultValues.POWERUPS.SHIELD) {
+						this.shielded = false;
+					} else if (pup.getType() == DefaultValues.POWERUPS.RING) {
+						this.punch -= pup.getStrengthPowerup();
+					} else if (pup.getType() == DefaultValues.POWERUPS.SNEAKERS) {
+						this.speed -= pup.getSpeedPowerup();
+					}
+
 					this.powerups.remove(pup);
 				} else { // Powerup cannot be dropped
 					// TODO: error message (audio)?
