@@ -24,24 +24,6 @@ public class TextTerminal implements InputProcessor {
 
     private boolean isdone = false;
 
-
-    // a introduced string line with some status codes
-    private class Line {
-        public String text;
-        public boolean hasBeenSent; // if the line has been given to the game
-        // (to process or whatever)
-
-        Line(String text) {
-            this.text = text;
-            this.hasBeenSent = false;
-        }
-
-        Line (String text, boolean hasBeenSent) {
-            this.text = text;
-            this.hasBeenSent = hasBeenSent;
-        }
-    }
-
     private BitmapFont bitmapFont;
     private float boxStartPointX;
     private float boxStartPointY;
@@ -81,7 +63,7 @@ public class TextTerminal implements InputProcessor {
         bitmapFont = new BitmapFont(
                 Gdx.files.internal("fonts/textTerminalFont.fnt"),
                 Gdx.files.internal("fonts/textTerminalFont.png"), false);
-        bitmapFont.setColor(0f, 1f, 0f, 1f);
+        //bitmapFont.setColor(0f, 1f, 0f, 1f);
         this.lineHeigh = bitmapFont.getLineHeight();
 
         shapeRenderer = new ShapeRenderer();
@@ -114,7 +96,8 @@ public class TextTerminal implements InputProcessor {
         int firstLineToDisplay = (linesList.size() >= DefaultValues.NUMBEROFLINES) ? (linesList.size() - DefaultValues.NUMBEROFLINES) : 0;
         int i = firstLineToDisplay;
         for (; i < linesList.size(); i++) {
-            bitmapFont.draw(batch, this.linesList.get(i).text,
+            bitmapFont.setColor(linesList.get(i).getColor());
+            bitmapFont.draw(batch, this.linesList.get(i).getText(),
                     this.boxStartPointX
                             + this.hMargin, this.boxStartPointY - this.vMargin
                             - ((i - firstLineToDisplay) * this.lineHeigh),
@@ -146,10 +129,10 @@ public class TextTerminal implements InputProcessor {
 
     public String getOldestUnprocessedLine() {
         for (Line l : this.linesList) {
-            if (l.hasBeenSent)
+            if (l.hasBeenSent())
                 continue;
-            l.hasBeenSent = true;
-            return l.text;
+            l.hasBeenSent(true);
+            return l.getText();
         }
         return null;
     }
@@ -159,7 +142,7 @@ public class TextTerminal implements InputProcessor {
         if(!this.enabled) return false;
         if (keycode == Keys.ENTER) {
             this.linesList.add(new Line(this.currentString));
-            this.linesList.add(new Line(this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2)), true));
+            this.linesList.add(this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2)));
             this.isdone = true;
             this.enabled = false;
             this.currentString = this.prompt;
