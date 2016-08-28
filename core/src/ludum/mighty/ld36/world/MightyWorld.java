@@ -282,18 +282,18 @@ public class MightyWorld {
 		this.stage.addActor(basicMaruto);
 
 		EvilMaruto eM = new EvilMaruto();
-		eM.setInitialTilePosX(26);
+		eM.setInitialTilePosX(27);
 		eM.setInitialTilePosY(24);
 		this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
 		eM.setInitialTilePosX(24);
-		eM.setInitialTilePosY(26);
+		eM.setInitialTilePosY(27);
 		this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
-		eM.setInitialTilePosX(25);
-		eM.setInitialTilePosY(25);
+		eM.setInitialTilePosX(27);
+		eM.setInitialTilePosY(27);
 		this.stage.addActor(eM);
 
 		// TODO: Add rest of players
