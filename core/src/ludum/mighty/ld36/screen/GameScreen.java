@@ -21,7 +21,7 @@ public class GameScreen extends DefaultScreen implements Screen {
 	public GameScreen(Game game, SoundAssets sa) {
 		super(game, sa);
 
-		this.map = new TmxMapLoader().load("maps/tatami.tmx");
+		this.map = new TmxMapLoader().load("maps/tatami_50x50.tmx");
 
 		this.gameWorld = new MightyWorld();
 		this.gameWorld.init(this.map);
