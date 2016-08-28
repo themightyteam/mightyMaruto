@@ -178,11 +178,11 @@ public class MightyWorld {
 
 			// if (this.isMovementStepFinished())
 			// {
-				System.out.println("WORLD_STATE_FIRST_MOVE");
+			System.out.println("WORLD_STATE_FIRST_MOVE");
 
 			this.actionsPending = this.nextMovementUpdate();
 
-				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_END;
+			this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_END;
 
 
 			// } else
@@ -216,9 +216,11 @@ public class MightyWorld {
 			//Wait till movements are finished
 			// if (this.isMovementStepFinished())
 			// {
-				this.finishMovement();
-				this.checkRespawn();
-				this.updateInventory();
+
+			this.deleteOutOfBordersActors();
+			this.deletePowerups();
+			this.checkRespawn();
+			this.updateInventory();
 
 			if (this.actionsPending)
 
@@ -368,7 +370,6 @@ public class MightyWorld {
 
 			if (myActor.isMoveFlag())
 			{
-				System.out.println("ACTOR IS A MOTHERFUCKER");
 				allMovementsFinished = false;
 				return allMovementsFinished;
 
@@ -494,6 +495,11 @@ public class MightyWorld {
 						switch (movement.getpowerup()) {
 
 						case ARRRGGGHHH:
+							
+							if (myMaruto
+									.hasPowerUp(DefaultValues.POWERUPS.ARRRGGGHHH
+											.toString())) {
+							
 							newActor = new Item_ARRRGGGHHH();
 
 							// Set x-y position of item (initial position)
@@ -502,6 +508,12 @@ public class MightyWorld {
 							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
+							} else {
+								myMaruto.getMovementList().clear();
+								myMaruto.getMovementList()
+										.add(new Action(
+												DefaultValues.ACTIONS.CONFUSION));
+							}
 
 							break;
 						case CHOCO:
@@ -794,6 +806,73 @@ public class MightyWorld {
 		return actionsPending;
 	}
 
+	public void deleteOutOfBordersActors() {
+		Array<Actor> actorList = this.stage.getActors();
+		// Checking all actors (no unfinished movement)
+
+		Array<Actor> newActorList = new Array<Actor>();
+
+		// Delete actors
+		for (Actor actor : actorList) {
+			if (actor instanceof Actor_Powerup) {
+				Actor_Powerup mypowerup = (Actor_Powerup) actor;
+
+				if ((mypowerup.getTilePosX() >= this.mapWidthInTiles / 4)
+						&& (mypowerup.getTilePosX() <= this.mapWidthInTiles
+								- this.mapWidthInTiles / 4)) {
+
+					if ((mypowerup.getTilePosY() >= this.mapHeightInTiles / 4)
+							&& (mypowerup.getTilePosY() <= this.mapHeightInTiles
+									- this.mapHeightInTiles / 4)) {
+
+						newActorList.add(actor);
+					}
+				}
+
+			} else {
+				// Always add actor
+				newActorList.add(actor);
+
+				BasicMaruto myMaruto = (BasicMaruto) actor;
+
+				if ((myMaruto.getTilePosX() < this.mapWidthInTiles / 4 - 1)
+						|| (myMaruto.getTilePosX() > this.mapWidthInTiles
+								- this.mapWidthInTiles / 4)) {
+
+					if (myMaruto.getlife() > 0) {
+						myMaruto.getMovementList().clear();
+						myMaruto.getMovementList().add(
+								new Action(DefaultValues.ACTIONS.DEATH));
+						myMaruto.setlife(Integer.MIN_VALUE);
+					}
+
+				}
+				if ((myMaruto.getTilePosY() < this.mapHeightInTiles / 4 - 1)
+						|| (myMaruto.getTilePosY() > this.mapHeightInTiles
+								- this.mapHeightInTiles / 4 - 1)) {
+
+					if (myMaruto.getlife() > 0) {
+						myMaruto.getMovementList().clear();
+						myMaruto.getMovementList().add(
+								new Action(DefaultValues.ACTIONS.DEATH));
+
+						myMaruto.setlife(Integer.MIN_VALUE);
+
+					}
+
+				}
+
+			}
+		}
+
+		this.stage.getActors().clear();
+
+		for (Actor actor : newActorList) {
+			this.stage.addActor(actor);
+		}
+
+	}
+
 	/**
 	 * 
 	 * 
@@ -801,7 +880,7 @@ public class MightyWorld {
 	 * (typically a power-up will have 1 value of live, least the arrrggghhh monster which is invincible )
 	 * 
 	 */
-	public void finishMovement()
+	public void deletePowerups()
 	{
 		Array<Actor> actorList = this.stage.getActors();
 		//Checking all actors (no unfinished movement)
@@ -855,16 +934,16 @@ public class MightyWorld {
 
 						int xTile = this.generator
 								.nextInt(this.mapWidthInTiles) / 2; // FIXME:
-																	// nhapa:
-																	// dentro
-																	// del
-																	// tatami
+						// nhapa:
+						// dentro
+						// del
+						// tatami
 						int yTile = this.generator
 								.nextInt(this.mapHeightInTiles) / 2; // FIXME:
-																		// nhapa
-																		// dentro
-																		// del
-																		// tatami
+						// nhapa
+						// dentro
+						// del
+						// tatami
 
 						xTile += this.mapWidthInTiles / 4;
 
