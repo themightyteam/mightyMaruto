@@ -9,6 +9,7 @@ import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.actors.CommonActor;
 import ludum.mighty.ld36.actors.EvilMaruto;
 import ludum.mighty.ld36.actors.GoodMaruto;
+import ludum.mighty.ld36.actors.ItemBlackBox;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Powerup;
 import ludum.mighty.ld36.actors.Item_Punch;
@@ -289,6 +290,19 @@ public class MightyWorld {
 		this.stage.addActor(eM);
 
 		// TODO: Add rest of players
+	}
+
+	private void initBlackBoxes() {
+		ItemBlackBox ibb = new ItemBlackBox();
+		ibb.setTilePosX(25);
+		ibb.setTilePosY(25);
+		this.stage.addActor(ibb);
+
+		ibb = new ItemBlackBox();
+		ibb.setTilePosX(20);
+		ibb.setTilePosY(21);
+		this.stage.addActor(ibb);
+
 	}
 
 	// Checks all present power up items on the map and spawns new power ups if
