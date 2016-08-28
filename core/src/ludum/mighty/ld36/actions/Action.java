@@ -20,7 +20,7 @@ public class Action {
                 (type == DefaultValues.ACTIONS.RUN) ||
                 (type == DefaultValues.ACTIONS.STOP) ||
                 (type == DefaultValues.ACTIONS.HELP) ||
-                (type == DefaultValues.ACTIONS.UPDATE) ||
+                (type == DefaultValues.ACTIONS.CONFUSION) ||
                 (type == DefaultValues.ACTIONS.HIT) ||
                 (type == DefaultValues.ACTIONS.SHIFT_HIT) ||
                 (type == DefaultValues.ACTIONS.DEATH) ||
