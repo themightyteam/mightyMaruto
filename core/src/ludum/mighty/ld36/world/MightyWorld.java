@@ -364,7 +364,6 @@ public class MightyWorld {
 
 			if (myActor.isMoveFlag())
 			{
-				System.out.println("ACTOR IS A MOTHERFUCKER");
 				allMovementsFinished = false;
 				return allMovementsFinished;
 
@@ -490,6 +489,11 @@ public class MightyWorld {
 						switch (movement.getpowerup()) {
 
 						case ARRRGGGHHH:
+							
+							if (myMaruto
+									.hasPowerUp(DefaultValues.POWERUPS.ARRRGGGHHH
+											.toString())) {
+							
 							newActor = new Item_ARRRGGGHHH();
 
 							// Set x-y position of item (initial position)
@@ -498,6 +502,12 @@ public class MightyWorld {
 							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
+							} else {
+								myMaruto.getMovementList().clear();
+								myMaruto.getMovementList()
+										.add(new Action(
+												DefaultValues.ACTIONS.CONFUSION));
+							}
 
 							break;
 						case CHOCO:

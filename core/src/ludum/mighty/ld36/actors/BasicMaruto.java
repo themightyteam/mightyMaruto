@@ -499,6 +499,16 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 	}
 
+	public boolean hasPowerUp(String name) {
+		for (Item_Powerup item : this.powerups) {
+
+			if (item.name.equals(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	public Vector<Item_Powerup> getPowerups() {
 		return powerups;
