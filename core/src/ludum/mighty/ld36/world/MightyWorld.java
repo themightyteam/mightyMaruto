@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import ludum.mighty.ld36.actions.Action;
+import ludum.mighty.ld36.actors.Actor_Powerup;
 import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.actors.CommonActor;
 import ludum.mighty.ld36.actors.GoodMaruto;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
+import ludum.mighty.ld36.actors.Item_Powerup;
 import ludum.mighty.ld36.actors.Item_Punch;
-import ludum.mighty.ld36.actors.Powerup;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
@@ -292,9 +293,9 @@ public class MightyWorld {
 		//Checking powerups
 		for (Actor actor : actorList)
 		{
-			if (actor instanceof Powerup)
+			if (actor instanceof Actor_Powerup)
 			{
-				Powerup mypowerup = (Powerup) actor;
+				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
 				if (mypowerup.getMovementList().size() > 0)
 				{
@@ -394,7 +395,7 @@ public class MightyWorld {
 							newActor.setTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
-							
+
 							break;
 						case CHOCO:
 
@@ -438,40 +439,105 @@ public class MightyWorld {
 						case DIAG_SONICBOMB:
 
 							break;
-					
+
 						default:
-							 break;
+							break;
 						}
 
 					} else if (movement.gettype() == DefaultValues.ACTIONS.PICK) {
 
 						switch (movement.getpowerup()) {
 						case RING:
+
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.RING,
+									DefaultValues.ITEM_RING_TURNS_DURATION, 0,
+									DefaultValues.ITEM_RING_STRENGTH_POWERUP,
+									false, false, false));
 							break;
 						case SHIELD:
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.SHIELD,
+									DefaultValues.ITEM_SHIELD_TURNS_DURATION,
+									0, 0, false, false, true));
+
 							break;
 						case INVISIBILITY:
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.INVISIBILITY,
+									DefaultValues.ITEM_INVISIBILITY_TURNS_DURATION,
+									0,
+									0, true, false, false));
+
 							break;
 						case DIZZY:
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.DIZZY,
+									DefaultValues.ITEM_DIZZY_TURNS_DURATION, 0,
+									0,
+									false, true, false));
 							break;
 						case SNEAKERS:
+
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.SNEAKERS,
+									DefaultValues.ITEM_SNEAKER_TURNS_DURATION,
+									DefaultValues.ITEM_SNEAKER_SPEED_POWERUP,
+									0, false, false, false));
+
 							break;
 
 						case ARRRGGGHHH:
+
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.ARRRGGGHHH,
+									DefaultValues.ITEM_ARRRGGGHHH_TURNS_DURATION,
+									0, 0, false, false, false));
+
 							break;
 						case YENDOR:
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.YENDOR,
+									DefaultValues.ITEM_YENDOR_TURNS_DURATION,
+									0, 0, false, false, false));
+
 							break;
 						case CHOCO:
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.CHOCO,
+									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+									0, 0, false, false, false));
+
 							break;
 						case GRENADE:
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.GRENADE,
+									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+									0, 0, false, false, false));
+
 							break;
 						case SONICBOMB:
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.SONICBOMB,
+									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+									0, 0, false, false, false));
+
 							break;
 						case DIAG_SONICBOMB:
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.DIAG_SONICBOMB,
+									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+									0, 0, false, false, false));
+
 							break;
 						case BLACKBOX:
+
+							Action nextAction = this.obtainItemInBox();
+							// Grab the item in the next movement
+							myMaruto.getMovementList().add(0, nextAction);
+
 							break;
-							
+
 						default:
 							break;
 						}
@@ -484,7 +550,7 @@ public class MightyWorld {
 					{
 						if (nextActor != actor)
 						{
-							if (nextActor instanceof Powerup)
+							if (nextActor instanceof Actor_Powerup)
 							{
 								CommonActor otherActor = (CommonActor) nextActor;
 
@@ -581,9 +647,9 @@ public class MightyWorld {
 		//Delete actors 
 		for (Actor actor : actorList)
 		{
-			if (actor instanceof Powerup)
+			if (actor instanceof Actor_Powerup)
 			{
-				Powerup mypowerup = (Powerup) actor;
+				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
 				if (mypowerup.getlife() > 0 ) 
 				{
@@ -665,9 +731,9 @@ public class MightyWorld {
 		for (Actor actor : actorList)
 		{
 
-			if (actor instanceof Powerup)
+			if (actor instanceof Actor_Powerup)
 			{
-				Powerup mypowerup = (Powerup) actor;
+				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
 				if (mypowerup.isLifeLimitedByTime() ) 
 				{
@@ -728,5 +794,50 @@ public class MightyWorld {
 		}
 	}
 
+	public Action obtainItemInBox() {
+
+		int nextItem = this.generator.nextInt(11);// FIXME: number of powerups
+													// hardcoded
+
+		Action action;
+
+		if (nextItem == 0) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.ARRRGGGHHH);
+		} else if (nextItem == 1) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.YENDOR);
+		} else if (nextItem == 2) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.CHOCO);
+		} else if (nextItem == 3) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.GRENADE);
+		} else if (nextItem == 4) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.RANDOM);
+		} else if (nextItem == 5) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.SHIELD);
+		} else if (nextItem == 6) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.INVISIBILITY);
+		} else if (nextItem == 7) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.RING);
+		} else if (nextItem == 8) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.SONICBOMB);
+		} else if (nextItem == 9) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.DIAG_SONICBOMB);
+		} else if (nextItem == 10) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.DIZZY);
+
+		}
+
+
+	}
 
 }
