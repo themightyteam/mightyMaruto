@@ -3,13 +3,13 @@ package ludum.mighty.ld36.world;
 import java.util.ArrayList;
 import java.util.Random;
 
+import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.actors.CommonActor;
 import ludum.mighty.ld36.actors.GoodMaruto;
 import ludum.mighty.ld36.actors.Powerup;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.ACTIONS;
-import ludum.mighty.ld36.settings.DefaultValues.STATE_MOVEMENTS;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
 
@@ -210,10 +210,10 @@ public class MightyWorld {
 			{
 				CommonActor myActor = (CommonActor) actor;
 
-				ACTIONS action =  myActor.getNextAction();
+				Action action =  myActor.getNextAction();
 
 				//Pick movements from actions
-				ArrayList<STATE_MOVEMENTS> movementList = this.getMovementsFromAction(action, myActor.getspeed());
+				ArrayList<Action> movementList = this.getMovementsFromAction(action, myActor.getspeed());
 
 				//Store movement list in actor
 				myActor.updateMovementList(movementList);
@@ -407,8 +407,7 @@ public class MightyWorld {
 									myMaruto.getMovementList().clear();
 									myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.SHIFT_HIT);
 								}
-								
-								
+										
 							}
 						}
 					}
@@ -507,9 +506,9 @@ public class MightyWorld {
 
 	}
 
-	public ArrayList<STATE_MOVEMENTS> getMovementsFromAction(ACTIONS action, int moveMultiplier)
+	public ArrayList<Action> getMovementsFromAction(Action action, int moveMultiplier)
 	{
-		ArrayList<STATE_MOVEMENTS> moveList = new ArrayList<STATE_MOVEMENTS>();
+		ArrayList<Action> moveList = new ArrayList<Action>();
 
 
 

@@ -3,7 +3,6 @@ package ludum.mighty.ld36.actors;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.RELATIVE_DIRECTIONS;
 import ludum.mighty.ld36.settings.DefaultValues.RELATIVE_ROTATIONS;
-import ludum.mighty.ld36.settings.DefaultValues.STATE_MOVEMENTS;
 
 /**
  * Created by dchaves on 27/08/16.

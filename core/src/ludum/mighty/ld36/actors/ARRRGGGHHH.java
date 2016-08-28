@@ -1,7 +1,7 @@
 package ludum.mighty.ld36.actors;
 
+import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
-import ludum.mighty.ld36.settings.DefaultValues.STATE_MOVEMENTS;
 
 /**
  * Created by dchaves on 27/08/16.
@@ -17,17 +17,12 @@ public class ARRRGGGHHH extends Powerup
 	}
 
 	@Override
-	public void doMovement(STATE_MOVEMENTS move) {
+	public void doMovement(Action action) {
 		
-		switch(move)
+		switch(action.gettype())
 		{
-		case ROTATE_LEFT:
-			this.rotate(DefaultValues.RELATIVE_ROTATIONS.LEFT);
-			
-			break;
-			
-		case ROTATE_RIGHT:
-			this.rotate(DefaultValues.RELATIVE_ROTATIONS.RIGHT);
+		case TURN:
+			this.rotate(action.getdirection());
 			
 			break;
 			

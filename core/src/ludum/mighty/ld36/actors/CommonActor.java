@@ -2,10 +2,10 @@ package ludum.mighty.ld36.actors;
 
 import java.util.ArrayList;
 
+import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.ABSOLUTE_DIRECTIONS;
 import ludum.mighty.ld36.settings.DefaultValues.ACTIONS;
-import ludum.mighty.ld36.settings.DefaultValues.STATE_MOVEMENTS;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -32,7 +32,7 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	
 	boolean canBeHit;
 
-	ArrayList<STATE_MOVEMENTS> movementList;
+	ArrayList<Action> movementList;
 
 	//This flag is true if previous movement was finished (true by default)
 	boolean movementFinished = true;
@@ -42,10 +42,10 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	int turnsToRespawn = DefaultValues.TURNS_TO_RESPAWN;
 
 
-	public abstract void doMovement(STATE_MOVEMENTS move);
+	public abstract void doMovement(Action action);
 
 	@Override
-	public void updateMovementList(ArrayList<STATE_MOVEMENTS> movementList) 
+	public void updateMovementList(ArrayList<Action> movementList) 
 	{
 		this.movementList = movementList;
 
@@ -208,14 +208,13 @@ public abstract class CommonActor extends Actor implements BasicActor {
 		this.isPlayable = playable;
 	}
 
-	public ArrayList<STATE_MOVEMENTS> getMovementList() {
+	public ArrayList<Action> getMovementList() {
 		return movementList;
 	}
 
-	public void setMovementList(ArrayList<STATE_MOVEMENTS> movementList) {
+	public void setMovementList(ArrayList<Action> movementList) {
 		this.movementList = movementList;
 	}
-
 
 	@Override
 	public int setlife(int life) {

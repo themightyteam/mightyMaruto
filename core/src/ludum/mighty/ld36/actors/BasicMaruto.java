@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
-import ludum.mighty.ld36.settings.DefaultValues.STATE_MOVEMENTS;
 import ludum.mighty.ld36.textTerminal.CommandProcessor;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 
@@ -48,12 +47,12 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	private boolean stopFlag;
 
 	Action nextAction;
-	
+
 	public BasicMaruto(CommandProcessor cm,  String textureSheet) {
 
 		this.name = DefaultValues.ACTOR_NAME;
 
-		
+
 
 		this.life = DefaultValues.ACTOR_LIFE;
 		this.punch = DefaultValues.ACTOR_PUNCH_DAMAGE;
@@ -210,137 +209,138 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		if (this.getActions().size > 1) return;
 		if ((this.getActions().size == 1)&&(stopFlag == true)) {
 
-					nextAction = commandProcessor.getNextAction();
+			nextAction = commandProcessor.getNextAction();
 			if (nextAction == null) return;
 			switch (nextAction.gettype()) {
-	
-		case WALK:
-			//if (moveFlag == false) {
-			mba = new MoveByAction();
-			switch (getfacing()) {
-			case NORTH:
-				anim = animUP;
-				mba.setAmount(0, DefaultValues.TILESIZE);
+
+			case WALK:
+				//if (moveFlag == false) {
+				mba = new MoveByAction();
+				switch (getfacing()) {
+				case NORTH:
+					anim = animUP;
+					mba.setAmount(0, DefaultValues.TILESIZE);
+					break;
+				case EAST:
+					anim = animRIGHT;
+					mba.setAmount(DefaultValues.TILESIZE, 0);				
+					break;
+				case SOUTH:
+					anim = animDOWN;
+					mba.setAmount(0, -DefaultValues.TILESIZE);
+					break;
+				case WEST:
+					anim = animLEFT;
+					mba.setAmount(-DefaultValues.TILESIZE, 0);
+					break;
+				}
+				mba.setDuration(1f);
+				this.addAction(mba);
+
+				moveFlag = true;
+
+				//}			
 				break;
-			case EAST:
-				anim = animRIGHT;
-				mba.setAmount(DefaultValues.TILESIZE, 0);				
+			case MOONWALK:
+				//if (moveFlag == false) {
+				mba = new MoveByAction();
+				switch (getfacing()) {
+				case NORTH:
+					anim = animUP;
+					mba.setAmount(0, -DefaultValues.TILESIZE);
+					break;
+				case EAST:
+					anim = animRIGHT;
+					mba.setAmount(-DefaultValues.TILESIZE, 0);				
+					break;
+				case SOUTH:
+					anim = animDOWN;
+					mba.setAmount(0, DefaultValues.TILESIZE);
+					break;
+				case WEST:
+					anim = animLEFT;
+					mba.setAmount(DefaultValues.TILESIZE, 0);
+					break;
+				}
+
+				mba.setDuration(1f);
+				this.addAction(mba);
+
+				moveFlag = true;
+
+				//}			
 				break;
-			case SOUTH:
-				anim = animDOWN;
-				mba.setAmount(0, -DefaultValues.TILESIZE);
+			case SHOOT:
+
+				//if (moveFlag == false) {
+				switch (getfacing()) {
+				case NORTH:
+					anim = animPunchUP;
+					break;
+				case EAST:
+					anim = animPunchRIGHT;
+					break;
+				case SOUTH:
+					anim = animPunchDOWN;
+					break;
+				case WEST:
+					anim = animPunchLEFT;
+					break;
+				}
+				mba = new MoveByAction();
+				mba.setAmount(0, 0);
+				mba.setDuration(1f);
+				this.addAction(mba);
+
+				moveFlag = true;
+				//}
 				break;
-			case WEST:
-				anim = animLEFT;
-				mba.setAmount(-DefaultValues.TILESIZE, 0);
+			case TURN:
+				//if (moveFlag == false) {
+				this.rotate(nextAction.getdirection());
+				switch (getfacing()) {
+				case NORTH:
+					anim = animStopUP;
+					break;
+				case EAST:
+					anim = animStopRIGHT;
+					break;
+				case SOUTH:
+					anim = animStopDOWN;
+					break;
+				case WEST:
+					anim = animStopLEFT;
+					break;
+				}
+				mba = new MoveByAction();
+				mba.setAmount(0, 0);
+				mba.setDuration(1f);
+				this.addAction(mba);
+				//}
 				break;
 			}
-			mba.setDuration(1f);
-			this.addAction(mba);
-
-			moveFlag = true;
-
-			//}			
-			break;
-		case MOONWALK:
-			//if (moveFlag == false) {
-			mba = new MoveByAction();
-			switch (getfacing()) {
-			case NORTH:
-				anim = animUP;
-				mba.setAmount(0, -DefaultValues.TILESIZE);
-				break;
-			case EAST:
-				anim = animRIGHT;
-				mba.setAmount(-DefaultValues.TILESIZE, 0);				
-				break;
-			case SOUTH:
-				anim = animDOWN;
-				mba.setAmount(0, DefaultValues.TILESIZE);
-				break;
-			case WEST:
-				anim = animLEFT;
-				mba.setAmount(DefaultValues.TILESIZE, 0);
-				break;
-			}
-
-			mba.setDuration(1f);
-			this.addAction(mba);
-
-			moveFlag = true;
-
-			//}			
-			break;
-		case PUNCH:
-
-			//if (moveFlag == false) {
-			switch (getfacing()) {
-			case NORTH:
-				anim = animPunchUP;
-				break;
-			case EAST:
-				anim = animPunchRIGHT;
-				break;
-			case SOUTH:
-				anim = animPunchDOWN;
-				break;
-			case WEST:
-				anim = animPunchLEFT;
-				break;
-			}
-			mba = new MoveByAction();
-			mba.setAmount(0, 0);
-			mba.setDuration(1f);
-			this.addAction(mba);
-
-			moveFlag = true;
-			//}
-			break;
-		case TURN:
-			//if (moveFlag == false) {
-			this.rotate(nextAction.getdirection());
-			switch (getfacing()) {
-			case NORTH:
-				anim = animStopUP;
-				break;
-			case EAST:
-				anim = animStopRIGHT;
-				break;
-			case SOUTH:
-				anim = animStopDOWN;
-				break;
-			case WEST:
-				anim = animStopLEFT;
-				break;
-			}
-			mba = new MoveByAction();
-			mba.setAmount(0, 0);
-			mba.setDuration(1f);
-			this.addAction(mba);
-			//}
-			break;
-			}
 
 
 
-
-			}
 
 		}
-
-
-
-		@Override
-		public void doMovement(STATE_MOVEMENTS move) {
-			// TODO Auto-generated method stub
-
-		}
-
-
-
-
-
-
-
 
 	}
+
+
+	@Override
+	public void doMovement(Action action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
+
+}
