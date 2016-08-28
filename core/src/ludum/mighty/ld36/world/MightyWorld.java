@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 
@@ -34,6 +35,9 @@ public class MightyWorld {
 	// mechanics of the world are calculated and translated into actors
 	// actions and last the actions of the turn are displayed)
 	private int currentState;
+
+	private long timeWhenTurnStarted;
+	private long timeSinceTurnStarted;
 
 	private Stage stage;
 	private TiledMap tiledMap;
@@ -80,15 +84,22 @@ public class MightyWorld {
 				100);
 		Gdx.input.setInputProcessor(this.textTerminal);
 
+		this.timeWhenTurnStarted = TimeUtils.millis();
+		this.timeSinceTurnStarted = TimeUtils.millis()
+				- this.timeWhenTurnStarted;
 		this.timeLeftLabel = new TimeLeftLabel(new Vector2(10f, h - 10f), 120,
 				20);
-		this.timeLeftLabel.setTimeLeft(3.0f);
+		this.timeLeftLabel
+				.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
+						- (float) this.timeSinceTurnStarted / 1000);
 
 		// TODO: define user input here
 
-		this.currentState = DefaultValues.WORLD_STATE_TURN_INIT;
+		this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 		initPlayers();
 		updatePowerUps();
+
+		this.timeWhenTurnStarted = TimeUtils.millis();
 	}
 
 	// updates the world (this depends on, among other things, the current
@@ -102,6 +113,18 @@ public class MightyWorld {
 
 		switch(this.currentState)
 		{
+		case DefaultValues.WORLD_STATE_ENTERING_COMMAND:
+			this.timeSinceTurnStarted = TimeUtils.millis()
+					- this.timeWhenTurnStarted;
+			this.timeLeftLabel
+					.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
+							- (float) this.timeSinceTurnStarted / 1000);
+
+			if (this.timeSinceTurnStarted > DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT * 1000) {
+				this.currentState = DefaultValues.WORLD_STATE_TURN_INIT;
+				System.out.println("moving to state WORLD_STATE_TURN_INIT");
+			}
+			break;
 		case DefaultValues.WORLD_STATE_TURN_INIT:
 			this.checkTurnUpdate();
 			this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
