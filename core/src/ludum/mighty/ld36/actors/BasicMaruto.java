@@ -439,6 +439,14 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	}
 
 
+	public Vector<Item_Powerup> getPowerups() {
+		return powerups;
+	}
+
+	public void setPowerups(Vector<Item_Powerup> powerups) {
+		this.powerups = powerups;
+	}
+
 }
 
 
