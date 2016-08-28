@@ -34,7 +34,8 @@ public class IntroScreen extends DefaultScreen implements Screen {
 		this.cam.position.set(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
 
 		this.batch = new SpriteBatch();
-		this.img = new Texture("intro.png");
+		//this.img = new Texture("intro.png");
+		this.img = new Texture("arte_mightymarutocoliseo.png");
 		this.spr = new Sprite(this.img);
 		this.spr.setPosition(0, 0);
 		this.spr.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
