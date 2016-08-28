@@ -59,7 +59,33 @@ private void doMovementWalk() {
 			anim = animator.animLEFT;
 			mba.setAmount(-DefaultValues.TILESIZE, 0);
 			break;
+
+		case NORTHEAST:
+			anim = animator.animNE;
+			mba.setAmount(DefaultValues.TILESIZE, DefaultValues.TILESIZE);
+			break;
+			
+		case NORTHWEST:
+			anim = animator.animNE;
+			mba.setAmount(-DefaultValues.TILESIZE, DefaultValues.TILESIZE);
+			break;
+			
+		case SOUTHEAST:
+			anim = animator.animNE;
+			mba.setAmount(DefaultValues.TILESIZE, -DefaultValues.TILESIZE);
+			break;
+			
+		case SOUTHWEST:
+			anim = animator.animNE;
+			mba.setAmount(-DefaultValues.TILESIZE, -DefaultValues.TILESIZE);
+			break;
+			
 		}
+
+		
+		
+		
+		
 		
 		mba.setDuration(1f);
 		this.addAction(mba);
@@ -83,6 +109,18 @@ private void doMovementTurn() {
 		break;
 	case WEST:
 		anim = animator.animStopLEFT;
+		break;
+	case NORTHEAST:
+		anim = animator.animStopNE;
+		break;
+	case NORTHWEST:
+		anim = animator.animStopNW;
+		break;
+	case SOUTHEAST:
+		anim = animator.animStopSE;
+		break;
+	case SOUTHWEST:
+		anim = animator.animStopSW;
 		break;
 	}
 	MoveByAction mba = new MoveByAction();

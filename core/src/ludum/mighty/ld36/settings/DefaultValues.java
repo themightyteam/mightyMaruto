@@ -55,7 +55,7 @@ public class DefaultValues {
 	public static final int BLACKBOX_TURNS_LIFE = Integer.MAX_VALUE;
 
     // Enumerated values
-    public enum ABSOLUTE_DIRECTIONS {NORTH, SOUTH, EAST, WEST}
+    public enum ABSOLUTE_DIRECTIONS {NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST}
     public enum RELATIVE_ROTATIONS {RIGHT, LEFT}
 
     public enum RELATIVE_DIRECTIONS {FORWARD, BACKWADS, RIGHT, LEFT}
