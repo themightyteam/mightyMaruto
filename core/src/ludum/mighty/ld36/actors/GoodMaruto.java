@@ -1,6 +1,5 @@
 package ludum.mighty.ld36.actors;
 
-import ludum.mighty.ld36.actions.Action;
 
 public class GoodMaruto extends BasicMaruto {
 
@@ -14,12 +13,4 @@ public class GoodMaruto extends BasicMaruto {
 
 	}
 
-	@Override
-	public Action getNextAction() {
-		if (nextAction != null) {
-			return nextAction;
-		} else {
-			return null;
-		}
-	}
 }

@@ -28,8 +28,6 @@ public interface BasicActor {
     
 
     void updateMovementList(ArrayList<Action> movementList);
-    
-    Action getNextAction();
 
 
 	boolean isPlayable();
