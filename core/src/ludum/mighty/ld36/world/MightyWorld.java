@@ -438,7 +438,6 @@ public class MightyWorld {
 						}
 					}
 
-					actionsPending=true;
 				}
 			}
 		}
@@ -455,6 +454,8 @@ public class MightyWorld {
 
 				if (myMaruto.getMovementList().size() > 0)
 				{
+					actionsPending = true;
+
 					Action movement = myMaruto.getMovementList().remove(0);
 
 					// Check changes
@@ -719,6 +720,9 @@ public class MightyWorld {
 									myMaruto.setlife(myMaruto.getlife()
 											- DefaultValues.MARUTO_HEADBUMP_DAMAGE);
 
+									System.out
+											.println("xxxxxxxxxxxxxxx A HEADBUMP");
+
 									if (myMaruto.getlife() <= 0) {
 										myMaruto.getMovementList().clear();
 										myMaruto.getMovementList()
@@ -731,6 +735,10 @@ public class MightyWorld {
 														DefaultValues.ACTIONS.SHIFT_HIT));
 									}
 
+								}
+ else {
+									System.out
+											.println("YYYYYYYY NOT A HEADBUMP");
 								}
 
 							}
@@ -745,6 +753,14 @@ public class MightyWorld {
 		// Finally Add actors to scene
 		for (Actor actor : newActorList) {
 			this.stage.addActor(actor);
+		}
+
+		for (Actor actor : this.stage.getActors()) {
+			CommonActor myActor = (CommonActor) actor;
+
+			if (myActor.getMovementList().size() > 0) {
+				this.actionsPending = true;
+			}
 		}
 
 		return actionsPending;
