@@ -111,7 +111,7 @@ public class MightyWorld {
 	// Creates all players
 	private void initPlayers() {
 		// Add playable player
-		basicMaruto = new BasicMaruto(textTerminal.commandProcessor);
+		basicMaruto = new BasicMaruto(textTerminal, textTerminal.commandProcessor);
 		// set the xy for the tiles and stage position
 		basicMaruto.setTilePosX(20);
 		basicMaruto.setTilePosY(20);
