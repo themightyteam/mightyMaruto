@@ -35,6 +35,10 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 	Action nextAction;
 
+	public void setNextAction(Action nextAction) {
+		this.nextAction = nextAction;
+	}
+
 	public BasicMaruto(String textureSheet) {
 
 		this.name = DefaultValues.ACTOR_NAME;
@@ -549,6 +553,14 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 	}
 
+
+	public Vector<Item_Powerup> getPowerups() {
+		return powerups;
+	}
+
+	public void setPowerups(Vector<Item_Powerup> powerups) {
+		this.powerups = powerups;
+	}
 
 }
 

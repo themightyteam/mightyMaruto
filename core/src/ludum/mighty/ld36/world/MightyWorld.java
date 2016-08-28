@@ -134,8 +134,8 @@ public class MightyWorld {
 				this.textTerminal.addLine(this.parser.next(this.textTerminal
 						.getOldestUnprocessedLine()));
 				this.textTerminal.disable();
-				// this.parser.getNextAction(); // this has to be feed to the
-				// actor!
+
+				this.basicMaruto.setNextAction(this.parser.getNextAction());
 
 				this.currentState = DefaultValues.WORLD_STATE_TURN_INIT;
 				this.timeLeftLabel.setTimeLeft(0);
@@ -186,6 +186,7 @@ public class MightyWorld {
 			{
 				this.finishMovement();
 				this.checkRespawn();
+				this.updateInventory();
 
 				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 
@@ -248,17 +249,17 @@ public class MightyWorld {
 		EvilMaruto eM = new EvilMaruto();
 		eM.setTilePosX(22);
 		eM.setTilePosY(20);
-		this.stage.addActor(eM);
+		// this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
 		eM.setTilePosX(22);
 		eM.setTilePosY(23);
-		this.stage.addActor(eM);
+		// this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
 		eM.setTilePosX(21);
 		eM.setTilePosY(25);
-		this.stage.addActor(eM);
+		// this.stage.addActor(eM);
 
 		// TODO: Add rest of players
 	}
@@ -910,6 +911,37 @@ public class MightyWorld {
 		}
 
 		return action;
+	}
+
+	public void updateInventory() {
+
+		Array<Actor> actorList = this.stage.getActors();
+		// Checking all actors (no unfinished movement)
+
+
+
+		// Checking powerups
+		for (Actor actor : actorList) {
+			if (actor instanceof BasicMaruto) {
+
+				BasicMaruto myMaruto = (BasicMaruto) actor;
+
+				ArrayList<String> droppableItems = new ArrayList<String>();
+
+				for (Item_Powerup item : myMaruto.getPowerups()) {
+					item.setDuration(item.getDuration() - 1);
+					if (item.getDuration() < 0) {
+						droppableItems.add(item.getName());
+					}
+				}
+
+				for (String item : droppableItems) {
+					myMaruto.drop(item);
+				}
+			}
+		}
+
+
 	}
 
 }
