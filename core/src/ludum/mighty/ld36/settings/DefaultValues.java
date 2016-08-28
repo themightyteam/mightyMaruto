@@ -22,6 +22,20 @@ public class DefaultValues {
     public static final int POWERUP_TURNS_LIFE = 3;
     public static final int ARRRGGGHHH_TURNS_LIFE = 5;
     public static final float ARRRGGGHHH_SHIFT_PROB = (float) 0.9;
+	public static final int ARRRGGGHHH_DAMAGE = 10;
+	public static final int ARRRGGGHHH_SPEED = 1;
+	public static final int PUNCH_TURNS_LIFE = 0;
+	public static final float PUNCH_SHIFT_PROB = (float) 0.1;
+	public static final int PUNCH_DAMAGE = 2;
+	public static final int PUNCH_SPEED = 0;
+	public static final int CHOCO_TURNS_LIFE = 3;
+	public static final float CHOCO_SHIFT_PROB = (float) 0.7;
+	public static final int CHOCO_DAMAGE = 1;
+	public static final int CHOCO_SPEED = 3;
+	public static final int RANDOM_TURNS_LIFE = 4;
+	public static final float RANDOM_SHIFT_PROB = (float) 0.3;
+	public static final int RANDOM_DAMAGE = 3;
+	public static final int RANDOM_SPEED = 2;
 
     // Enumerated values
     public enum ABSOLUTE_DIRECTIONS {NORTH, SOUTH, EAST, WEST}
@@ -31,12 +45,12 @@ public class DefaultValues {
    // public enum ACTIONS {WALK, MOONWALK, RUN, PUNCH, STOP, HELP, TURN, DROP, SHOOT}
 	public enum POWERUPS {
 		ARRRGGGHHH, YENDOR, CHOCO, GRENADE, RANDOM, SHIELD, INVISIBILITY,
- RING, SONICBOMB, DIAG_SONICBOMB, SNEAKERS, DIZZY, PUNCH
+ RING, SONICBOMB, DIAG_SONICBOMB, SNEAKERS, DIZZY, PUNCH, BLACKBOX, EXPLOSION
 	}
 
 
 	public enum ACTIONS {
-		RUN, WALK, TURN, MOONWALK, SHOOT, UPDATE, HIT, SHIFT_HIT, DEATH, DROP, IDLE, STOP, HELP, CONFUSION
+		RUN, WALK, TURN, MOONWALK, SHOOT, PICK, HIT, SHIFT_HIT, DEATH, DROP, IDLE, STOP, HELP, CONFUSION
 	}
     	    
    

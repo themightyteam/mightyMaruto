@@ -7,6 +7,8 @@ import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.actors.CommonActor;
 import ludum.mighty.ld36.actors.GoodMaruto;
+import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
+import ludum.mighty.ld36.actors.Item_Punch;
 import ludum.mighty.ld36.actors.Powerup;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
@@ -261,6 +263,9 @@ public class MightyWorld {
 		Array<Actor> actorList = this.stage.getActors();
 		//Checking all actors (no unfinished movement)
 
+		// This list is to store new actors created in this movement
+		Array<Actor> newActorList = this.stage.getActors();
+
 		//Checking powerups
 		for (Actor actor : actorList)
 		{
@@ -353,14 +358,38 @@ public class MightyWorld {
 					// Check changes
 					if (movement.gettype() == DefaultValues.ACTIONS.SHOOT) {
 
+						CommonActor newActor;
+
 						switch (movement.getpowerup()) {
 
 						case ARRRGGGHHH:
-						case CHOCO:
-						case SONICBOMB:
-						case GRENADE:
-						case PUNCH:
+							newActor = new Item_ARRRGGGHHH();
+
+							// Set x-y position of item (initial position)
+							newActor.setTilePosX(this
+									.obtainItemSpawnX(myMaruto));
+							newActor.setTilePosY(this
+									.obtainItemSpawnY(myMaruto));
+							newActorList.add(newActor);
 							
+							break;
+						case CHOCO:
+
+							break;
+						case SONICBOMB:
+							break;
+						case GRENADE:
+							break;
+						case PUNCH:
+							newActor = new Item_Punch();
+
+							// Set x-y position of item (initial position)
+							newActor.setTilePosX(this
+									.obtainItemSpawnX(myMaruto));
+							newActor.setTilePosY(this
+									.obtainItemSpawnY(myMaruto));
+							newActorList.add(newActor);
+							newActorList.add(newActor);
 							break;
 						case DIAG_SONICBOMB:
 							break;
@@ -391,7 +420,7 @@ public class MightyWorld {
 							 break;
 						}
 
-					} else if (movement.gettype() == DefaultValues.ACTIONS.UPDATE) {
+					} else if (movement.gettype() == DefaultValues.ACTIONS.PICK) {
 
 						switch (movement.getpowerup()) {
 						case RING:
@@ -404,6 +433,22 @@ public class MightyWorld {
 							break;
 						case SNEAKERS:
 							break;
+
+						case ARRRGGGHHH:
+							break;
+						case YENDOR:
+							break;
+						case CHOCO:
+							break;
+						case GRENADE:
+							break;
+						case SONICBOMB:
+							break;
+						case DIAG_SONICBOMB:
+							break;
+						case BLACKBOX:
+							break;
+							
 						default:
 							break;
 						}
@@ -484,6 +529,11 @@ public class MightyWorld {
 
 			}
 
+		}
+
+		// Finally Add actors to scene
+		for (Actor actor : newActorList) {
+			this.stage.addActor(actor);
 		}
 
 		return actionsPending;
@@ -633,6 +683,27 @@ public class MightyWorld {
 		return moveList;
 	}
 
+	int obtainItemSpawnX(BasicMaruto myActor) {
+
+		if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.EAST) {
+			return myActor.getTilePosX() + 1;
+		} else if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.WEST) {
+			return myActor.getTilePosX() - 1;
+		} else {
+			return myActor.getTilePosX();
+		}
+
+	}
+
+	int obtainItemSpawnY(BasicMaruto myActor) {
+		if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.NORTH) {
+			return myActor.getTilePosY() + 1;
+		} else if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH) {
+			return myActor.getTilePosY() - 1;
+		} else {
+			return myActor.getTilePosY();
+		}
+	}
 
 
 }

@@ -6,14 +6,16 @@ import ludum.mighty.ld36.settings.DefaultValues;
 /**
  * Created by dchaves on 27/08/16.
  */
-public class ARRRGGGHHH extends Powerup 
+public class Item_ARRRGGGHHH extends Powerup 
 {
 	
-	public ARRRGGGHHH()
+	public Item_ARRRGGGHHH()
 	{
-		this.turnsLife = 5;
+		this.turnsLife = DefaultValues.ARRRGGGHHH_TURNS_LIFE;
 		this.life = Integer.MAX_VALUE;
-		this.shiftProbability = (float) 0.9;
+		this.shiftProbability = (float) DefaultValues.ARRRGGGHHH_SHIFT_PROB;
+		this.punch = DefaultValues.ARRRGGGHHH_DAMAGE;
+		this.speed = DefaultValues.ARRRGGGHHH_SPEED;
 	}
 
 	@Override
