@@ -830,7 +830,7 @@ public class MightyWorld {
 		int nextItem = this.generator.nextInt(11);// FIXME: number of powerups
 													// hardcoded
 
-		Action action;
+		Action action = null;
 
 		if (nextItem == 0) {
 			action = new Action(DefaultValues.ACTIONS.PICK,
@@ -868,7 +868,7 @@ public class MightyWorld {
 
 		}
 
-
+		return action;
 	}
 
 }
