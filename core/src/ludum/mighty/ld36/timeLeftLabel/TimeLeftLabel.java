@@ -68,9 +68,11 @@ public class TimeLeftLabel {
 
 	String format(float n) {
 		String ret = String.valueOf((int) n);
-		int left = (int) (n * 100 - (Math.floor(n) * 100));
+		int left = (int) (n * 100 - ((int)n * 100));
 
-		if (left < 10) {
+		if (left <= 0) {
+			ret += ".00";
+		} else if(left < 10) {
 			ret = ret + ".0" + String.valueOf(left);
 		} else {
 			ret = ret + "." + String.valueOf(left);

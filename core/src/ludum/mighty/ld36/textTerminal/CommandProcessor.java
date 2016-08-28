@@ -122,6 +122,7 @@ public class CommandProcessor {
             toprint += command + " then ";
         }
         toprint = toprint.substring(0,toprint.lastIndexOf(" then "));
+        //System.out.println(toprint);
 
         return new Line(toprint, true, COLOR_RESPONSE);
     }
