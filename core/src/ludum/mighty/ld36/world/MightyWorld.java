@@ -489,8 +489,10 @@ public class MightyWorld {
 					if (myMaruto.getTurnsToRespawn() <= 0)
 					{
 
-						int xTile = this.generator.nextInt(X_TILES);
-						int yTile = this.generator.nextInt(Y_TILES);
+						int xTile = this.generator
+								.nextInt(this.mapWidthInTiles);
+						int yTile = this.generator
+								.nextInt(this.mapHeightInTiles);
 
 						//TODO : check this tile is not water
 
