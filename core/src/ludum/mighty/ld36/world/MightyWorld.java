@@ -394,8 +394,12 @@ public class MightyWorld {
 			{
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
+				if (!!mypowerup.isHarmful())
+					continue;
+
 				if (mypowerup.getMovementList().size() > 0)
 				{
+
 
 					Action movement = mypowerup.getMovementList().remove(0);
 
@@ -415,6 +419,7 @@ public class MightyWorld {
 							if ((otherActor.getTilePosX() == mypowerup.getTilePosX()) &&
 									(otherActor.getTilePosY() == mypowerup.getTilePosY()))
 							{
+
 
 
 								//Update life
