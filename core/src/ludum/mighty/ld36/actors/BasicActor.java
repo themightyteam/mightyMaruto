@@ -11,7 +11,8 @@ import ludum.mighty.ld36.settings.DefaultValues;
 public interface BasicActor {
     void move(int x,int y);
     void shoot(DefaultValues.RELATIVE_DIRECTIONS direction);
-    void pickup(Powerup powerup);
+
+	void pickup(Item_Powerup powerup);
     void drop(String powerup);
     void rotate(DefaultValues.RELATIVE_ROTATIONS rotation);
     void setname(String name);

@@ -6,7 +6,7 @@ import ludum.mighty.ld36.settings.DefaultValues;
 /**
  * Created by dchaves on 27/08/16.
  */
-public class Item_ARRRGGGHHH extends Powerup 
+public class Item_ARRRGGGHHH extends Actor_Powerup 
 {
 	
 	public Item_ARRRGGGHHH()

@@ -2,7 +2,7 @@ package ludum.mighty.ld36.actors;
 
 import ludum.mighty.ld36.actions.Action;
 
-public class Item_Grenade extends Powerup {
+public class Item_Grenade extends Actor_Powerup {
 
 	public Item_Grenade() {
 
