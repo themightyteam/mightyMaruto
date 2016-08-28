@@ -14,15 +14,15 @@ public class DefaultValues {
 	public static final int ACTOR_MAX_POWERUPS = 4;
 	public static final int TURNS_TO_RESPAWN = 5;
 
-	public static final int ITEM_SNEAKER_SPEED_POWERUP = 2;
-	public static final int ITEM_RING_STRENGTH_POWERUP = 3;
-	public static final int ITEM_SNEAKER_TURNS_DURATION = 4;
-	public static final int ITEM_RING_TURNS_DURATION = 3;
-	public static final int ITEM_SHIELD_TURNS_DURATION = 4;
-	public static final int ITEM_INVISIBILITY_TURNS_DURATION = 4;
-	public static final int ITEM_DIZZY_TURNS_DURATION = 5;
-	public static final int ITEM_ARRRGGGHHH_TURNS_DURATION = 3;
-	public static final int ITEM_PROYECTIL_TURNS_DURATION = 5;
+	public static final int ITEM_SNEAKER_SPEED_POWERUP = 15;
+	public static final int ITEM_RING_STRENGTH_POWERUP = 15;
+	public static final int ITEM_SNEAKER_TURNS_DURATION = 14;
+	public static final int ITEM_RING_TURNS_DURATION = 13;
+	public static final int ITEM_SHIELD_TURNS_DURATION = 14;
+	public static final int ITEM_INVISIBILITY_TURNS_DURATION = 14;
+	public static final int ITEM_DIZZY_TURNS_DURATION = 15;
+	public static final int ITEM_ARRRGGGHHH_TURNS_DURATION = 13;
+	public static final int ITEM_PROYECTIL_TURNS_DURATION = 15;
 	public static final int ITEM_YENDOR_TURNS_DURATION = Integer.MAX_VALUE;
 
     public static final ABSOLUTE_DIRECTIONS ACTOR_DEFAULT_FACING = ABSOLUTE_DIRECTIONS.SOUTH;

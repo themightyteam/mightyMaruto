@@ -437,16 +437,13 @@ public class MightyWorld {
 			{
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
-				System.out.println("1 PUNCHED XXXXXX " + mypowerup.getName());
 
 				if (!mypowerup.isHarmfull())
 					continue;
 
-				System.out.println("2 PUNCHED XXXXXX " + mypowerup.getName());
 
 				if (mypowerup.getMovementList().size() > 0)
 				{
-					System.out.println("PUNCHED XXXXXX " + mypowerup.getName());
 
 					Action movement = mypowerup.getMovementList().remove(0);
 
@@ -926,8 +923,6 @@ public class MightyWorld {
 									myMaruto.setlife(myMaruto.getlife()
 											- DefaultValues.MARUTO_HEADBUMP_DAMAGE);
 
-									System.out
-											.println("xxxxxxxxxxxxxxx A HEADBUMP");
 
 									if (myMaruto.getlife() <= 0) {
 										myMaruto.getMovementList().clear();
@@ -943,8 +938,7 @@ public class MightyWorld {
 
 								}
  else {
-									System.out
-											.println("YYYYYYYY NOT A HEADBUMP");
+
 								}
 
 							}
@@ -957,7 +951,7 @@ public class MightyWorld {
 		}
 
 
-		System.out.println("NEW ACTORSSSSSS  " + newActorList.size);
+
 		
 		// Finally Add actors to scene
 		for (Actor actor : newActorList) {
@@ -1125,6 +1119,7 @@ public class MightyWorld {
 						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
 						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
 						myMaruto.getMovementList().clear();
+
 
 					}
 					else
