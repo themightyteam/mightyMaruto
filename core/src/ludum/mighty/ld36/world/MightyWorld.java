@@ -16,6 +16,7 @@ import ludum.mighty.ld36.actors.Item_Choco;
 import ludum.mighty.ld36.actors.Item_Powerup;
 import ludum.mighty.ld36.actors.Item_Punch;
 import ludum.mighty.ld36.actors.Item_SonicBoom;
+import ludum.mighty.ld36.ai.AI;
 import ludum.mighty.ld36.powerUpsViewer.PowerUpsViewer;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.POWERUPS;
@@ -51,6 +52,7 @@ public class MightyWorld {
 	private long timeSinceTurnStarted;
 
 	private Stage stage;
+
 	private TiledMap tiledMap;
 	private int mapWidthInTiles;
 	private int mapHeightInTiles;
@@ -73,10 +75,13 @@ public class MightyWorld {
 
 	Random generator = new Random();
 
+	private AI ai;
+
 	// // WORLD API
 	// Loads stuff like the map and initializes things
 	public void init(TiledMap map) {
 
+		this.ai = new AI(this);
 		this.tiledMap = map;
 		MapProperties prop = this.tiledMap.getProperties();
 		this.mapWidthInTiles = prop.get("width", Integer.class);
@@ -161,6 +166,7 @@ public class MightyWorld {
 			break;
 		case DefaultValues.WORLD_STATE_TURN_INIT:
 			System.out.println("WORLD_STATE_TURN_INIT");
+			this.ai.updateActors();
 			this.checkTurnUpdate();
 			this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 			break;
@@ -259,6 +265,10 @@ public class MightyWorld {
 		 * 
 		 * 
 		 */
+	}
+
+	public Stage getStage() {
+		return stage;
 	}
 
 	private void updatePowerupsPlayer() {

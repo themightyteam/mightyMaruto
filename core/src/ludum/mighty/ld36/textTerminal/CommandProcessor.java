@@ -15,12 +15,38 @@ import com.badlogic.gdx.graphics.Color;
 
 public class CommandProcessor {
 	private Vector<Action> commands;
-	private static final String[] validcommands_zero = { "walk", "moonwalk",
-			"run", "punch", "stop", "help", "block", "pick" };
-	private static final String[] validcommands_one = { "turn", "drop", "shoot" };
-	private static final String[] powerups = { "arrrggghhh", "yendor", "choco",
-			"grenade", "random", "sonicbomb" };
-	private static final String[] directions = { "left", "right" };
+	private static final String[] validcommands_zero = {
+	        "walk",
+            "moonwalk",
+	    	"run",
+            "punch",
+            "stop",
+            "help",
+            "block",
+            "pick"
+	};
+	private static final String[] validcommands_one = {
+	        "turn",
+            "drop",
+            "shoot"
+	};
+	private static final String[] powerups = {
+	        "arrrggghhh",
+            "yendor",
+            "choco",
+			"grenade",
+            "random",
+            "shield",
+            "invisibility",
+            "ring",
+            "sonicbomb",
+            "diag_sonicbomb",
+            "sneakers"
+    };
+	private static final String[] directions = {
+	        "left",
+            "right"
+	};
 
 	private static final Color COLOR_RESPONSE = new Color(0f, .8f, 0f, 1f);
 	private static final Color COLOR_ERROR = new Color(1f, 0f, 0f, 1f);
@@ -105,10 +131,24 @@ public class CommandProcessor {
 					} else if (parts[1].compareToIgnoreCase("random") == 0) {
 						todo = new Action(DefaultValues.ACTIONS.DROP,
 								DefaultValues.POWERUPS.RANDOM);
+                    } else if (parts[1].compareToIgnoreCase("shield") == 0) {
+                        todo = new Action(DefaultValues.ACTIONS.DROP,
+                                DefaultValues.POWERUPS.SHIELD);
+                    } else if (parts[1].compareToIgnoreCase("invisibility") == 0) {
+                        todo = new Action(DefaultValues.ACTIONS.DROP,
+                                DefaultValues.POWERUPS.INVISIBILITY);
+                    } else if (parts[1].compareToIgnoreCase("ring") == 0) {
+                        todo = new Action(DefaultValues.ACTIONS.DROP,
+                                DefaultValues.POWERUPS.RING);
 					} else if (parts[1].compareToIgnoreCase("sonicbomb") == 0) {
 						todo = new Action(DefaultValues.ACTIONS.DROP,
 								DefaultValues.POWERUPS.SONICBOMB);
-
+                    } else if (parts[1].compareToIgnoreCase("diag_sonicbomb") == 0) {
+                        todo = new Action(DefaultValues.ACTIONS.DROP,
+                                DefaultValues.POWERUPS.DIAG_SONICBOMB);
+                    } else if (parts[1].compareToIgnoreCase("sneakers") == 0) {
+                        todo = new Action(DefaultValues.ACTIONS.DROP,
+                                DefaultValues.POWERUPS.SNEAKERS);
 					} else {
 						return new Line(getRandomString(DefaultValues.ERRORS),
 								true, COLOR_ERROR);
@@ -131,10 +171,13 @@ public class CommandProcessor {
 					} else if (parts[1].compareToIgnoreCase("random") == 0) {
 						todo = new Action(DefaultValues.ACTIONS.SHOOT,
 								DefaultValues.POWERUPS.RANDOM);
-					} else if (parts[1].compareToIgnoreCase("sonicbomb") == 0) {
+                    } else if (parts[1].compareToIgnoreCase("sonicbomb") == 0) {
 						todo = new Action(DefaultValues.ACTIONS.DROP,
 								DefaultValues.POWERUPS.SONICBOMB);
-					} else {
+                    } else if (parts[1].compareToIgnoreCase("diag_sonicbomb") == 0) {
+                        todo = new Action(DefaultValues.ACTIONS.SHOOT,
+                                DefaultValues.POWERUPS.RANDOM);
+                    } else {
 						return new Line(getRandomString(DefaultValues.ERRORS),
 								true, COLOR_ERROR);
 					}
