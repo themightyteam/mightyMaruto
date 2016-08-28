@@ -61,6 +61,8 @@ public class DefaultValues {
     // World constants
     public static final int TILESIZE = 32;
 
+	public static final int WORLD_SECONDS_FOR_COMMAND_INPUT = 5;
+
 	// World state
 	/*
 	 * The user enter commands and a timer goes down from 3 sec to 0. If the
