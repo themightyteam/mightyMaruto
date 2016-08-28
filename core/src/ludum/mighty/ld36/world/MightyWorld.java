@@ -123,6 +123,7 @@ public class MightyWorld {
 			if (this.isMovementStepFinished())
 			{
 				this.finishMovement();
+				this.checkRespawn();
 
 				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 
@@ -212,7 +213,7 @@ public class MightyWorld {
 				Action action =  myActor.getNextAction();
 
 				//Pick movements from actions
-				ArrayList<Action> movementList = this.getMovementsFromAction(action, myActor.getspeed());
+				ArrayList<Action> movementList = this.getMovementsFromAction(action, myActor.getspeed(), actor instanceof BasicMaruto);
 
 				//Store movement list in actor
 				myActor.updateMovementList(movementList);
@@ -463,6 +464,45 @@ public class MightyWorld {
 	}
 
 
+	public void checkRespawn()
+	{
+		Array<Actor> actorList = this.stage.getActors();
+		//Checking all actors (no unfinished movement)
+		
+		//Checking Players
+		for (Actor actor : actorList)
+		{
+			if (actor instanceof BasicMaruto)
+			{
+				BasicMaruto myMaruto = (BasicMaruto) actor;
+				
+				if (myMaruto.isIsrespawnable() && myMaruto.getlife() < 0)
+				{
+					if (myMaruto.getTurnsToRespawn() <= 0)
+					{
+						
+						int xTile = this.generator.nextInt(X_TILES);
+						int yTile = this.generator.nextInt(Y_TILES);
+						
+						//TODO : check this tile is not water
+						
+						basicMaruto.setTilePosX(xTile);
+						basicMaruto.setTilePosY(yTile);
+						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
+						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
+					
+					}
+					else
+					{
+						myMaruto.setTurnsToRespawn(myMaruto.getTurnsToRespawn() -1);
+					}
+				}
+
+			}
+				
+		}
+	}
+	
 	/**
 	 * 
 	 * 
@@ -494,7 +534,6 @@ public class MightyWorld {
 						newActorList.add(actor);
 				}
 
-
 				newActorList.add(actor);
 			}
 			else
@@ -505,11 +544,19 @@ public class MightyWorld {
 
 	}
 
-	public ArrayList<Action> getMovementsFromAction(Action action, int moveMultiplier)
+	public ArrayList<Action> getMovementsFromAction(Action action, int moveMultiplier, boolean isPlayer)
 	{
 		ArrayList<Action> moveList = new ArrayList<Action>();
 
-
+		if (action.gettype() == DefaultValues.ACTIONS.RUN && isPlayer )
+		{
+			for (int i = 0; i< moveMultiplier; i++)
+				moveList.add(new Action(DefaultValues.ACTIONS.WALK));
+		}
+		else
+		{
+			moveList.add(action);
+		}
 
 		return moveList;
 	}
