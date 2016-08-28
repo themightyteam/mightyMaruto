@@ -12,7 +12,9 @@ import ludum.mighty.ld36.actors.GoodMaruto;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Powerup;
 import ludum.mighty.ld36.actors.Item_Punch;
+import ludum.mighty.ld36.powerUpsViewer.PowerUpsViewer;
 import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.settings.DefaultValues.POWERUPS;
 import ludum.mighty.ld36.textTerminal.CommandProcessor;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
@@ -59,6 +61,7 @@ public class MightyWorld {
 	private SpriteBatch batch;
 	private TextTerminal textTerminal;
 	private TimeLeftLabel timeLeftLabel;
+	private PowerUpsViewer powerUpsViewer;
 
 	private CommandProcessor parser;
 
@@ -100,6 +103,10 @@ public class MightyWorld {
 						- (float) this.timeSinceTurnStarted / 1000);
 
 		this.parser = new CommandProcessor();
+
+		this.powerUpsViewer = new PowerUpsViewer(new Vector2(550f, 10f));
+		this.powerUpsViewer.setList(POWERUPS.ARRRGGGHHH, POWERUPS.CHOCO,
+				POWERUPS.INVISIBILITY, null);
 
 		// TODO: define user input here
 
@@ -231,6 +238,7 @@ public class MightyWorld {
 		this.stage.draw();
 		this.textTerminal.render(batch);
 		this.timeLeftLabel.render(batch);
+		this.powerUpsViewer.render(batch);
 	}
 
 	// // END OF WORLD API
