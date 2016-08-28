@@ -20,6 +20,7 @@ import static ludum.mighty.ld36.settings.DefaultValues.LINELENGTH;
 
 public class TextTerminal implements InputProcessor {
 
+    private static final Color COLOR_INPUT = new Color(0f, 1f, 0f, 1f);
     public CommandProcessor commandProcessor;
 
     private boolean isdone = false;
@@ -63,7 +64,7 @@ public class TextTerminal implements InputProcessor {
         bitmapFont = new BitmapFont(
                 Gdx.files.internal("fonts/textTerminalFont.fnt"),
                 Gdx.files.internal("fonts/textTerminalFont.png"), false);
-        //bitmapFont.setColor(0f, 1f, 0f, 1f);
+        bitmapFont.setColor(COLOR_INPUT);
         this.lineHeigh = bitmapFont.getLineHeight();
 
         shapeRenderer = new ShapeRenderer();
@@ -104,6 +105,7 @@ public class TextTerminal implements InputProcessor {
                     this.boxWidth - (this.hMargin * 2), Align.left, true);
         }
         if(this.enabled) {
+            bitmapFont.setColor(COLOR_INPUT);
             if (this.isCursorShowing) {
                 bitmapFont.draw(batch, this.currentString + this.cursor,
                         this.boxStartPointX + this.hMargin, this.boxStartPointY
@@ -144,7 +146,7 @@ public class TextTerminal implements InputProcessor {
             this.linesList.add(new Line(this.currentString));
             this.linesList.add(this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2)));
             this.isdone = true;
-            this.enabled = false;
+            //this.enabled = false;
             this.currentString = this.prompt;
         }
         if (keycode == Keys.BACKSPACE) {
