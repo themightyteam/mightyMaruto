@@ -84,7 +84,7 @@ public class MightyWorld {
 
 		stage = new Stage(sv);
 
-		this.textTerminal = new TextTerminal(new Vector2(0f, 100f), (int) Gdx.graphics.getWidth(),
+		this.textTerminal = new TextTerminal(new Vector2(0f, 100f), Gdx.graphics.getWidth(),
 				100);
 		Gdx.input.setInputProcessor(this.textTerminal);
 
@@ -706,7 +706,7 @@ public class MightyWorld {
 	public ArrayList<Action> getMovementsFromAction(Action action, int moveMultiplier, boolean isPlayer)
 	{
 		ArrayList<Action> moveList = new ArrayList<Action>();
-
+		if(action == null) return moveList;
 		if (action.gettype() == DefaultValues.ACTIONS.RUN && isPlayer )
 		{
 			for (int i = 0; i< moveMultiplier; i++)
