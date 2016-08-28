@@ -387,16 +387,16 @@ public class MightyWorld {
 										else 
 											myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.HIT));
 									}
-							
+
 								}
 
 							}
 							else if (nextActor instanceof BasicMaruto)
 							{
 								//Maruto Against Maruto (a headbump)
-								
+
 								myMaruto.setlife(myMaruto.getlife() - DefaultValues.MARUTO_HEADBUMP_DAMAGE);
-								
+
 								if (myMaruto.getlife() <= 0)
 								{
 									myMaruto.getMovementList().clear();
@@ -407,7 +407,7 @@ public class MightyWorld {
 									myMaruto.getMovementList().clear();
 									myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.SHIFT_HIT));
 								}
-										
+
 							}
 						}
 					}
@@ -468,29 +468,29 @@ public class MightyWorld {
 	{
 		Array<Actor> actorList = this.stage.getActors();
 		//Checking all actors (no unfinished movement)
-		
+
 		//Checking Players
 		for (Actor actor : actorList)
 		{
 			if (actor instanceof BasicMaruto)
 			{
 				BasicMaruto myMaruto = (BasicMaruto) actor;
-				
+
 				if (myMaruto.isIsrespawnable() && myMaruto.getlife() < 0)
 				{
 					if (myMaruto.getTurnsToRespawn() <= 0)
 					{
-						
+
 						int xTile = this.generator.nextInt(X_TILES);
 						int yTile = this.generator.nextInt(Y_TILES);
-						
+
 						//TODO : check this tile is not water
-						
+
 						basicMaruto.setTilePosX(xTile);
 						basicMaruto.setTilePosY(yTile);
 						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
 						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
-					
+
 					}
 					else
 					{
@@ -499,10 +499,10 @@ public class MightyWorld {
 				}
 
 			}
-				
+
 		}
 	}
-	
+
 	/**
 	 * 
 	 * 
