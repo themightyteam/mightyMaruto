@@ -34,7 +34,7 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	ArrayList<Action> movementList;
 
 	//This flag is true if previous movement was finished (true by default)
-	boolean movementFinished = true;
+	boolean moveFlag = false;
 
 	//Respawn
 	boolean isrespawnable;
@@ -148,12 +148,12 @@ public abstract class CommonActor extends Actor implements BasicActor {
 		this.tilePosY = tilePosY;
 	}
 
-	public boolean isMovementFinished() {
-		return movementFinished;
+	public boolean isMoveFlag() {
+		return moveFlag;
 	}
 
-	public void setMovementFinished(boolean movementFinished) {
-		this.movementFinished = movementFinished;
+	public void setMoveFlag(boolean moveFlag) {
+		this.moveFlag = moveFlag;
 	}
 
 	@Override
