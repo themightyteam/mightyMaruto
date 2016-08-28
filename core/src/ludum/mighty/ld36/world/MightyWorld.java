@@ -7,6 +7,8 @@ import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.actors.CommonActor;
 import ludum.mighty.ld36.actors.GoodMaruto;
+import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
+import ludum.mighty.ld36.actors.Item_Punch;
 import ludum.mighty.ld36.actors.Powerup;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
@@ -16,12 +18,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 
@@ -34,8 +38,13 @@ public class MightyWorld {
 	// actions and last the actions of the turn are displayed)
 	private int currentState;
 
-	private Stage stage;
+	private long timeWhenTurnStarted;
+	private long timeSinceTurnStarted;
 
+	private Stage stage;
+	private TiledMap tiledMap;
+	private int mapWidthInTiles;
+	private int mapHeightInTiles;
 	// Rendering objects
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private OrthographicCamera cam;
@@ -55,6 +64,11 @@ public class MightyWorld {
 	// Loads stuff like the map and initializes things
 	public void init(TiledMap map) {
 
+		this.tiledMap = map;
+		MapProperties prop = this.tiledMap.getProperties();
+		this.mapWidthInTiles = prop.get("width", Integer.class);
+		this.mapHeightInTiles = prop.get("height", Integer.class);
+
 		int h = Gdx.graphics.getHeight();
 		// Render init
 
@@ -72,15 +86,22 @@ public class MightyWorld {
 				100);
 		Gdx.input.setInputProcessor(this.textTerminal);
 
+		this.timeWhenTurnStarted = TimeUtils.millis();
+		this.timeSinceTurnStarted = TimeUtils.millis()
+				- this.timeWhenTurnStarted;
 		this.timeLeftLabel = new TimeLeftLabel(new Vector2(10f, h - 10f), 120,
 				20);
-		this.timeLeftLabel.setTimeLeft(3.0f);
+		this.timeLeftLabel
+				.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
+						- (float) this.timeSinceTurnStarted / 1000);
 
 		// TODO: define user input here
 
-		this.currentState = DefaultValues.WORLD_STATE_TURN_INIT;
+		this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 		initPlayers();
 		updatePowerUps();
+
+		this.timeWhenTurnStarted = TimeUtils.millis();
 	}
 
 	// updates the world (this depends on, among other things, the current
@@ -94,6 +115,18 @@ public class MightyWorld {
 
 		switch(this.currentState)
 		{
+		case DefaultValues.WORLD_STATE_ENTERING_COMMAND:
+			this.timeSinceTurnStarted = TimeUtils.millis()
+					- this.timeWhenTurnStarted;
+			this.timeLeftLabel
+					.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
+							- (float) this.timeSinceTurnStarted / 1000);
+
+			if (this.timeSinceTurnStarted > DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT * 1000) {
+				this.currentState = DefaultValues.WORLD_STATE_TURN_INIT;
+				System.out.println("moving to state WORLD_STATE_TURN_INIT");
+			}
+			break;
 		case DefaultValues.WORLD_STATE_TURN_INIT:
 			this.checkTurnUpdate();
 			this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
@@ -102,6 +135,9 @@ public class MightyWorld {
 			//TODO: Doing Nothing?
 			//Update turn-based items, respawn, etc
 			this.finishTurn();
+
+			this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
+
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_INIT:
 
@@ -123,6 +159,7 @@ public class MightyWorld {
 			if (this.isMovementStepFinished())
 			{
 				this.finishMovement();
+				this.checkRespawn();
 
 				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 
@@ -155,7 +192,7 @@ public class MightyWorld {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		updatePowerUps();
-		basicMaruto.checkAction();
+		// basicMaruto.checkAction();
 
 		this.cam.position.x = basicMaruto.getX();
 		this.cam.position.y = basicMaruto.getY();
@@ -212,7 +249,7 @@ public class MightyWorld {
 				Action action =  myActor.getNextAction();
 
 				//Pick movements from actions
-				ArrayList<Action> movementList = this.getMovementsFromAction(action, myActor.getspeed());
+				ArrayList<Action> movementList = this.getMovementsFromAction(action, myActor.getspeed(), actor instanceof BasicMaruto);
 
 				//Store movement list in actor
 				myActor.updateMovementList(movementList);
@@ -232,7 +269,7 @@ public class MightyWorld {
 		{
 			CommonActor myActor = (CommonActor) actor;
 
-			if (!myActor.isMovementFinished())
+			if (myActor.isMoveFlag())
 			{
 				allMovementsFinished = false;
 			}
@@ -249,6 +286,9 @@ public class MightyWorld {
 		Array<Actor> actorList = this.stage.getActors();
 		//Checking all actors (no unfinished movement)
 
+		// This list is to store new actors created in this movement
+		Array<Actor> newActorList = this.stage.getActors();
+
 		//Checking powerups
 		for (Actor actor : actorList)
 		{
@@ -261,7 +301,7 @@ public class MightyWorld {
 
 					Action movement = mypowerup.getMovementList().remove(0);
 
-					mypowerup.setMovementFinished(false); //TODO:shold be set to true by the Actor after the render is finished
+
 					mypowerup.doMovement(movement);
 
 					//Check action outcome
@@ -338,7 +378,105 @@ public class MightyWorld {
 				{
 					Action movement = myMaruto.getMovementList().remove(0);
 
-					myMaruto.setMovementFinished(false); //TODO:shold be set to true by the Actor after the render is finished
+					// Check changes
+					if (movement.gettype() == DefaultValues.ACTIONS.SHOOT) {
+
+						CommonActor newActor;
+
+						switch (movement.getpowerup()) {
+
+						case ARRRGGGHHH:
+							newActor = new Item_ARRRGGGHHH();
+
+							// Set x-y position of item (initial position)
+							newActor.setTilePosX(this
+									.obtainItemSpawnX(myMaruto));
+							newActor.setTilePosY(this
+									.obtainItemSpawnY(myMaruto));
+							newActorList.add(newActor);
+							
+							break;
+						case CHOCO:
+
+							break;
+						case SONICBOMB:
+							break;
+						case GRENADE:
+							break;
+						case PUNCH:
+							newActor = new Item_Punch();
+
+							// Set x-y position of item (initial position)
+							newActor.setTilePosX(this
+									.obtainItemSpawnX(myMaruto));
+							newActor.setTilePosY(this
+									.obtainItemSpawnY(myMaruto));
+							newActorList.add(newActor);
+							newActorList.add(newActor);
+							break;
+						case DIAG_SONICBOMB:
+							break;
+						case RANDOM:
+							break;
+
+						default:
+							break;
+						}
+
+					} else if (movement.gettype() == DefaultValues.ACTIONS.DROP) {
+
+						switch (movement.getpowerup()) {
+						case ARRRGGGHHH:
+						case CHOCO:
+						case SONICBOMB:
+						case GRENADE:
+						case RING:
+						case YENDOR:
+						case SHIELD:
+						case SNEAKERS:
+						case INVISIBILITY:
+						case DIAG_SONICBOMB:
+
+							break;
+					
+						default:
+							 break;
+						}
+
+					} else if (movement.gettype() == DefaultValues.ACTIONS.PICK) {
+
+						switch (movement.getpowerup()) {
+						case RING:
+							break;
+						case SHIELD:
+							break;
+						case INVISIBILITY:
+							break;
+						case DIZZY:
+							break;
+						case SNEAKERS:
+							break;
+
+						case ARRRGGGHHH:
+							break;
+						case YENDOR:
+							break;
+						case CHOCO:
+							break;
+						case GRENADE:
+							break;
+						case SONICBOMB:
+							break;
+						case DIAG_SONICBOMB:
+							break;
+						case BLACKBOX:
+							break;
+							
+						default:
+							break;
+						}
+					}
+
 					myMaruto.doMovement(movement);
 
 					//Check action outcome
@@ -386,16 +524,16 @@ public class MightyWorld {
 										else 
 											myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.HIT));
 									}
-							
+
 								}
 
 							}
 							else if (nextActor instanceof BasicMaruto)
 							{
 								//Maruto Against Maruto (a headbump)
-								
+
 								myMaruto.setlife(myMaruto.getlife() - DefaultValues.MARUTO_HEADBUMP_DAMAGE);
-								
+
 								if (myMaruto.getlife() <= 0)
 								{
 									myMaruto.getMovementList().clear();
@@ -406,7 +544,7 @@ public class MightyWorld {
 									myMaruto.getMovementList().clear();
 									myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.SHIFT_HIT));
 								}
-										
+
 							}
 						}
 					}
@@ -414,6 +552,11 @@ public class MightyWorld {
 
 			}
 
+		}
+
+		// Finally Add actors to scene
+		for (Actor actor : newActorList) {
+			this.stage.addActor(actor);
 		}
 
 		return actionsPending;
@@ -463,6 +606,47 @@ public class MightyWorld {
 	}
 
 
+	public void checkRespawn()
+	{
+		Array<Actor> actorList = this.stage.getActors();
+		//Checking all actors (no unfinished movement)
+
+		//Checking Players
+		for (Actor actor : actorList)
+		{
+			if (actor instanceof BasicMaruto)
+			{
+				BasicMaruto myMaruto = (BasicMaruto) actor;
+
+				if (myMaruto.isIsrespawnable() && myMaruto.getlife() < 0)
+				{
+					if (myMaruto.getTurnsToRespawn() <= 0)
+					{
+
+						int xTile = this.generator
+								.nextInt(this.mapWidthInTiles);
+						int yTile = this.generator
+								.nextInt(this.mapHeightInTiles);
+
+						//TODO : check this tile is not water
+
+						basicMaruto.setTilePosX(xTile);
+						basicMaruto.setTilePosY(yTile);
+						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
+						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
+
+					}
+					else
+					{
+						myMaruto.setTurnsToRespawn(myMaruto.getTurnsToRespawn() -1);
+					}
+				}
+
+			}
+
+		}
+	}
+
 	/**
 	 * 
 	 * 
@@ -494,7 +678,6 @@ public class MightyWorld {
 						newActorList.add(actor);
 				}
 
-
 				newActorList.add(actor);
 			}
 			else
@@ -505,15 +688,45 @@ public class MightyWorld {
 
 	}
 
-	public ArrayList<Action> getMovementsFromAction(Action action, int moveMultiplier)
+	public ArrayList<Action> getMovementsFromAction(Action action, int moveMultiplier, boolean isPlayer)
 	{
 		ArrayList<Action> moveList = new ArrayList<Action>();
 
+		if (action.gettype() == DefaultValues.ACTIONS.RUN && isPlayer )
+		{
+			for (int i = 0; i< moveMultiplier; i++)
+				moveList.add(new Action(DefaultValues.ACTIONS.WALK));
+		}
 
+		else
+		{
+			moveList.add(action);
+		}
 
 		return moveList;
 	}
 
+	int obtainItemSpawnX(BasicMaruto myActor) {
+
+		if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.EAST) {
+			return myActor.getTilePosX() + 1;
+		} else if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.WEST) {
+			return myActor.getTilePosX() - 1;
+		} else {
+			return myActor.getTilePosX();
+		}
+
+	}
+
+	int obtainItemSpawnY(BasicMaruto myActor) {
+		if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.NORTH) {
+			return myActor.getTilePosY() + 1;
+		} else if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH) {
+			return myActor.getTilePosY() - 1;
+		} else {
+			return myActor.getTilePosY();
+		}
+	}
 
 
 }

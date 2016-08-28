@@ -1,6 +1,5 @@
 package ludum.mighty.ld36.settings;
 
-import ludum.mighty.ld36.actions.Action;
 
 /**
  * Created by dchaves on 27/08/16.
@@ -23,6 +22,24 @@ public class DefaultValues {
     public static final int POWERUP_TURNS_LIFE = 3;
     public static final int ARRRGGGHHH_TURNS_LIFE = 5;
     public static final float ARRRGGGHHH_SHIFT_PROB = (float) 0.9;
+	public static final int ARRRGGGHHH_DAMAGE = 10;
+	public static final int ARRRGGGHHH_SPEED = 1;
+	public static final int PUNCH_TURNS_LIFE = 0;
+	public static final float PUNCH_SHIFT_PROB = (float) 0.1;
+	public static final int PUNCH_DAMAGE = 2;
+	public static final int PUNCH_SPEED = 0;
+	public static final int CHOCO_TURNS_LIFE = 3;
+	public static final float CHOCO_SHIFT_PROB = (float) 0.7;
+	public static final int CHOCO_DAMAGE = 1;
+	public static final int CHOCO_SPEED = 3;
+	public static final int RANDOM_TURNS_LIFE = 4;
+	public static final float RANDOM_SHIFT_PROB = (float) 0.3;
+	public static final int RANDOM_DAMAGE = 3;
+	public static final int RANDOM_SPEED = 2;
+	public static final int GRENADE_DAMAGE = 0;
+	public static final int GRENADE_SPEED = 0;
+	public static final int GRENADE_TURNS_LIFE = 5;
+	public static final float GRENADE_SHIFT_PROB = (float) 0.0;
 
     // Enumerated values
     public enum ABSOLUTE_DIRECTIONS {NORTH, SOUTH, EAST, WEST}
@@ -30,23 +47,55 @@ public class DefaultValues {
 
     public enum RELATIVE_DIRECTIONS {FORWARD, BACKWADS, RIGHT, LEFT}
    // public enum ACTIONS {WALK, MOONWALK, RUN, PUNCH, STOP, HELP, TURN, DROP, SHOOT}
-    public enum POWERUPS {ARRRGGGHHH, YENDOR, CHOCO, GRENADE, RANDOM, SHIELD, INVISBILITY, 
-    	RING, SONICBOMB, DIAG_SONICBOMB, SNEAKERS, DIZZY, PUNCH}
+	public enum POWERUPS {
+		ARRRGGGHHH, YENDOR, CHOCO, GRENADE, RANDOM, SHIELD, INVISIBILITY,
+ RING, SONICBOMB, DIAG_SONICBOMB, SNEAKERS, DIZZY, PUNCH, BLACKBOX, EXPLOSION
+	}
 
 
-    public enum ACTIONS {RUN, WALK, TURN, MOONWALK, SHOOT, UPDATE, HIT, SHIFT_HIT, DEATH, DROP, IDLE, STOP, HELP}
+	public enum ACTIONS {
+		RUN, WALK, TURN, MOONWALK, SHOOT, PICK, HIT, SHIFT_HIT, DEATH, DROP, IDLE, STOP, HELP, CONFUSION
+	}
     	    
    
     // World constants
     public static final int TILESIZE = 32;
 
+	public static final int WORLD_SECONDS_FOR_COMMAND_INPUT = 5;
+
 	// World state
+	/*
+	 * The user enter commands and a timer goes down from 3 sec to 0. If the
+	 * timer reaches 0 or the user presses enter the world changes to
+	 * WORLD_STATE_TURN_INIT
+	 */
 	public static final int WORLD_STATE_ENTERING_COMMAND = 0;
-	public static final int WORLD_STATE_ACTION = 1;
-	public static final int WORLD_STATE_TURN_INIT = 2;
-	public static final int WORLD_STATE_TURN_END = 3;
-	public static final int WORLD_STATE_MOVEMENT_INIT = 4;
-	public static final int WORLD_STATE_MOVEMENT_END = 5;
+	/*
+	 * The world gets the actions from the users, executes the AI to get the
+	 * next action and gets the actions for other non playable actors (bullets).
+	 * These actions are translated to movements (atomic actions, for example,
+	 * the action RUN can be translated into two movements WALK performed in
+	 * sucesive movement loops) The state changes to WORLD_STATE_MOVEMENT_INIT
+	 */
+	public static final int WORLD_STATE_TURN_INIT = 1;
+	/*
+	 * The world send to every actor it's next atomic action. The actors perform
+	 * their action until finish (then they update a flag). When the movement
+	 * has finished, the world steps to WORLD_STATE_MOVEMENT_END
+	 */
+	public static final int WORLD_STATE_MOVEMENT_INIT = 2;
+	/*
+	 * Cleaning (dispose used bullets, for example). If there are actions to be
+	 * performed in this turn the world goes to WORLD_STATE_MOVEMENT_INIT. If
+	 * not it goes to WORLD_STATE_TURN_END.
+	 */
+	public static final int WORLD_STATE_MOVEMENT_END = 3;
+
+	/*
+	 * End turn tasks: respawning, update things that change per turn (powerups)
+	 * Go back to WORLD_STATE_ENTERING_COMMAND.
+	 */
+	public static final int WORLD_STATE_TURN_END = 4;
 
     // Screen values
     public static final int WAIT_TIME = 10;
