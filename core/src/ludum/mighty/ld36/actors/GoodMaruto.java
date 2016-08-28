@@ -1,17 +1,16 @@
 package ludum.mighty.ld36.actors;
 
 import ludum.mighty.ld36.actions.Action;
-import ludum.mighty.ld36.textTerminal.CommandProcessor;
 
 public class GoodMaruto extends BasicMaruto {
 
-	public GoodMaruto(CommandProcessor cm)
+	public GoodMaruto()
 	{
-		this(cm, "maruto_spreadsheet.png");
+		this("maruto_spreadsheet.png");
 	}
 	
-	public GoodMaruto(CommandProcessor cm, String textureSheet) {
-		super(cm, "maruto_spreadsheet.png");
+	public GoodMaruto(String textureSheet) {
+		super("maruto_spreadsheet.png");
 
 	}
 

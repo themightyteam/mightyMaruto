@@ -15,15 +15,9 @@ public class Action {
 
     // Constructor for actions without parameters
     public Action(DefaultValues.ACTIONS type) {
-        if ((type == DefaultValues.ACTIONS.WALK) ||
-                (type == DefaultValues.ACTIONS.MOONWALK) ||
-                (type == DefaultValues.ACTIONS.RUN) ||
-                (type == DefaultValues.ACTIONS.STOP) ||
-                (type == DefaultValues.ACTIONS.HELP)) {
             this.type = type;
             this.direction = null;
             this.powerup = null;
-        }
     }
 
     // Constructor for actions with direction parameters
@@ -51,21 +45,11 @@ public class Action {
 
     // Get relative direction of action or null if none
     public DefaultValues.RELATIVE_ROTATIONS getdirection() {
-        if ((type == DefaultValues.ACTIONS.WALK) ||
-                (type == DefaultValues.ACTIONS.MOONWALK) ||
-                (type == DefaultValues.ACTIONS.RUN) ||
-                (type == DefaultValues.ACTIONS.STOP) ||
-                (type == DefaultValues.ACTIONS.HELP)) {
-            return null;
-        }
         return this.direction;
     }
 
     // Get powerup of action or null if none
     public DefaultValues.POWERUPS getpowerup() {
-        if (!((type == DefaultValues.ACTIONS.DROP) || (type == DefaultValues.ACTIONS.SHOOT))) {
-            return null;
-        }
         return this.powerup;
     }
 

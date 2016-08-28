@@ -7,11 +7,13 @@ import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.actors.Actor_Powerup;
 import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.actors.CommonActor;
+import ludum.mighty.ld36.actors.EvilMaruto;
 import ludum.mighty.ld36.actors.GoodMaruto;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Powerup;
 import ludum.mighty.ld36.actors.Item_Punch;
 import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.textTerminal.CommandProcessor;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
 
@@ -58,6 +60,7 @@ public class MightyWorld {
 	private TextTerminal textTerminal;
 	private TimeLeftLabel timeLeftLabel;
 
+	private CommandProcessor parser;
 
 	Random generator = new Random();
 
@@ -83,7 +86,7 @@ public class MightyWorld {
 
 		stage = new Stage(sv);
 
-		this.textTerminal = new TextTerminal(new Vector2(0f, 100f), (int) Gdx.graphics.getWidth(),
+		this.textTerminal = new TextTerminal(new Vector2(0f, 100f), Gdx.graphics.getWidth(),
 				100);
 		Gdx.input.setInputProcessor(this.textTerminal);
 
@@ -95,6 +98,8 @@ public class MightyWorld {
 		this.timeLeftLabel
 				.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
 						- (float) this.timeSinceTurnStarted / 1000);
+
+		this.parser = new CommandProcessor();
 
 		// TODO: define user input here
 
@@ -117,6 +122,16 @@ public class MightyWorld {
 		switch(this.currentState)
 		{
 		case DefaultValues.WORLD_STATE_ENTERING_COMMAND:
+
+			// if something new typed we parse it and load to the actor
+			if (this.textTerminal.isThereALineNotSent()) {
+				this.textTerminal.addLine(this.parser.next(this.textTerminal
+						.getOldestUnprocessedLine()));
+				this.textTerminal.disable();
+				// this.parser.getNextAction(); // this has to be feed to the
+				// actor!
+			}
+
 			this.timeSinceTurnStarted = TimeUtils.millis()
 					- this.timeWhenTurnStarted;
 			this.timeLeftLabel
@@ -137,6 +152,7 @@ public class MightyWorld {
 			//Update turn-based items, respawn, etc
 			this.finishTurn();
 
+			this.textTerminal.enable();
 			this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 
 			break;
@@ -212,13 +228,28 @@ public class MightyWorld {
 	// Creates all players
 	private void initPlayers() {
 		// Add playable player
-		basicMaruto = new GoodMaruto(this.textTerminal.commandProcessor);
+		basicMaruto = new GoodMaruto();
 
 		// set the xy for the tiles and stage position
 		//TODO: set this position randomly
 		basicMaruto.setTilePosX(20);
 		basicMaruto.setTilePosY(20);
 		this.stage.addActor(basicMaruto);
+
+		EvilMaruto eM = new EvilMaruto();
+		eM.setTilePosX(22);
+		eM.setTilePosY(20);
+		this.stage.addActor(eM);
+
+		eM = new EvilMaruto();
+		eM.setTilePosX(22);
+		eM.setTilePosY(23);
+		this.stage.addActor(eM);
+
+		eM = new EvilMaruto();
+		eM.setTilePosX(21);
+		eM.setTilePosY(25);
+		this.stage.addActor(eM);
 
 		// TODO: Add rest of players
 	}
@@ -757,7 +788,7 @@ public class MightyWorld {
 	public ArrayList<Action> getMovementsFromAction(Action action, int moveMultiplier, boolean isPlayer)
 	{
 		ArrayList<Action> moveList = new ArrayList<Action>();
-
+		if(action == null) return moveList;
 		if (action.gettype() == DefaultValues.ACTIONS.RUN && isPlayer )
 		{
 			for (int i = 0; i< moveMultiplier; i++)

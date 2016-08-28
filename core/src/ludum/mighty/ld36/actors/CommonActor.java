@@ -146,12 +146,14 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	}
 	public void setTilePosX(int tilePosX) {
 		this.tilePosX = tilePosX;
+		this.setX(this.tilePosX * DefaultValues.TILESIZE);
 	}
 	public int getTilePosY() {
 		return tilePosY;
 	}
 	public void setTilePosY(int tilePosY) {
 		this.tilePosY = tilePosY;
+		this.setY(this.tilePosY * DefaultValues.TILESIZE);
 	}
 
 	public boolean isMoveFlag() {
