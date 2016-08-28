@@ -4,33 +4,25 @@ import java.util.Vector;
 
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.settings.DefaultValues.STATE_MOVEMENTS;
 import ludum.mighty.ld36.textTerminal.CommandProcessor;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 /**
  * Created by dchaves on 27/08/16.
  */
-public class BasicMaruto extends Actor implements BasicActor {
-    private String name = DefaultValues.ACTOR_NAME;
-    private int life = DefaultValues.ACTOR_LIFE;
-    private int punch = DefaultValues.ACTOR_PUNCH_DAMAGE;
-    private int speed = DefaultValues.ACTOR_SPEED;
-    private boolean visibility = DefaultValues.ACTOR_VISIBILITY;
+public class BasicMaruto extends CommonActor implements BasicActor {
+    
+  
+   
     private int powerlimit = DefaultValues.ACTOR_MAX_POWERUPS;
     private Vector<Powerup> powerups;
-    private DefaultValues.ABSOLUTE_DIRECTIONS facing;
-	private int tilePosX;
-	private int tilePosY;
-	private boolean isPlayable = false; // If this basic Maruto is controlled by
-										// the user
 
 	private Texture kidTexture;
 	private TextureRegion[][] kidTR;
@@ -46,15 +38,25 @@ public class BasicMaruto extends Actor implements BasicActor {
 
 	private MoveByAction mba;
 	private boolean moveFlag = false;
+		
 	
 	private CommandProcessor commandProcessor;
 	
-	public BasicMaruto(CommandProcessor cm) {
+	public BasicMaruto(CommandProcessor cm, String textureSheet) {
+		
+		this.name = DefaultValues.ACTOR_NAME;
+		
+		this.life = DefaultValues.ACTOR_LIFE;
+		this.punch = DefaultValues.ACTOR_PUNCH_DAMAGE;
+		this.speed = DefaultValues.ACTOR_SPEED;
+		this.isrespawnable = true;
+		this.canBeHit = true;
 		
 		facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
 		commandProcessor = cm;
 		
-		kidTexture = new Texture("maruto_spreadsheet.png");
+		//FIXME pass this string as a parameter, so you can use this class for maruto and evil maruto
+		kidTexture = new Texture(textureSheet);
 		kidTR = TextureRegion.split(kidTexture, KID_WIDTH, KID_HEIGHT);
 		kidTRflip = TextureRegion.split(kidTexture, KID_WIDTH, KID_HEIGHT);
         kidTRflip[0][3].flip(true, false);
@@ -153,124 +155,15 @@ public class BasicMaruto extends Actor implements BasicActor {
         // TODO: error message (audio)?
     }
 
-    @Override
-    public void rotate(DefaultValues.RELATIVE_ROTATIONS rotation) {
-        switch (this.facing) {
-            case NORTH:
-                switch (rotation) {
-                    case RIGHT:
-                        this.facing = DefaultValues.ABSOLUTE_DIRECTIONS.EAST;
-                        return;
-                    case LEFT:
-                        this.facing = DefaultValues.ABSOLUTE_DIRECTIONS.WEST;
-                        return;
-                }
-                break;
-            case SOUTH:
-                switch (rotation) {
-                    case RIGHT:
-                        this.facing = DefaultValues.ABSOLUTE_DIRECTIONS.WEST;
-                        return;
-                    case LEFT:
-                        this.facing = DefaultValues.ABSOLUTE_DIRECTIONS.EAST;
-                        return;
-                }
-                break;
-            case EAST:
-                switch (rotation) {
-                    case RIGHT:
-                        this.facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
-                        return;
-                    case LEFT:
-                        this.facing = DefaultValues.ABSOLUTE_DIRECTIONS.NORTH;
-                        return;
-                }
-                break;
-            case WEST:
-                switch (rotation) {
-                    case RIGHT:
-                        this.facing = DefaultValues.ABSOLUTE_DIRECTIONS.NORTH;
-                        return;
-                    case LEFT:
-                        this.facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
-                        return;
-                }
-                break;
-        }
-    }
 
-    @Override
-    public void setname(String name) {
-        this.name = name;
-    }
 
     @Override
     public void punch(DefaultValues.RELATIVE_DIRECTIONS direction) {
 
     }
-
-    @Override
-    public String getname() {
-        return this.name;
-    }
-
-    @Override
-    public int getlife() {
-        return this.life;
-    }
-
-    @Override
-    public int getspeed() {
-        return this.speed;
-    }
-
-    @Override
-    public int getpunch() {
-        return this.punch;
-    }
-
-    @Override
-    public boolean getvisibility() {
-        return this.visibility;
-    }
-
-    @Override
-    public DefaultValues.ABSOLUTE_DIRECTIONS getfacing() {
-        return this.facing;
-    }
-
-	@Override
-	public boolean isPlayable() {
-		return isPlayable;
-	}
-
-	@Override
-	public void setPlayable(boolean playable) {
-		this.isPlayable = playable;
-	}
-
-	@Override
-	public int getTilePosX() {
-		return this.tilePosX;
-	}
-
-	@Override
-	public void setTilePosX(int newPos) {
-		this.tilePosX = newPos;
-		this.setX(newPos * DefaultValues.TILESIZE);
-	}
-
-	@Override
-	public int getTilePosY() {
-		return this.tilePosY;
-	}
-
-	@Override
-	public void setTilePosY(int newPos) {
-		this.tilePosY = newPos;
-		this.setY(newPos * DefaultValues.TILESIZE);
-	}
-		
+    
+   
+ 
 	
 	public void checkAction() {
 		if (this.getActions().size > 0) return;
@@ -365,4 +258,19 @@ public class BasicMaruto extends Actor implements BasicActor {
 		
 		
 	}
+
+
+	@Override
+	public void doMovement(STATE_MOVEMENTS move) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
 }

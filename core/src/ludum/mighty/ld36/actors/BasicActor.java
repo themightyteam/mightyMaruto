@@ -1,6 +1,9 @@
 package ludum.mighty.ld36.actors;
 
+import java.util.ArrayList;
+
 import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.settings.DefaultValues.STATE_MOVEMENTS;
 
 /**
  * Created by dchaves on 27/08/16.
@@ -16,10 +19,14 @@ public interface BasicActor {
 
     String getname();
     int getlife();
+    int setlife(int life);
     int getspeed();
     int getpunch();
     boolean getvisibility();
     DefaultValues.ABSOLUTE_DIRECTIONS getfacing();
+    
+    public void updateMovementList(ArrayList<STATE_MOVEMENTS> movementList);
+    DefaultValues.ACTIONS getNextAction();
 
 	boolean isPlayable();
 	void setPlayable(boolean playable);
@@ -33,4 +40,6 @@ public interface BasicActor {
 	int getTilePosY();
 
 	void setTilePosY(int newPos);
+	
+	
 }
