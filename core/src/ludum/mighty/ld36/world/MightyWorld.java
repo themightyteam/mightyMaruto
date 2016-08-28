@@ -1120,8 +1120,8 @@ public class MightyWorld {
 
 						//TODO : check this tile is not water
 
-						basicMaruto.setInitialTilePosX(xTile);
-						basicMaruto.setInitialTilePosY(yTile);
+						myMaruto.setInitialTilePosX(xTile);
+						myMaruto.setInitialTilePosY(yTile);
 						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
 						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
 						myMaruto.getMovementList().clear();
