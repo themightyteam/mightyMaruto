@@ -526,9 +526,10 @@ public class MightyWorld {
 							if (myMaruto
 									.hasPowerUp(DefaultValues.POWERUPS.ARRRGGGHHH
 											.toString())) {
-								newActor.setFacing(myMaruto.getfacing());
 
 							newActor = new Item_ARRRGGGHHH();
+
+								newActor.setFacing(myMaruto.getfacing());
 
 							// Set x-y position of item (initial position)
 							newActor.setInitialTilePosX(this
