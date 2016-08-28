@@ -149,7 +149,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 			mba.setAmount(0, 0);
 			mba.setDuration(5f);
 			this.addAction(mba);
-			moveFlag = true;
+			// moveFlag = true;
 			// stopFlag = true;
 		}
 

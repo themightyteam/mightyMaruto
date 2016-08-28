@@ -168,6 +168,8 @@ public class MightyWorld {
 
 			if (this.isMovementStepFinished())
 			{
+				System.out.println("WORLD_STATE_FIRST_MOVE");
+
 				if (this.nextMovementUpdate())
 				{
 					this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_END;
@@ -249,17 +251,17 @@ public class MightyWorld {
 		EvilMaruto eM = new EvilMaruto();
 		eM.setTilePosX(22);
 		eM.setTilePosY(20);
-		// this.stage.addActor(eM);
+		this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
 		eM.setTilePosX(22);
 		eM.setTilePosY(23);
-		// this.stage.addActor(eM);
+		this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
 		eM.setTilePosX(21);
 		eM.setTilePosY(25);
-		// this.stage.addActor(eM);
+		this.stage.addActor(eM);
 
 		// TODO: Add rest of players
 	}
@@ -313,7 +315,7 @@ public class MightyWorld {
 
 			if (myActor.isMoveFlag())
 			{
-
+				System.out.println("ACTOR IS A MOTHERFUCKER");
 				allMovementsFinished = false;
 				return allMovementsFinished;
 
@@ -335,8 +337,11 @@ public class MightyWorld {
 		Array<Actor> newActorList = this.stage.getActors();
 
 		//Checking powerups
-		for (Actor actor : actorList)
-		{
+
+		for (int i = 0; i < actorList.size; i++)
+ {
+			Actor actor = actorList.get(i);
+
 			if (actor instanceof Actor_Powerup)
 			{
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
@@ -350,8 +355,10 @@ public class MightyWorld {
 					mypowerup.doMovement(movement);
 
 					//Check action outcome
-					for (Actor nextActor : actorList)
+
+					for (int j = 0; j < actorList.size; j++)
 					{
+						Actor nextActor = actorList.get(j);
 						if (nextActor != actor)
 						{
 
@@ -411,9 +418,11 @@ public class MightyWorld {
 			}
 		}
 
-		//Checking Players
-		for (Actor actor : actorList)
+		for (int i = 0; i < actorList.size; i++)
 		{
+
+			Actor actor = actorList.get(i);
+
 			//TODO
 			if (actor instanceof BasicMaruto)
 			{
@@ -619,8 +628,10 @@ public class MightyWorld {
 					myMaruto.doMovement(movement);
 
 					//Check action outcome
-					for (Actor nextActor : actorList)
+
+					for (int j = 0; j < actorList.size; j++)
 					{
+						Actor nextActor = actorList.get(j);
 						if (nextActor != actor)
 						{
 							if (nextActor instanceof Actor_Powerup)
@@ -699,8 +710,6 @@ public class MightyWorld {
 		}
 
 		return actionsPending;
-
-
 	}
 
 	/**
@@ -870,7 +879,7 @@ public class MightyWorld {
 	public Action obtainItemInBox() {
 
 		int nextItem = this.generator.nextInt(11);// FIXME: number of powerups
-													// hardcoded
+		// hardcoded
 
 		Action action = null;
 
