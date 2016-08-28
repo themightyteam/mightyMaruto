@@ -2,6 +2,7 @@ package ludum.mighty.ld36.actors;
 
 import java.util.ArrayList;
 
+import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.ABSOLUTE_DIRECTIONS;
 import ludum.mighty.ld36.settings.DefaultValues.ACTIONS;
@@ -53,7 +54,7 @@ public abstract class CommonActor extends Actor implements BasicActor {
 
 
 	@Override
-	public ACTIONS getNextAction() {
+	public Action getNextAction() {
 		// TODO Auto-generated method stub
 		//TODO return next action from parser in the case of maruto player
 

@@ -271,30 +271,34 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 			//}			
 			break;
-		case PUNCH:
+		case SHOOT:
+			switch(nextAction.getpowerup()) {
+				case PUNCH:
+					//if (moveFlag == false) {
+					switch (getfacing()) {
+						case NORTH:
+							anim = animPunchUP;
+							break;
+						case EAST:
+							anim = animPunchRIGHT;
+							break;
+						case SOUTH:
+							anim = animPunchDOWN;
+							break;
+						case WEST:
+							anim = animPunchLEFT;
+							break;
+					}
+					mba = new MoveByAction();
+					mba.setAmount(0, 0);
+					mba.setDuration(1f);
+					this.addAction(mba);
 
-			//if (moveFlag == false) {
-			switch (getfacing()) {
-			case NORTH:
-				anim = animPunchUP;
-				break;
-			case EAST:
-				anim = animPunchRIGHT;
-				break;
-			case SOUTH:
-				anim = animPunchDOWN;
-				break;
-			case WEST:
-				anim = animPunchLEFT;
-				break;
+					moveFlag = true;
+					//}
+					break;
 			}
-			mba = new MoveByAction();
-			mba.setAmount(0, 0);
-			mba.setDuration(1f);
-			this.addAction(mba);
 
-			moveFlag = true;
-			//}
 			break;
 		case TURN:
 			//if (moveFlag == false) {

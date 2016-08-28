@@ -27,7 +27,7 @@ public interface BasicActor {
     DefaultValues.ABSOLUTE_DIRECTIONS getfacing();
     
     void updateMovementList(ArrayList<STATE_MOVEMENTS> movementList);
-    DefaultValues.ACTIONS getNextAction();
+    Action getNextAction();
 
 	boolean isPlayable();
 	void setPlayable(boolean playable);
