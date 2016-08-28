@@ -9,16 +9,17 @@ public class Item_Punch extends Actor_Powerup {
 
 	public Item_Punch() {
 		this.turnsLife = DefaultValues.PUNCH_TURNS_LIFE;
-		this.life = 1;
+		this.life = Integer.MAX_VALUE;
 		this.shiftProbability = DefaultValues.PUNCH_SHIFT_PROB;
 		this.speed = DefaultValues.PUNCH_SPEED; // No speed in punch
 		this.punch = DefaultValues.PUNCH_DAMAGE;
-
+		this.name = DefaultValues.POWERUPS.PUNCH.toString();
 		// Put an idle action by default
 		ArrayList<Action> actionList = new ArrayList<Action>();
 		actionList.add(new Action(DefaultValues.ACTIONS.IDLE));
 
 		this.movementList = actionList;
+
 
 	}
 

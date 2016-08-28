@@ -488,10 +488,6 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 			System.out.println("Action Type Unknown: " + action.gettype());
 			break;
 		}
-
-
-
-
 	}
 
 	public boolean hasPowerUp(String name) {
