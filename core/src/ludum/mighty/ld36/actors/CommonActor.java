@@ -269,6 +269,13 @@ public abstract class CommonActor extends Actor implements BasicActor {
 		this.turnsToRespawn = turnsToRespawn;
 	}
 
+	public DefaultValues.ABSOLUTE_DIRECTIONS getFacing() {
+		return facing;
+	}
+
+	public void setFacing(DefaultValues.ABSOLUTE_DIRECTIONS facing) {
+		this.facing = facing;
+	}
 	
 	
 }

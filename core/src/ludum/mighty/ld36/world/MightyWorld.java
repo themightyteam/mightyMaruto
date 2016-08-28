@@ -11,8 +11,11 @@ import ludum.mighty.ld36.actors.EvilMaruto;
 import ludum.mighty.ld36.actors.GoodMaruto;
 import ludum.mighty.ld36.actors.ItemBlackBox;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
+import ludum.mighty.ld36.actors.Item_Boomerang;
+import ludum.mighty.ld36.actors.Item_Choco;
 import ludum.mighty.ld36.actors.Item_Powerup;
 import ludum.mighty.ld36.actors.Item_Punch;
+import ludum.mighty.ld36.actors.Item_SonicBoom;
 import ludum.mighty.ld36.powerUpsViewer.PowerUpsViewer;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.POWERUPS;
@@ -523,7 +526,8 @@ public class MightyWorld {
 							if (myMaruto
 									.hasPowerUp(DefaultValues.POWERUPS.ARRRGGGHHH
 											.toString())) {
-							
+								newActor.setFacing(myMaruto.getfacing());
+
 							newActor = new Item_ARRRGGGHHH();
 
 							// Set x-y position of item (initial position)
@@ -541,14 +545,20 @@ public class MightyWorld {
 
 							break;
 						case CHOCO:
+							newActor = new Item_Choco();
+
+							newActor.setFacing(myMaruto.getfacing());
+							// Set x-y position of item (initial position)
+							newActor.setInitialTilePosX(this
+									.obtainItemSpawnX(myMaruto));
+							newActor.setInitialTilePosY(this
+									.obtainItemSpawnY(myMaruto));
+							newActorList.add(newActor);
 
 							break;
 						case SONICBOMB:
-							break;
-						case GRENADE:
-							break;
-						case PUNCH:
-							newActor = new Item_Punch();
+							newActor = new Item_SonicBoom();
+							newActor.setFacing(myMaruto.getfacing());
 
 							// Set x-y position of item (initial position)
 							newActor.setInitialTilePosX(this
@@ -556,11 +566,57 @@ public class MightyWorld {
 							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
+
+							break;
+						case GRENADE:
+							newActor = new Item_SonicBoom();
+
+							newActor.setFacing(myMaruto.getfacing());
+
+							// Set x-y position of item (initial position)
+							newActor.setInitialTilePosX(this
+									.obtainItemSpawnX(myMaruto));
+							newActor.setInitialTilePosY(this
+									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
+
+							break;
+						case PUNCH:
+							newActor = new Item_Punch();
+
+							newActor.setFacing(myMaruto.getfacing());
+
+							// Set x-y position of item (initial position)
+							newActor.setInitialTilePosX(this
+									.obtainItemSpawnX(myMaruto));
+							newActor.setInitialTilePosY(this
+									.obtainItemSpawnY(myMaruto));
+							newActorList.add(newActor);
+
 							break;
 						case DIAG_SONICBOMB:
 							break;
 						case RANDOM:
+							newActor = new Item_Boomerang();
+
+							newActor.setInitialTilePosX(this
+									.obtainItemSpawnX(myMaruto));
+							newActor.setInitialTilePosY(this
+									.obtainItemSpawnY(myMaruto));
+
+							int nextFacing = this.generator.nextInt(4);
+
+							if (nextFacing == 0)
+								newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.EAST);
+							else if (nextFacing == 1)
+								newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.WEST);
+							else if (nextFacing == 2)
+								newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.NORTH);
+							else
+								newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH);
+
+							newActorList.add(newActor);
+
 							break;
 
 						default:
@@ -1135,6 +1191,7 @@ public class MightyWorld {
 			return myActor.getTilePosY();
 		}
 	}
+
 
 	public Action obtainItemInBox() {
 
