@@ -6,6 +6,7 @@ import java.util.Random;
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.actors.CommonActor;
+import ludum.mighty.ld36.actors.EvilMaruto;
 import ludum.mighty.ld36.actors.GoodMaruto;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Punch;
@@ -233,6 +234,21 @@ public class MightyWorld {
 		basicMaruto.setTilePosX(20);
 		basicMaruto.setTilePosY(20);
 		this.stage.addActor(basicMaruto);
+
+		EvilMaruto eM = new EvilMaruto();
+		eM.setTilePosX(22);
+		eM.setTilePosY(20);
+		this.stage.addActor(eM);
+
+		eM = new EvilMaruto();
+		eM.setTilePosX(22);
+		eM.setTilePosY(23);
+		this.stage.addActor(eM);
+
+		eM = new EvilMaruto();
+		eM.setTilePosX(21);
+		eM.setTilePosY(25);
+		this.stage.addActor(eM);
 
 		// TODO: Add rest of players
 	}
