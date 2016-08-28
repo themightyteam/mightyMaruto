@@ -469,9 +469,9 @@ public class MightyWorld {
 							newActor = new Item_ARRRGGGHHH();
 
 							// Set x-y position of item (initial position)
-							newActor.setTilePosX(this
+							newActor.setInitialTilePosX(this
 									.obtainItemSpawnX(myMaruto));
-							newActor.setTilePosY(this
+							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
 
@@ -487,9 +487,9 @@ public class MightyWorld {
 							newActor = new Item_Punch();
 
 							// Set x-y position of item (initial position)
-							newActor.setTilePosX(this
+							newActor.setInitialTilePosX(this
 									.obtainItemSpawnX(myMaruto));
-							newActor.setTilePosY(this
+							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
 							newActorList.add(newActor);
@@ -832,8 +832,8 @@ public class MightyWorld {
 
 						//TODO : check this tile is not water
 
-						basicMaruto.setTilePosX(xTile);
-						basicMaruto.setTilePosY(yTile);
+						basicMaruto.setInitialTilePosX(xTile);
+						basicMaruto.setInitialTilePosY(yTile);
 						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
 						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
 
