@@ -219,12 +219,17 @@ public class MightyWorld {
 			// if (this.isMovementStepFinished())
 			// {
 
+
+
 			this.updatePowerupsPlayer();
+
 
 			this.deleteOutOfBordersActors();
 			this.deletePowerups();
+
 			this.checkRespawn();
 			this.updateInventory();
+
 
 			if (this.actionsPending)
 
@@ -410,7 +415,7 @@ public class MightyWorld {
 		//Checking all actors (no unfinished movement)
 
 		// This list is to store new actors created in this movement
-		Array<Actor> newActorList = this.stage.getActors();
+		Array<Actor> newActorList = new Array<Actor>();
 
 		//Checking powerups
 
@@ -422,15 +427,18 @@ public class MightyWorld {
 			{
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
+				System.out.println("1 PUNCHED XXXXXX " + mypowerup.getName());
+
 				if (!mypowerup.isHarmfull())
 					continue;
 
+				System.out.println("2 PUNCHED XXXXXX " + mypowerup.getName());
+
 				if (mypowerup.getMovementList().size() > 0)
 				{
-
+					System.out.println("PUNCHED XXXXXX " + mypowerup.getName());
 
 					Action movement = mypowerup.getMovementList().remove(0);
-
 
 					mypowerup.doMovement(movement);
 
@@ -448,8 +456,6 @@ public class MightyWorld {
 									(otherActor.getTilePosY() == mypowerup.getTilePosY()))
 							{
 
-
-
 								//Update life
 
 								if (otherActor.isCanBeHit())
@@ -457,6 +463,8 @@ public class MightyWorld {
 
 								//life of my powerup is also diminished by 1 (losing force after collision)
 								mypowerup.setlife(mypowerup.getlife() - 1);
+
+
 
 								//If the other actor is death remove its actions and add a DEATH
 								if (otherActor.getlife() <= 0 )
@@ -593,6 +601,10 @@ public class MightyWorld {
 							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
+
+							System.out.println("Creating punch "
+									+ newActor.getTilePosX() + " "
+									+ newActor.getTilePosY());
 
 							break;
 						case DIAG_SONICBOMB:
@@ -934,6 +946,9 @@ public class MightyWorld {
 
 		}
 
+
+		System.out.println("NEW ACTORSSSSSS  " + newActorList.size);
+		
 		// Finally Add actors to scene
 		for (Actor actor : newActorList) {
 			this.stage.addActor(actor);
@@ -961,11 +976,11 @@ public class MightyWorld {
 			if (actor instanceof Actor_Powerup) {
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
-				if ((mypowerup.getTilePosX() >= this.mapWidthInTiles / 4)
+				if ((mypowerup.getTilePosX() > this.mapWidthInTiles / 4 - 2)
 						&& (mypowerup.getTilePosX() <= this.mapWidthInTiles
 								- this.mapWidthInTiles / 4)) {
 
-					if ((mypowerup.getTilePosY() >= this.mapHeightInTiles / 4)
+					if ((mypowerup.getTilePosY() >= this.mapHeightInTiles / 4 - 1)
 							&& (mypowerup.getTilePosY() <= this.mapHeightInTiles
 									- this.mapHeightInTiles / 4)) {
 
@@ -1099,6 +1114,7 @@ public class MightyWorld {
 						basicMaruto.setInitialTilePosY(yTile);
 						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
 						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
+						myMaruto.getMovementList().clear();
 
 					}
 					else
