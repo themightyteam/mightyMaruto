@@ -6,6 +6,7 @@ import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.STATE_MOVEMENTS;
 import ludum.mighty.ld36.textTerminal.CommandProcessor;
+import ludum.mighty.ld36.textTerminal.TextTerminal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -30,6 +31,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	public Animation animUP, animDOWN, animLEFT, animRIGHT,
 	                 animPunchUP, animPunchDOWN, animPunchLEFT, animPunchRIGHT,
 	                 animBlockUP, animBlockDOWN, animBlockLEFT, animBlockRIGHT,
+	                 animStopUP, animStopDOWN, animStopLEFT, animStopRIGHT,
 	                 animBirds, anim;
 	public int KID_WIDTH = 32;
 	public int KID_HEIGHT = 32;
@@ -41,7 +43,9 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		
 	
 	private CommandProcessor commandProcessor;
+	private TextTerminal textTerminal;
 	
+<<<<<<< HEAD
 	public BasicMaruto(CommandProcessor cm, String textureSheet) {
 		
 		this.name = DefaultValues.ACTOR_NAME;
@@ -51,6 +55,14 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		this.speed = DefaultValues.ACTOR_SPEED;
 		this.isrespawnable = true;
 		this.canBeHit = true;
+=======
+	private boolean stopFlag;
+	
+	public BasicMaruto(TextTerminal tt, CommandProcessor cm) {
+		
+		textTerminal = tt;
+		stopFlag = false;
+>>>>>>> 552eab270ba4abc19d4bf8237c7a89b2e8487b35
 		
 		facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
 		commandProcessor = cm;
@@ -69,6 +81,8 @@ public class BasicMaruto extends CommonActor implements BasicActor {
         
         kidTRflip[1][2].flip(true, false);
         
+        kidTRflip[1][9].flip(true, false);
+        
 		// Create animations for movement 
 		animDOWN  = new Animation(0.25f, kidTR[0][0], kidTR[0][1], kidTR[0][2], kidTR[0][1]);
 		animRIGHT  = new Animation(0.25f, kidTR[0][3], kidTR[0][4], kidTR[0][5], kidTR[0][4]);
@@ -84,6 +98,12 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		animBlockRIGHT = new Animation(0.25f, kidTR[0][4], kidTR[1][2]);
 		animBlockUP = new Animation(0.25f, kidTR[0][7], kidTR[1][0]);
 		animBlockLEFT = new Animation(0.25f, kidTRflip[0][4], kidTRflip[1][2]);
+		
+		animStopDOWN = new Animation(0.25f, kidTR[0][1], kidTR[2][9]);
+		animStopRIGHT = new Animation(0.25f, kidTR[0][4], kidTR[1][9]);
+		animStopUP = new Animation(0.25f, kidTR[0][7], kidTR[0][9]);
+		animStopLEFT = new Animation(0.25f, kidTRflip[0][4], kidTRflip[1][9]);
+		
 		
 		
 		animBirds = new Animation(0.25f, kidTRflip[3][0], kidTRflip[3][1], kidTRflip[3][2], kidTRflip[3][3]);
@@ -105,10 +125,33 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		super.act(delta);
 		if (this.getActions().size == 0) {
 			moveFlag = false;
-		}
+			
+			// Animacion de parado
+				switch (getfacing()) {
+				case NORTH:
+					anim = animStopUP;
+					break;
+				case EAST:
+					anim = animStopRIGHT;
+					break;
+				case SOUTH:
+					anim = animStopDOWN;
+					break;
+				case WEST:
+					anim = animStopLEFT;
+					break;
+				}
+				mba = new MoveByAction();
+				mba.setAmount(0, 0);
+				mba.setDuration(5f);
+				this.addAction(mba);
+				moveFlag = true;
+				stopFlag = true;
+			}
+		
 		//System.out.println("BasicMaruto: " + this.getX() + " " + this.getY());
 		
-	}
+}
 	
 	@Override
 	public void draw(Batch batch, float alpha) {
@@ -166,96 +209,123 @@ public class BasicMaruto extends CommonActor implements BasicActor {
  
 	
 	public void checkAction() {
-		if (this.getActions().size > 0) return;
+		if (this.getActions().size > 1) return;
+		if ((this.getActions().size == 1)&&(stopFlag == true)) {
 		Action ac = commandProcessor.getNextAction();
+		textTerminal.enable();
 		if (ac == null) return;
 		switch (ac.gettype()) {
 		case WALK:
-			if (moveFlag == false) {
+			//if (moveFlag == false) {
 				mba = new MoveByAction();
-				if (anim == animDOWN) {
-					mba.setAmount(0, -DefaultValues.TILESIZE);
-				} else if (anim == animUP) {
+				switch (getfacing()) {
+				case NORTH:
+					anim = animUP;
 					mba.setAmount(0, DefaultValues.TILESIZE);
-				} else if (anim == animRIGHT) {
-					mba.setAmount(DefaultValues.TILESIZE, 0);
-				} else if (anim == animLEFT) {
+					break;
+				case EAST:
+					anim = animRIGHT;
+					mba.setAmount(DefaultValues.TILESIZE, 0);				
+					break;
+				case SOUTH:
+					anim = animDOWN;
+					mba.setAmount(0, -DefaultValues.TILESIZE);
+					break;
+				case WEST:
+					anim = animLEFT;
 					mba.setAmount(-DefaultValues.TILESIZE, 0);
+					break;
 				}
 					mba.setDuration(1f);
 					this.addAction(mba);
 
 				moveFlag = true;
 
-			}			
+			//}			
 			break;
 		case MOONWALK:
-			if (moveFlag == false) {
-				mba = new MoveByAction();
-				if (anim == animDOWN) {
-					mba.setAmount(0, DefaultValues.TILESIZE);
-				} else if (anim == animUP) {
-					mba.setAmount(0, -DefaultValues.TILESIZE);
-				} else if (anim == animRIGHT) {
-					mba.setAmount(-DefaultValues.TILESIZE, 0);
-				} else if (anim == animLEFT) {
-					mba.setAmount(DefaultValues.TILESIZE, 0);
-				}
-					mba.setDuration(1f);
-					this.addAction(mba);
+			//if (moveFlag == false) {
+			mba = new MoveByAction();
+			switch (getfacing()) {
+			case NORTH:
+				anim = animUP;
+				mba.setAmount(0, -DefaultValues.TILESIZE);
+				break;
+			case EAST:
+				anim = animRIGHT;
+				mba.setAmount(-DefaultValues.TILESIZE, 0);				
+				break;
+			case SOUTH:
+				anim = animDOWN;
+				mba.setAmount(0, DefaultValues.TILESIZE);
+				break;
+			case WEST:
+				anim = animLEFT;
+				mba.setAmount(DefaultValues.TILESIZE, 0);
+				break;
+			}
+			
+			mba.setDuration(1f);
+			this.addAction(mba);
 
-				moveFlag = true;
+			moveFlag = true;
 
-			}			
+			//}			
 			break;
 		case PUNCH:
 
-				if (moveFlag == false) {
-				if (anim == animDOWN) {
-					anim = animPunchDOWN;
-				} else if (anim == animUP) {
-					anim = animPunchUP;
-				} else if (anim == animRIGHT) {
-					anim = animPunchRIGHT;
-				} else if (anim == animLEFT) {
-					anim = animPunchLEFT;
-				}
+				//if (moveFlag == false) {
+			switch (getfacing()) {
+			case NORTH:
+				anim = animPunchUP;
+				break;
+			case EAST:
+				anim = animPunchRIGHT;
+				break;
+			case SOUTH:
+				anim = animPunchDOWN;
+				break;
+			case WEST:
+				anim = animPunchLEFT;
+				break;
+			}
 				mba = new MoveByAction();
 				mba.setAmount(0, 0);
 				mba.setDuration(1f);
 				this.addAction(mba);
 				
 				moveFlag = true;
-				}
+				//}
 				break;
 		case TURN:
-				if (moveFlag == false) {
+				//if (moveFlag == false) {
 					this.rotate(ac.getdirection());
 					switch (getfacing()) {
 					case NORTH:
-						anim = animUP;
+						anim = animStopUP;
 						break;
 					case EAST:
-						anim = animRIGHT;
+						anim = animStopRIGHT;
 						break;
 					case SOUTH:
-						anim = animDOWN;
+						anim = animStopDOWN;
 						break;
 					case WEST:
-						anim = animLEFT;
+						anim = animStopLEFT;
 						break;
 					}
 					mba = new MoveByAction();
 					mba.setAmount(0, 0);
 					mba.setDuration(1f);
 					this.addAction(mba);
-				}
+				//}
+				break;
 		}
 		
 
 
 			
-		
+		}
 		
 	}
 

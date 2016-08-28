@@ -176,6 +176,7 @@ public class MightyWorld {
 	private void initPlayers() {
 		// Add playable player
 		basicMaruto = new GoodMaruto(this.textTerminal.commandProcessor);
+
 		// set the xy for the tiles and stage position
 		//TODO: set this position randomly
 		basicMaruto.setTilePosX(20);
