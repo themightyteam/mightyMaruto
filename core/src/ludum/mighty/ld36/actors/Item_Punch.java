@@ -3,7 +3,7 @@ package ludum.mighty.ld36.actors;
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
 
-public class Item_Punch extends Powerup {
+public class Item_Punch extends Actor_Powerup {
 
 	public Item_Punch() {
 		this.turnsLife = DefaultValues.PUNCH_TURNS_LIFE;
@@ -17,5 +17,8 @@ public class Item_Punch extends Powerup {
 	public void doMovement(Action action) {
 		// Nothing inside (there is no need to complete this)
 	}
+
+
+
 
 }

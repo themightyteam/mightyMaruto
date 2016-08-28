@@ -14,6 +14,12 @@ public abstract class CommonActor extends Actor implements BasicActor {
 
 	boolean visibility = DefaultValues.ACTOR_VISIBILITY;
 
+	// True if the player is affected by dizzyness
+	boolean dizzyness = false;
+
+	// True if the player has a shield
+	boolean shielded = false;
+
 	DefaultValues.ABSOLUTE_DIRECTIONS facing;
 	int tilePosX;
 	int tilePosY;

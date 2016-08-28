@@ -20,7 +20,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 
 	private int powerlimit = DefaultValues.ACTOR_MAX_POWERUPS;
-	private Vector<Powerup> powerups;
+	private Vector<Item_Powerup> powerups;
 
 	private Texture kidTexture;
 	private TextureRegion[][] kidTR;
@@ -161,10 +161,37 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	}
 
 	@Override
-	public void pickup(Powerup powerup) {
+	public void pickup(Item_Powerup powerup) {
 		if (this.powerups.size() >= this.powerlimit) { // If the actor does not have space for a new powerup
 			// TODO: error message (audio)?
 		} else { // If the actor has space for a new powerup
+
+			// Check of a powerup with this name already exists
+			for (Item_Powerup item : this.powerups) {
+				if (item.getName() == powerup.getName()) {
+					// an item with the same name already exists
+					return;
+				}
+			}
+
+			if (powerup.getType() == DefaultValues.POWERUPS.RING) {
+				this.punch += powerup.getStrengthPowerup();
+			}
+			else if (powerup.getType() == DefaultValues.POWERUPS.SNEAKERS)
+			{
+				this.speed += powerup.getSpeedPowerup();
+			}
+			else if (powerup.getType() == DefaultValues.POWERUPS.INVISIBILITY)
+			{
+				this.visibility = false;
+			}
+			else if (powerup.getType() == DefaultValues.POWERUPS.DIZZY)
+			{
+				this.dizzyness = true;
+			} else if (powerup.getType() == DefaultValues.POWERUPS.SHIELD) {
+				this.shielded = true;
+			}
+
 			this.powerups.add(powerup);
 		}
 	}
@@ -172,8 +199,8 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	@Override
 	// Drop powerup by name
 	public void drop(String name) {
-		for (Powerup pup : this.powerups) {
-			if (pup.getname().compareToIgnoreCase(name) == 0) {
+		for (Item_Powerup pup : this.powerups) {
+			if (pup.getName().compareToIgnoreCase(name) == 0) {
 				if(pup.candrop()) {
 					this.powerups.remove(pup);
 				} else { // Powerup cannot be dropped
