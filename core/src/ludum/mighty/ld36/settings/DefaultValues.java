@@ -11,7 +11,7 @@ public class DefaultValues {
     public static final int ACTOR_SPEED = 1;
     public static final int ACTOR_PUNCH_DAMAGE = 1;
     public static final boolean ACTOR_VISIBILITY = true;
-    public static final int ACTOR_MAX_POWERUPS = 5;
+	public static final int ACTOR_MAX_POWERUPS = 4;
     public static final int TURNS_TO_RESPAWN = 3;
 
 	public static final int ITEM_SNEAKER_SPEED_POWERUP = 2;

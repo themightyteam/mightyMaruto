@@ -65,6 +65,8 @@ public class MightyWorld {
 
 	private CommandProcessor parser;
 
+	boolean actionsPending = false;
+
 	Random generator = new Random();
 
 	// // WORLD API
@@ -81,9 +83,8 @@ public class MightyWorld {
 
 		this.mapRenderer = new OrthogonalTiledMapRenderer(map);
 		this.cam = new OrthographicCamera();
-		this.sv = new StretchViewport(640, 480, this.cam);
-		this.sv.apply();
-		this.cam.position.set(640, 480, 0);
+		this.sv = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), this.cam);
+		this.cam.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
 
 		batch = new SpriteBatch();
 
@@ -173,31 +174,57 @@ public class MightyWorld {
 		case DefaultValues.WORLD_STATE_MOVEMENT_INIT:
 			System.out.println("WORLD_STATE_MOVEMENT_INIT");
 
-			if (this.isMovementStepFinished())
-			{
-				if (this.nextMovementUpdate())
-				{
-					this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_END;
-				}
-				else
-				{
-					this.currentState = DefaultValues.WORLD_STATE_TURN_END;
-				}
-			} else
-				System.out.println("NOT ALL FINISHED");
+			// if (this.isMovementStepFinished())
+			// {
+				System.out.println("WORLD_STATE_FIRST_MOVE");
+
+			this.actionsPending = this.nextMovementUpdate();
+
+				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_END;
+
+
+			// } else
+			// System.out.println("NOT ALL FINISHED");
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_END:
 			System.out.println("WORLD_STATE_MOVEMENT_END");
+
+			// Checking Players
+			for (Actor actor : this.stage.getActors()) {
+				if (actor instanceof BasicMaruto) {
+					BasicMaruto myMaruto = (BasicMaruto) actor;
+
+					System.out.println("X: "
+							+ Float.toString(actor.getX())
+							+ "  TILED X: "
+							+ Integer.toString(((BasicMaruto) actor)
+									.getTilePosX())
+							+ "   Y: "
+							+ Float.toString(actor.getY())
+							+ "  TILED Y: "
+							+ Integer.toString(((BasicMaruto) actor)
+									.getTilePosY())
+
+					);
+
+				}
+
+			}
+
 			//Wait till movements are finished
-			if (this.isMovementStepFinished())
-			{
+			// if (this.isMovementStepFinished())
+			// {
 				this.finishMovement();
 				this.checkRespawn();
 				this.updateInventory();
 
+			if (this.actionsPending)
+
 				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 
-			}
+			else
+				this.currentState = DefaultValues.WORLD_STATE_TURN_END;
+			// }
 
 			break;
 		}
@@ -257,17 +284,17 @@ public class MightyWorld {
 		EvilMaruto eM = new EvilMaruto();
 		eM.setTilePosX(22);
 		eM.setTilePosY(20);
-		// this.stage.addActor(eM);
+		this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
 		eM.setTilePosX(22);
 		eM.setTilePosY(23);
-		// this.stage.addActor(eM);
+		this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
 		eM.setTilePosX(21);
 		eM.setTilePosY(25);
-		// this.stage.addActor(eM);
+		this.stage.addActor(eM);
 
 		// TODO: Add rest of players
 	}
@@ -321,7 +348,7 @@ public class MightyWorld {
 
 			if (myActor.isMoveFlag())
 			{
-
+				System.out.println("ACTOR IS A MOTHERFUCKER");
 				allMovementsFinished = false;
 				return allMovementsFinished;
 
@@ -334,7 +361,7 @@ public class MightyWorld {
 	public boolean nextMovementUpdate()
 	{
 
-		boolean actionsPending = false;
+		this.actionsPending = false;
 
 		Array<Actor> actorList = this.stage.getActors();
 		//Checking all actors (no unfinished movement)
@@ -343,8 +370,11 @@ public class MightyWorld {
 		Array<Actor> newActorList = this.stage.getActors();
 
 		//Checking powerups
-		for (Actor actor : actorList)
-		{
+
+		for (int i = 0; i < actorList.size; i++)
+ {
+			Actor actor = actorList.get(i);
+
 			if (actor instanceof Actor_Powerup)
 			{
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
@@ -358,9 +388,11 @@ public class MightyWorld {
 					mypowerup.doMovement(movement);
 
 					//Check action outcome
-					for (Actor nextActor : actorList)
+
+					for (int j = 0; j < actorList.size; j++)
 					{
-						if (nextActor != actor)
+						Actor nextActor = actorList.get(j);
+						if (i != j)
 						{
 
 							CommonActor otherActor = (CommonActor) nextActor;
@@ -419,9 +451,11 @@ public class MightyWorld {
 			}
 		}
 
-		//Checking Players
-		for (Actor actor : actorList)
+		for (int i = 0; i < actorList.size; i++)
 		{
+
+			Actor actor = actorList.get(i);
+
 			//TODO
 			if (actor instanceof BasicMaruto)
 			{
@@ -624,12 +658,16 @@ public class MightyWorld {
 						}
 					}
 
+					System.out.println("MOVE" + movement.gettype().toString());
+
 					myMaruto.doMovement(movement);
 
 					//Check action outcome
-					for (Actor nextActor : actorList)
+
+					for (int j = 0; j < actorList.size; j++)
 					{
-						if (nextActor != actor)
+						Actor nextActor = actorList.get(j);
+						if (i != j)
 						{
 							if (nextActor instanceof Actor_Powerup)
 							{
@@ -677,19 +715,30 @@ public class MightyWorld {
 							}
 							else if (nextActor instanceof BasicMaruto)
 							{
-								//Maruto Against Maruto (a headbump)
+								CommonActor otherActor = (CommonActor) nextActor;
 
-								myMaruto.setlife(myMaruto.getlife() - DefaultValues.MARUTO_HEADBUMP_DAMAGE);
+								if ((otherActor.getTilePosX() == myMaruto
+										.getTilePosX())
+										&& (otherActor.getTilePosY() == myMaruto
+												.getTilePosY())) {
 
-								if (myMaruto.getlife() <= 0)
-								{
-									myMaruto.getMovementList().clear();
-									myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
-								}
-								else
-								{
-									myMaruto.getMovementList().clear();
-									myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.SHIFT_HIT));
+									// Maruto Against Maruto (a headbump)
+
+									myMaruto.setlife(myMaruto.getlife()
+											- DefaultValues.MARUTO_HEADBUMP_DAMAGE);
+
+									if (myMaruto.getlife() <= 0) {
+										myMaruto.getMovementList().clear();
+										myMaruto.getMovementList()
+												.add(new Action(
+														DefaultValues.ACTIONS.DEATH));
+									} else {
+										myMaruto.getMovementList().clear();
+										myMaruto.getMovementList()
+												.add(new Action(
+														DefaultValues.ACTIONS.SHIFT_HIT));
+									}
+
 								}
 
 							}
@@ -707,8 +756,6 @@ public class MightyWorld {
 		}
 
 		return actionsPending;
-
-
 	}
 
 	/**
@@ -878,7 +925,7 @@ public class MightyWorld {
 	public Action obtainItemInBox() {
 
 		int nextItem = this.generator.nextInt(11);// FIXME: number of powerups
-													// hardcoded
+		// hardcoded
 
 		Action action = null;
 
@@ -935,6 +982,7 @@ public class MightyWorld {
 				BasicMaruto myMaruto = (BasicMaruto) actor;
 
 				ArrayList<String> droppableItems = new ArrayList<String>();
+
 
 				for (Item_Powerup item : myMaruto.getPowerups()) {
 					item.setDuration(item.getDuration() - 1);

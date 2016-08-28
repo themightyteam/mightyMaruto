@@ -8,10 +8,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class GameScreen extends DefaultScreen implements Screen {
 
@@ -23,7 +21,7 @@ public class GameScreen extends DefaultScreen implements Screen {
 	public GameScreen(Game game, SoundAssets sa) {
 		super(game, sa);
 
-		this.map = new TmxMapLoader().load("maps/tatami.tmx");
+		this.map = new TmxMapLoader().load("maps/tatami_50x50.tmx");
 
 		this.gameWorld = new MightyWorld();
 		this.gameWorld.init(this.map);

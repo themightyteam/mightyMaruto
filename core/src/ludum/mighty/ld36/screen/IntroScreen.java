@@ -22,21 +22,22 @@ public class IntroScreen extends DefaultScreen implements Screen {
 	OrthographicCamera cam;
 	StretchViewport sv;
 
+	
+	
 	int waitFramesForHandle = DefaultValues.WAIT_TIME;
 
 	public IntroScreen(Game game, SoundAssets sa) {
 		super(game, sa);
 
 		this.cam = new OrthographicCamera();
-		this.sv = new StretchViewport(100, 100, this.cam);
-		this.sv.apply();
-		this.cam.position.set(50, 50, 0);
+		this.sv = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), this.cam);
+		this.cam.position.set(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
 
 		this.batch = new SpriteBatch();
 		this.img = new Texture("intro.png");
 		this.spr = new Sprite(this.img);
 		this.spr.setPosition(0, 0);
-		this.spr.setSize(100, 100);
+		this.spr.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	public void render(float delta) {
@@ -57,7 +58,6 @@ public class IntroScreen extends DefaultScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		this.sv.update(width, height);
-		//this.cam.position.set(this.cam.viewportWidth / 2, this.cam.viewportHeight / 2, 0);
 	}
 
 	private void handleInput() {
