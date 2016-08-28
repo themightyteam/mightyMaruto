@@ -74,7 +74,7 @@ public class DefaultValues {
     // World constants
     public static final int TILESIZE = 32;
 
-	public static final int WORLD_SECONDS_FOR_COMMAND_INPUT = 5;
+	public static final int WORLD_SECONDS_FOR_COMMAND_INPUT = 2;
 
 	// World state
 	/*
