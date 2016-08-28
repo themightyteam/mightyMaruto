@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.ABSOLUTE_DIRECTIONS;
-import ludum.mighty.ld36.settings.DefaultValues.ACTIONS;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -236,6 +235,22 @@ public abstract class CommonActor extends Actor implements BasicActor {
 
 	public void setCanBeHit(boolean canBeHit) {
 		this.canBeHit = canBeHit;
+	}
+
+	public boolean isIsrespawnable() {
+		return isrespawnable;
+	}
+
+	public void setIsrespawnable(boolean isrespawnable) {
+		this.isrespawnable = isrespawnable;
+	}
+
+	public int getTurnsToRespawn() {
+		return turnsToRespawn;
+	}
+
+	public void setTurnsToRespawn(int turnsToRespawn) {
+		this.turnsToRespawn = turnsToRespawn;
 	}
 
 	

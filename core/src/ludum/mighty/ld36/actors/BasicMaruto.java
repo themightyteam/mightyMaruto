@@ -336,15 +336,135 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	public void doMovement(Action action) {
 		// TODO Auto-generated method stub
 
+
+		switch (action.gettype()) {
+
+		case WALK:
+			//if (moveFlag == false) {
+			mba = new MoveByAction();
+			switch (getfacing()) {
+			case NORTH:
+				anim = animUP;
+				mba.setAmount(0, DefaultValues.TILESIZE);
+				break;
+			case EAST:
+				anim = animRIGHT;
+				mba.setAmount(DefaultValues.TILESIZE, 0);				
+				break;
+			case SOUTH:
+				anim = animDOWN;
+				mba.setAmount(0, -DefaultValues.TILESIZE);
+				break;
+			case WEST:
+				anim = animLEFT;
+				mba.setAmount(-DefaultValues.TILESIZE, 0);
+				break;
+			}
+			mba.setDuration(1f);
+			this.addAction(mba);
+
+			moveFlag = true;
+
+			//}			
+			break;
+		case MOONWALK:
+			//if (moveFlag == false) {
+			mba = new MoveByAction();
+			switch (getfacing()) {
+			case NORTH:
+				anim = animUP;
+				mba.setAmount(0, -DefaultValues.TILESIZE);
+				break;
+			case EAST:
+				anim = animRIGHT;
+				mba.setAmount(-DefaultValues.TILESIZE, 0);				
+				break;
+			case SOUTH:
+				anim = animDOWN;
+				mba.setAmount(0, DefaultValues.TILESIZE);
+				break;
+			case WEST:
+				anim = animLEFT;
+				mba.setAmount(DefaultValues.TILESIZE, 0);
+				break;
+			}
+
+			mba.setDuration(1f);
+			this.addAction(mba);
+
+
+			//}			
+			break;
+		case SHOOT:
+			switch(action.getpowerup()) {
+			case PUNCH:
+				//if (moveFlag == false) {
+				switch (getfacing()) {
+				case NORTH:
+					anim = animPunchUP;
+					break;
+				case EAST:
+					anim = animPunchRIGHT;
+					break;
+				case SOUTH:
+					anim = animPunchDOWN;
+					break;
+				case WEST:
+					anim = animPunchLEFT;
+					break;
+				}
+				mba = new MoveByAction();
+				mba.setAmount(0, 0);
+				mba.setDuration(1f);
+				this.addAction(mba);
+
+				moveFlag = true;
+				//}
+				break;
+			}
+
+			break;
+
+		case TURN:
+			//if (moveFlag == false) {
+			this.rotate(nextAction.getdirection());
+			switch (getfacing()) {
+			case NORTH:
+				anim = animStopUP;
+				break;
+			case EAST:
+				anim = animStopRIGHT;
+				break;
+			case SOUTH:
+				anim = animStopDOWN;
+				break;
+			case WEST:
+				anim = animStopLEFT;
+				break;
+			}
+			mba = new MoveByAction();
+			mba.setAmount(0, 0);
+			mba.setDuration(1f);
+			this.addAction(mba);
+			//}
+			break;
+		}
+
+
+
+
 	}
 
 
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
