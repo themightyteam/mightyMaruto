@@ -1,5 +1,6 @@
 package ludum.mighty.ld36.textTerminal;
 
+import com.badlogic.gdx.graphics.Color;
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
 
@@ -18,12 +19,15 @@ public class CommandProcessor {
     private static final String[] powerups = {"arrrggghhh", "yendor", "choco", "grenade", "random" };
     private static final String[] directions = {"left","right"};
 
+    private static final Color COLOR_RESPONSE = new Color(0f, .8f, 0f, 1f);
+    private static final Color COLOR_ERROR = new Color(1f, 0f, 0f, 1f);
+
     public CommandProcessor() {
         this.commands = new Vector<Action>();
     }
 
     // Parse string to get action or list of actions
-    public String next(String line) {
+    public Line next(String line) {
 
         Action todo = null;
         Vector<Action> tempcommands = new Vector<Action>();
@@ -36,7 +40,7 @@ public class CommandProcessor {
                 // Valid command; zero additional parameters
                 if (parts.length != 1) {
                     // TODO : error "too many parameters"
-                    return getRandomString(DefaultValues.ERRORS);
+                    return new Line(getRandomString(DefaultValues.ERRORS),true,COLOR_ERROR);
                 }
                 if(command.compareToIgnoreCase("walk") == 0) {
                     todo = new Action(DefaultValues.ACTIONS.WALK);
@@ -57,7 +61,7 @@ public class CommandProcessor {
                 // Valid command; one additional parameter
                 if (parts.length != 2) {
                     // TODO : error "invalid parameter number"
-                    return getRandomString(DefaultValues.ERRORS);
+                    return new Line(getRandomString(DefaultValues.ERRORS),true,COLOR_ERROR);
                 }
                 if (command.compareToIgnoreCase("turn") == 0) {
                     if (parts[1].compareToIgnoreCase("left") == 0) {
@@ -66,7 +70,7 @@ public class CommandProcessor {
                         todo = new Action(DefaultValues.ACTIONS.TURN,DefaultValues.RELATIVE_ROTATIONS.RIGHT);
                     } else {
                         // TODO : invalid direction
-                        return getRandomString(DefaultValues.ERRORS);
+                        return new Line(getRandomString(DefaultValues.ERRORS),true,COLOR_ERROR);
                     }
                     //System.out.println("---> " + todo);
                 } else if (command.compareToIgnoreCase("drop") == 0) {
@@ -100,7 +104,7 @@ public class CommandProcessor {
                 }
             } else {
                 // TODO : invalid command
-                return getRandomString(DefaultValues.ERRORS);
+                return new Line(getRandomString(DefaultValues.ERRORS),true,COLOR_ERROR);
             }
             if (todo != null) {
                 tempcommands.add(todo);
@@ -113,7 +117,7 @@ public class CommandProcessor {
         }
         toprint = toprint.substring(0,toprint.lastIndexOf(" then "));
 
-        return toprint;
+        return new Line(toprint, true, COLOR_RESPONSE);
     }
 
     public Action getNextAction () {

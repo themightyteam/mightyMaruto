@@ -43,26 +43,12 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		
 	
 	private CommandProcessor commandProcessor;
-	private TextTerminal textTerminal;
-	
-<<<<<<< HEAD
-	public BasicMaruto(CommandProcessor cm, String textureSheet) {
-		
-		this.name = DefaultValues.ACTOR_NAME;
-		
-		this.life = DefaultValues.ACTOR_LIFE;
-		this.punch = DefaultValues.ACTOR_PUNCH_DAMAGE;
-		this.speed = DefaultValues.ACTOR_SPEED;
-		this.isrespawnable = true;
-		this.canBeHit = true;
-=======
+
 	private boolean stopFlag;
 	
-	public BasicMaruto(TextTerminal tt, CommandProcessor cm) {
-		
-		textTerminal = tt;
+	public BasicMaruto(CommandProcessor cm, String textureSheet) {
+
 		stopFlag = false;
->>>>>>> 552eab270ba4abc19d4bf8237c7a89b2e8487b35
 		
 		facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
 		commandProcessor = cm;
@@ -167,10 +153,6 @@ public class BasicMaruto extends CommonActor implements BasicActor {
         // TODO: Update position
     }
 
-    @Override
-    public void shoot(DefaultValues.RELATIVE_DIRECTIONS direction) {
-
-    }
 
     @Override
     public void pickup(Powerup powerup) {
@@ -197,13 +179,6 @@ public class BasicMaruto extends CommonActor implements BasicActor {
         // Powerup not found in inventory
         // TODO: error message (audio)?
     }
-
-
-
-    @Override
-    public void punch(DefaultValues.RELATIVE_DIRECTIONS direction) {
-
-    }
     
    
  
@@ -212,7 +187,6 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		if (this.getActions().size > 1) return;
 		if ((this.getActions().size == 1)&&(stopFlag == true)) {
 		Action ac = commandProcessor.getNextAction();
-		textTerminal.enable();
 		if (ac == null) return;
 		switch (ac.gettype()) {
 		case WALK:
@@ -337,10 +311,13 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	}
 
 
+	@Override
+	public void shoot(DefaultValues.RELATIVE_DIRECTIONS direction) {
 
+	}
 
+	@Override
+	public void punch(DefaultValues.RELATIVE_DIRECTIONS direction) {
 
-
-
-
+	}
 }
