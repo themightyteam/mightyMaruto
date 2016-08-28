@@ -471,16 +471,45 @@ public class MightyWorld {
 
 						switch (movement.getpowerup()) {
 						case ARRRGGGHHH:
+							myMaruto.drop(DefaultValues.POWERUPS.ARRRGGGHHH
+									.toString());
+							break;
 						case CHOCO:
-						case SONICBOMB:
-						case GRENADE:
-						case RING:
-						case YENDOR:
-						case SHIELD:
-						case SNEAKERS:
-						case INVISIBILITY:
-						case DIAG_SONICBOMB:
+							myMaruto.drop(DefaultValues.POWERUPS.CHOCO
+									.toString());
+							break;
 
+						case SONICBOMB:
+							myMaruto.drop(DefaultValues.POWERUPS.SONICBOMB
+									.toString());
+							break;
+						case GRENADE:
+							myMaruto.drop(DefaultValues.POWERUPS.GRENADE
+									.toString());
+							break;
+						case RING:
+							myMaruto.drop(DefaultValues.POWERUPS.RING
+									.toString());
+							break;
+						case YENDOR:
+							myMaruto.drop(DefaultValues.POWERUPS.YENDOR
+									.toString());
+							break;
+						case SHIELD:
+							myMaruto.drop(DefaultValues.POWERUPS.SHIELD
+									.toString());
+							break;
+						case SNEAKERS:
+							myMaruto.drop(DefaultValues.POWERUPS.SNEAKERS
+									.toString());
+							break;
+						case INVISIBILITY:
+							myMaruto.drop(DefaultValues.POWERUPS.INVISIBILITY
+									.toString());
+							break;
+						case DIAG_SONICBOMB:
+							myMaruto.drop(DefaultValues.POWERUPS.DIAG_SONICBOMB
+									.toString());
 							break;
 
 						default:
