@@ -123,6 +123,12 @@ public class MightyWorld {
 		{
 		case DefaultValues.WORLD_STATE_ENTERING_COMMAND:
 
+			this.timeSinceTurnStarted = TimeUtils.millis()
+					- this.timeWhenTurnStarted;
+			this.timeLeftLabel
+					.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
+							- (float) this.timeSinceTurnStarted / 1000);
+
 			// if something new typed we parse it and load to the actor
 			if (this.textTerminal.isThereALineNotSent()) {
 				this.textTerminal.addLine(this.parser.next(this.textTerminal
@@ -130,33 +136,35 @@ public class MightyWorld {
 				this.textTerminal.disable();
 				// this.parser.getNextAction(); // this has to be feed to the
 				// actor!
-			}
 
-			this.timeSinceTurnStarted = TimeUtils.millis()
-					- this.timeWhenTurnStarted;
-			this.timeLeftLabel
-					.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
-							- (float) this.timeSinceTurnStarted / 1000);
+				this.currentState = DefaultValues.WORLD_STATE_TURN_INIT;
+				this.timeLeftLabel.setTimeLeft(0);
+			}
 
 			if (this.timeSinceTurnStarted > DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT * 1000) {
 				this.currentState = DefaultValues.WORLD_STATE_TURN_INIT;
-				System.out.println("moving to state WORLD_STATE_TURN_INIT");
+				this.timeLeftLabel.setTimeLeft(0);
+				this.textTerminal.disable();
 			}
 			break;
 		case DefaultValues.WORLD_STATE_TURN_INIT:
+			System.out.println("WORLD_STATE_TURN_INIT");
 			this.checkTurnUpdate();
 			this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 			break;
 		case DefaultValues.WORLD_STATE_TURN_END:
+			System.out.println("WORLD_STATE_TURN_END");
 			//TODO: Doing Nothing?
 			//Update turn-based items, respawn, etc
 			this.finishTurn();
 
 			this.textTerminal.enable();
+			this.timeWhenTurnStarted = TimeUtils.millis();
 			this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_INIT:
+			System.out.println("WORLD_STATE_MOVEMENT_INIT");
 
 			if (this.isMovementStepFinished())
 			{
@@ -168,10 +176,11 @@ public class MightyWorld {
 				{
 					this.currentState = DefaultValues.WORLD_STATE_TURN_END;
 				}
-			}
+			} else
+				System.out.println("NOT ALL FINISHED");
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_END:
-
+			System.out.println("WORLD_STATE_MOVEMENT_END");
 			//Wait till movements are finished
 			if (this.isMovementStepFinished())
 			{
@@ -303,7 +312,10 @@ public class MightyWorld {
 
 			if (myActor.isMoveFlag())
 			{
+
 				allMovementsFinished = false;
+				return allMovementsFinished;
+
 			}
 		}
 
@@ -459,16 +471,45 @@ public class MightyWorld {
 
 						switch (movement.getpowerup()) {
 						case ARRRGGGHHH:
+							myMaruto.drop(DefaultValues.POWERUPS.ARRRGGGHHH
+									.toString());
+							break;
 						case CHOCO:
-						case SONICBOMB:
-						case GRENADE:
-						case RING:
-						case YENDOR:
-						case SHIELD:
-						case SNEAKERS:
-						case INVISIBILITY:
-						case DIAG_SONICBOMB:
+							myMaruto.drop(DefaultValues.POWERUPS.CHOCO
+									.toString());
+							break;
 
+						case SONICBOMB:
+							myMaruto.drop(DefaultValues.POWERUPS.SONICBOMB
+									.toString());
+							break;
+						case GRENADE:
+							myMaruto.drop(DefaultValues.POWERUPS.GRENADE
+									.toString());
+							break;
+						case RING:
+							myMaruto.drop(DefaultValues.POWERUPS.RING
+									.toString());
+							break;
+						case YENDOR:
+							myMaruto.drop(DefaultValues.POWERUPS.YENDOR
+									.toString());
+							break;
+						case SHIELD:
+							myMaruto.drop(DefaultValues.POWERUPS.SHIELD
+									.toString());
+							break;
+						case SNEAKERS:
+							myMaruto.drop(DefaultValues.POWERUPS.SNEAKERS
+									.toString());
+							break;
+						case INVISIBILITY:
+							myMaruto.drop(DefaultValues.POWERUPS.INVISIBILITY
+									.toString());
+							break;
+						case DIAG_SONICBOMB:
+							myMaruto.drop(DefaultValues.POWERUPS.DIAG_SONICBOMB
+									.toString());
 							break;
 
 						default:
