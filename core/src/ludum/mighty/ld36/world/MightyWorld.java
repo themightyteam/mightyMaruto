@@ -12,7 +12,9 @@ import ludum.mighty.ld36.actors.GoodMaruto;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Powerup;
 import ludum.mighty.ld36.actors.Item_Punch;
+import ludum.mighty.ld36.powerUpsViewer.PowerUpsViewer;
 import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.settings.DefaultValues.POWERUPS;
 import ludum.mighty.ld36.textTerminal.CommandProcessor;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
@@ -59,6 +61,7 @@ public class MightyWorld {
 	private SpriteBatch batch;
 	private TextTerminal textTerminal;
 	private TimeLeftLabel timeLeftLabel;
+	private PowerUpsViewer powerUpsViewer;
 
 	private CommandProcessor parser;
 
@@ -101,6 +104,10 @@ public class MightyWorld {
 						- (float) this.timeSinceTurnStarted / 1000);
 
 		this.parser = new CommandProcessor();
+
+		this.powerUpsViewer = new PowerUpsViewer(new Vector2(550f, 10f));
+		this.powerUpsViewer.setList(POWERUPS.ARRRGGGHHH, POWERUPS.CHOCO,
+				POWERUPS.INVISIBILITY, null);
 
 		// TODO: define user input here
 
@@ -258,6 +265,7 @@ public class MightyWorld {
 		this.stage.draw();
 		this.textTerminal.render(batch);
 		this.timeLeftLabel.render(batch);
+		this.powerUpsViewer.render(batch);
 	}
 
 	// // END OF WORLD API
@@ -438,7 +446,6 @@ public class MightyWorld {
 						}
 					}
 
-					actionsPending=true;
 				}
 			}
 		}
@@ -455,6 +462,8 @@ public class MightyWorld {
 
 				if (myMaruto.getMovementList().size() > 0)
 				{
+					actionsPending = true;
+
 					Action movement = myMaruto.getMovementList().remove(0);
 
 					// Check changes
@@ -719,6 +728,9 @@ public class MightyWorld {
 									myMaruto.setlife(myMaruto.getlife()
 											- DefaultValues.MARUTO_HEADBUMP_DAMAGE);
 
+									System.out
+											.println("xxxxxxxxxxxxxxx A HEADBUMP");
+
 									if (myMaruto.getlife() <= 0) {
 										myMaruto.getMovementList().clear();
 										myMaruto.getMovementList()
@@ -731,6 +743,10 @@ public class MightyWorld {
 														DefaultValues.ACTIONS.SHIFT_HIT));
 									}
 
+								}
+ else {
+									System.out
+											.println("YYYYYYYY NOT A HEADBUMP");
 								}
 
 							}
@@ -745,6 +761,14 @@ public class MightyWorld {
 		// Finally Add actors to scene
 		for (Actor actor : newActorList) {
 			this.stage.addActor(actor);
+		}
+
+		for (Actor actor : this.stage.getActors()) {
+			CommonActor myActor = (CommonActor) actor;
+
+			if (myActor.getMovementList().size() > 0) {
+				this.actionsPending = true;
+			}
 		}
 
 		return actionsPending;
