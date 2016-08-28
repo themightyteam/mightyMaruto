@@ -9,7 +9,6 @@ import ludum.mighty.ld36.actors.CommonActor;
 import ludum.mighty.ld36.actors.GoodMaruto;
 import ludum.mighty.ld36.actors.Powerup;
 import ludum.mighty.ld36.settings.DefaultValues;
-import ludum.mighty.ld36.settings.DefaultValues.ACTIONS;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
 
@@ -260,7 +259,7 @@ public class MightyWorld {
 				if (mypowerup.getMovementList().size() > 0)
 				{
 
-					STATE_MOVEMENTS movement = mypowerup.getMovementList().remove(0);
+					Action movement = mypowerup.getMovementList().remove(0);
 
 					mypowerup.setMovementFinished(false); //TODO:shold be set to true by the Actor after the render is finished
 					mypowerup.doMovement(movement);
@@ -290,7 +289,7 @@ public class MightyWorld {
 								if (otherActor.getlife() <= 0 )
 								{
 									otherActor.getMovementList().clear();
-									otherActor.getMovementList().add(DefaultValues.STATE_MOVEMENTS.DEATH);
+									otherActor.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
 								}
 								else
 								{
@@ -305,9 +304,9 @@ public class MightyWorld {
 										if (nextActor instanceof BasicMaruto)
 										{
 											if (randomProb < mypowerup.getShiftProbability())
-												otherActor.getMovementList().add(DefaultValues.STATE_MOVEMENTS.SHIFT_HIT);
+												otherActor.getMovementList().add(new Action(DefaultValues.ACTIONS.SHIFT_HIT));
 											else 
-												otherActor.getMovementList().add(DefaultValues.STATE_MOVEMENTS.HIT);
+												otherActor.getMovementList().add(new Action(DefaultValues.ACTIONS.HIT));
 
 										}
 									}
@@ -316,7 +315,7 @@ public class MightyWorld {
 								if (mypowerup.getlife() < 0 )
 								{
 									mypowerup.getMovementList().clear();
-									mypowerup.getMovementList().add(DefaultValues.STATE_MOVEMENTS.DEATH);
+									mypowerup.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
 								}
 							}
 						}
@@ -337,7 +336,7 @@ public class MightyWorld {
 
 				if (myMaruto.getMovementList().size() > 0)
 				{
-					STATE_MOVEMENTS movement = myMaruto.getMovementList().remove(0);
+					Action movement = myMaruto.getMovementList().remove(0);
 
 					myMaruto.setMovementFinished(false); //TODO:shold be set to true by the Actor after the render is finished
 					myMaruto.doMovement(movement);
@@ -368,7 +367,7 @@ public class MightyWorld {
 									if (otherActor.getlife() < 0)
 									{
 										otherActor.getMovementList().clear();
-										otherActor.getMovementList().add(DefaultValues.STATE_MOVEMENTS.DEATH);
+										otherActor.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
 									}
 
 									//Check my maruto life
@@ -376,16 +375,16 @@ public class MightyWorld {
 									if (myMaruto.getlife() <= 0 )
 									{
 										myMaruto.getMovementList().clear();
-										myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.DEATH);
+										myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
 									}
 									else
 									{
 										float randomProb = this.generator.nextFloat();
 										myMaruto.getMovementList().clear();
 										if (randomProb < myMaruto.getShiftProbability())
-											myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.SHIFT_HIT);
+											myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.SHIFT_HIT));
 										else 
-											myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.HIT);
+											myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.HIT));
 									}
 							
 								}
@@ -400,12 +399,12 @@ public class MightyWorld {
 								if (myMaruto.getlife() <= 0)
 								{
 									myMaruto.getMovementList().clear();
-									myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.DEATH);
+									myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
 								}
 								else
 								{
 									myMaruto.getMovementList().clear();
-									myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.SHIFT_HIT);
+									myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.SHIFT_HIT));
 								}
 										
 							}

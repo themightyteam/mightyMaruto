@@ -34,7 +34,7 @@ public class DefaultValues {
     	RING, SONICBOMB, DIAG_SONICBOMB, SNEAKERS, DIZZY, PUNCH}
 
 
-    public enum ACTIONS {RUN, WALK, TURN, MOONWALK, SHOOT, UPDATE, HIT, SHIFT_HIT, DEATH, DROP, IDLE}
+    public enum ACTIONS {RUN, WALK, TURN, MOONWALK, SHOOT, UPDATE, HIT, SHIFT_HIT, DEATH, DROP, IDLE, STOP, HELP}
     	    
    
     // World constants
