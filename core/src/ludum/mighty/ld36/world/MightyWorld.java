@@ -186,6 +186,7 @@ public class MightyWorld {
 			{
 				this.finishMovement();
 				this.checkRespawn();
+				this.updateInventory();
 
 				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 
@@ -910,6 +911,37 @@ public class MightyWorld {
 		}
 
 		return action;
+	}
+
+	public void updateInventory() {
+
+		Array<Actor> actorList = this.stage.getActors();
+		// Checking all actors (no unfinished movement)
+
+
+
+		// Checking powerups
+		for (Actor actor : actorList) {
+			if (actor instanceof BasicMaruto) {
+
+				BasicMaruto myMaruto = (BasicMaruto) actor;
+
+				ArrayList<String> droppableItems = new ArrayList<String>();
+
+				for (Item_Powerup item : myMaruto.getPowerups()) {
+					item.setDuration(item.getDuration() - 1);
+					if (item.getDuration() < 0) {
+						droppableItems.add(item.getName());
+					}
+				}
+
+				for (String item : droppableItems) {
+					myMaruto.drop(item);
+				}
+			}
+		}
+
+
 	}
 
 }
