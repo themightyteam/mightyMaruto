@@ -13,9 +13,7 @@ import ludum.mighty.ld36.actors.ItemBlackBox;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Powerup;
 import ludum.mighty.ld36.actors.Item_Punch;
-import ludum.mighty.ld36.powerUpsViewer.PowerUpsViewer;
 import ludum.mighty.ld36.settings.DefaultValues;
-import ludum.mighty.ld36.settings.DefaultValues.POWERUPS;
 import ludum.mighty.ld36.textTerminal.CommandProcessor;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
@@ -62,7 +60,6 @@ public class MightyWorld {
 	private SpriteBatch batch;
 	private TextTerminal textTerminal;
 	private TimeLeftLabel timeLeftLabel;
-	private PowerUpsViewer powerUpsViewer;
 
 	private CommandProcessor parser;
 
@@ -105,10 +102,6 @@ public class MightyWorld {
 						- (float) this.timeSinceTurnStarted / 1000);
 
 		this.parser = new CommandProcessor();
-
-		this.powerUpsViewer = new PowerUpsViewer(new Vector2(550f, 10f));
-		this.powerUpsViewer.setList(POWERUPS.ARRRGGGHHH, POWERUPS.CHOCO,
-				POWERUPS.INVISIBILITY, null);
 
 		// TODO: define user input here
 
@@ -266,7 +259,6 @@ public class MightyWorld {
 		this.stage.draw();
 		this.textTerminal.render(batch);
 		this.timeLeftLabel.render(batch);
-		this.powerUpsViewer.render(batch);
 	}
 
 	// // END OF WORLD API
@@ -278,23 +270,23 @@ public class MightyWorld {
 
 		// set the xy for the tiles and stage position
 		//TODO: set this position randomly
-		basicMaruto.setTilePosX(20);
-		basicMaruto.setTilePosY(20);
+		basicMaruto.setInitialTilePosX(24);
+		basicMaruto.setInitialTilePosY(24);
 		this.stage.addActor(basicMaruto);
 
 		EvilMaruto eM = new EvilMaruto();
-		eM.setTilePosX(22);
-		eM.setTilePosY(20);
+		eM.setInitialTilePosX(27);
+		eM.setInitialTilePosY(24);
 		this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
-		eM.setTilePosX(22);
-		eM.setTilePosY(23);
+		eM.setInitialTilePosX(24);
+		eM.setInitialTilePosY(27);
 		this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
-		eM.setTilePosX(21);
-		eM.setTilePosY(25);
+		eM.setInitialTilePosX(27);
+		eM.setInitialTilePosY(27);
 		this.stage.addActor(eM);
 
 		// TODO: Add rest of players
@@ -460,7 +452,6 @@ public class MightyWorld {
 						}
 					}
 
-					actionsPending=true;
 				}
 			}
 		}
@@ -477,6 +468,8 @@ public class MightyWorld {
 
 				if (myMaruto.getMovementList().size() > 0)
 				{
+					actionsPending = true;
+
 					Action movement = myMaruto.getMovementList().remove(0);
 
 					// Check changes
@@ -490,9 +483,9 @@ public class MightyWorld {
 							newActor = new Item_ARRRGGGHHH();
 
 							// Set x-y position of item (initial position)
-							newActor.setTilePosX(this
+							newActor.setInitialTilePosX(this
 									.obtainItemSpawnX(myMaruto));
-							newActor.setTilePosY(this
+							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
 
@@ -508,9 +501,9 @@ public class MightyWorld {
 							newActor = new Item_Punch();
 
 							// Set x-y position of item (initial position)
-							newActor.setTilePosX(this
+							newActor.setInitialTilePosX(this
 									.obtainItemSpawnX(myMaruto));
-							newActor.setTilePosY(this
+							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
 							newActorList.add(newActor);
@@ -741,6 +734,9 @@ public class MightyWorld {
 									myMaruto.setlife(myMaruto.getlife()
 											- DefaultValues.MARUTO_HEADBUMP_DAMAGE);
 
+									System.out
+											.println("xxxxxxxxxxxxxxx A HEADBUMP");
+
 									if (myMaruto.getlife() <= 0) {
 										myMaruto.getMovementList().clear();
 										myMaruto.getMovementList()
@@ -753,6 +749,10 @@ public class MightyWorld {
 														DefaultValues.ACTIONS.SHIFT_HIT));
 									}
 
+								}
+ else {
+									System.out
+											.println("YYYYYYYY NOT A HEADBUMP");
 								}
 
 							}
@@ -767,6 +767,14 @@ public class MightyWorld {
 		// Finally Add actors to scene
 		for (Actor actor : newActorList) {
 			this.stage.addActor(actor);
+		}
+
+		for (Actor actor : this.stage.getActors()) {
+			CommonActor myActor = (CommonActor) actor;
+
+			if (myActor.getMovementList().size() > 0) {
+				this.actionsPending = true;
+			}
 		}
 
 		return actionsPending;
@@ -838,8 +846,8 @@ public class MightyWorld {
 
 						//TODO : check this tile is not water
 
-						basicMaruto.setTilePosX(xTile);
-						basicMaruto.setTilePosY(yTile);
+						basicMaruto.setInitialTilePosX(xTile);
+						basicMaruto.setInitialTilePosY(yTile);
 						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
 						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
 
