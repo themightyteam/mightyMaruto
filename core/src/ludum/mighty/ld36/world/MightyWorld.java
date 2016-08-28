@@ -848,9 +848,21 @@ public class MightyWorld {
 					{
 
 						int xTile = this.generator
-								.nextInt(this.mapWidthInTiles);
+								.nextInt(this.mapWidthInTiles) / 2; // FIXME:
+																	// nhapa:
+																	// dentro
+																	// del
+																	// tatami
 						int yTile = this.generator
-								.nextInt(this.mapHeightInTiles);
+								.nextInt(this.mapHeightInTiles) / 2; // FIXME:
+																		// nhapa
+																		// dentro
+																		// del
+																		// tatami
+
+						xTile += this.mapWidthInTiles / 4;
+
+						yTile += this.generator.nextInt(this.mapWidthInTiles) / 4;
 
 						//TODO : check this tile is not water
 
