@@ -125,6 +125,7 @@ public class MightyWorld {
 			if (this.textTerminal.isThereALineNotSent()) {
 				this.textTerminal.addLine(this.parser.next(this.textTerminal
 						.getOldestUnprocessedLine()));
+				this.textTerminal.disable();
 				// this.parser.getNextAction(); // this has to be feed to the
 				// actor!
 			}

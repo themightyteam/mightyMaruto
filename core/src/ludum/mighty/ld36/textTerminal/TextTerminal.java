@@ -24,8 +24,6 @@ public class TextTerminal implements InputProcessor {
     private static final Color COLOR_INPUT = new Color(0f, 1f, 0f, 1f);
 	// public CommandProcessor commandProcessor;
 
-    private boolean isdone = false;
-
     private BitmapFont bitmapFont;
     private float boxStartPointX;
     private float boxStartPointY;
@@ -158,8 +156,6 @@ public class TextTerminal implements InputProcessor {
         if (keycode == Keys.ENTER) {
             this.linesList.add(new Line(this.currentString));
 			// this.linesList.add(this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2)));
-            this.isdone = true;
-            //this.enabled = false;
             this.currentString = this.prompt;
         }
         if (keycode == Keys.BACKSPACE) {
@@ -189,15 +185,14 @@ public class TextTerminal implements InputProcessor {
         return false;
     }
 
-    public boolean isdone() {
-        boolean result = this.isdone;
-        this.isdone = false;
-        return result;
-    }
 
     public void enable(){
         this.enabled = true;
     }
+
+	public void disable() {
+		this.enabled = false;
+	}
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
