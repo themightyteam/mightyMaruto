@@ -31,7 +31,9 @@ public class Action {
 
     // Constructor for actions with powerup parameters
     public Action(DefaultValues.ACTIONS type, DefaultValues.POWERUPS powerup) {
-        if ((type == DefaultValues.ACTIONS.DROP) || (type == DefaultValues.ACTIONS.SHOOT)) {
+		if ((type == DefaultValues.ACTIONS.DROP)
+				|| (type == DefaultValues.ACTIONS.SHOOT)
+				|| (type == DefaultValues.ACTIONS.PICK)) {
             this.type = type;
             this.powerup = powerup;
             this.direction = null;

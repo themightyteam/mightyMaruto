@@ -400,7 +400,7 @@ public class MightyWorld {
 			{
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
-				if (!!mypowerup.isHarmful())
+				if (!mypowerup.isHarmfull())
 					continue;
 
 				if (mypowerup.getMovementList().size() > 0)
@@ -685,9 +685,65 @@ public class MightyWorld {
 							break;
 						case BLACKBOX:
 
-							Action nextAction = this.obtainItemInBox();
-							// Grab the item in the next movement
-							myMaruto.getMovementList().add(0, nextAction);
+							for (int j = 0; j < actorList.size; j++)
+							{
+								
+								Actor possibleItem = actorList.get(j);	
+							
+								// Handling the special case of ItemBlackBox
+								if (possibleItem instanceof ItemBlackBox) {
+									
+									ItemBlackBox itemActor = (ItemBlackBox) possibleItem;
+									if ((itemActor.getTilePosX() == myMaruto.getTilePosX()) &&
+											(itemActor.getTilePosY() == myMaruto.getTilePosY()))
+									{
+										if ((itemActor.getTilePosX() == myMaruto
+												.getTilePosX())
+												&& (itemActor.getTilePosY() == myMaruto
+														.getTilePosY())) {
+
+											// Pick the object
+										
+											Action nextAction = this
+													.obtainItemInBox();
+											// Grab the item in the next
+											// movement
+											myMaruto.getMovementList().add(0,
+													nextAction);
+
+											// Respawn the object
+											int xTile = this.generator
+													.nextInt(this.mapWidthInTiles) / 2; // FIXME:
+											// nhapa:
+											// dentro
+											// del
+											// tatami
+											int yTile = this.generator
+													.nextInt(this.mapHeightInTiles) / 2; // FIXME:
+											// nhapa
+											// dentro
+											// del
+											// tatami
+
+											xTile += this.mapWidthInTiles / 4;
+
+											yTile += this.generator
+													.nextInt(this.mapWidthInTiles) / 4;
+
+											itemActor.setX(xTile);
+											itemActor.setY(yTile);
+
+										}
+										
+									
+									}
+
+								}
+
+								
+							}
+							
+
 
 							break;
 
@@ -715,6 +771,13 @@ public class MightyWorld {
 										(otherActor.getTilePosY() == myMaruto.getTilePosY()))
 								{
 
+									// Handling the special case of ItemBlackBox
+									if (otherActor instanceof ItemBlackBox) {
+
+										continue;
+									}
+
+									// Normal items
 
 									//Update life
 									otherActor.setlife(otherActor.getlife() - 1);
