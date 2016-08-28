@@ -7,13 +7,13 @@ import ludum.mighty.ld36.settings.DefaultValues.RELATIVE_ROTATIONS;
 /**
  * Created by dchaves on 27/08/16.
  */
-public abstract class Powerup extends CommonActor {
-    private boolean canbedropped = DefaultValues.POWERUP_CAN_BE_DROPPED;
+public abstract class Actor_Powerup extends CommonActor {
+
     
     boolean isLifeLimitedByTime;
     int turnsLife;
     
-    public Powerup()
+    public Actor_Powerup()
     {
     	this.isrespawnable = false;
     	this.isLifeLimitedByTime = true;
@@ -22,9 +22,6 @@ public abstract class Powerup extends CommonActor {
     }
     
     
-    public boolean candrop() {
-        return this.canbedropped;
-    }
 
 
 	@Override
@@ -39,11 +36,7 @@ public abstract class Powerup extends CommonActor {
 		
 	}
 
-	@Override
-	public void pickup(Powerup powerup) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public void drop(String powerup) {
@@ -85,7 +78,11 @@ public abstract class Powerup extends CommonActor {
 	}
 
 
+	@Override
+	public void pickup(Item_Powerup powerup) {
+		// TODO Auto-generated method stub
 
+	}
 
 
 
