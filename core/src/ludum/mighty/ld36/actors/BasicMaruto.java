@@ -56,7 +56,6 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		this.speed = DefaultValues.ACTOR_SPEED;
 		this.isrespawnable = true;
 		this.canBeHit = true;
-		textTerminal = tt;
 		stopFlag = false;
 
 		facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
