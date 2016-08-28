@@ -176,7 +176,8 @@ public class MightyWorld {
 				{
 					this.currentState = DefaultValues.WORLD_STATE_TURN_END;
 				}
-			}
+			} else
+				System.out.println("NOT ALL FINISHED");
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_END:
 			System.out.println("WORLD_STATE_MOVEMENT_END");
@@ -312,7 +313,10 @@ public class MightyWorld {
 
 			if (myActor.isMoveFlag())
 			{
+
 				allMovementsFinished = false;
+				return allMovementsFinished;
+
 			}
 		}
 

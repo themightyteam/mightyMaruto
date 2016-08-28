@@ -28,8 +28,9 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	public Animation animUP, animDOWN, animLEFT, animRIGHT,
 	animPunchUP, animPunchDOWN, animPunchLEFT, animPunchRIGHT,
 	animBlockUP, animBlockDOWN, animBlockLEFT, animBlockRIGHT,
+	animHitUP, animHitDOWN, animHitLEFT, animHitRIGHT,	
 	animStopUP, animStopDOWN, animStopLEFT, animStopRIGHT,
-	animBirds, anim;
+	animBirds, animDeath, anim;
 	public int KID_WIDTH = 32;
 	public int KID_HEIGHT = 32;
 
@@ -68,8 +69,11 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		kidTRflip[2][5].flip(true, false);
 
 		kidTRflip[1][2].flip(true, false);
-
+		kidTRflip[1][7].flip(true, false);
 		kidTRflip[1][9].flip(true, false);
+		
+		
+		
 
 		// Create animations for movement 
 		animDOWN  = new Animation(0.25f, kidTR[0][0], kidTR[0][1], kidTR[0][2], kidTR[0][1]);
@@ -80,7 +84,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		animPunchDOWN = new Animation(0.25f, kidTR[0][1], kidTR[2][0], kidTR[2][1], kidTR[2][2]);
 		animPunchRIGHT = new Animation(0.25f, kidTR[0][4], kidTR[2][3], kidTR[2][4], kidTR[2][5]);
 		animPunchUP = new Animation(0.25f, kidTR[0][7], kidTR[2][6], kidTR[2][7], kidTR[2][8]);
-		animPunchLEFT = new Animation(0.25f, kidTRflip[0][5], kidTRflip[2][3], kidTRflip[2][4], kidTRflip[2][5]);		
+		animPunchLEFT = new Animation(0.25f, kidTRflip[0][4], kidTRflip[2][3], kidTRflip[2][4], kidTRflip[2][5]);		
 
 		animBlockDOWN = new Animation(0.25f, kidTR[0][1], kidTR[1][1]);
 		animBlockRIGHT = new Animation(0.25f, kidTR[0][4], kidTR[1][2]);
@@ -92,9 +96,17 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		animStopUP = new Animation(0.25f, kidTR[0][7], kidTR[0][9]);
 		animStopLEFT = new Animation(0.25f, kidTRflip[0][4], kidTRflip[1][9]);
 
+		animHitDOWN = new Animation(0.25f, kidTR[0][1], kidTR[1][5], kidTR[1][6], kidTR[0][1]);
+		animHitRIGHT = new Animation(0.25f, kidTR[0][4], kidTR[1][7], kidTR[1][8], kidTR[0][4]);
+		animHitUP = new Animation(0.25f, kidTR[0][7], kidTR[1][3], kidTR[1][4], kidTR[0][7]);
+		animHitLEFT = new Animation(0.25f, kidTRflip[0][4], kidTRflip[1][7], kidTRflip[1][8], kidTRflip[0][4]);		
 
+	
 
 		animBirds = new Animation(0.25f, kidTRflip[3][0], kidTRflip[3][1], kidTRflip[3][2], kidTRflip[3][3]);
+		animDeath = new Animation(0.25f, kidTR[3][4]);
+		
+		
 		// Set initial position of the kid
 		anim = animDOWN;
 		//setPosition(0, 0);
@@ -287,6 +299,252 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	 * }
 	 */
 
+	
+	
+	private void doMovementWalk() {
+		
+		mba = new MoveByAction();
+		
+		switch (facing) {
+
+		case NORTH:
+
+			// Logic here (moving tiles)
+			this.tilePosY = this.tilePosY + 1;
+
+			anim = animUP;
+			mba.setAmount(0, DefaultValues.TILESIZE);
+			break;
+
+		case EAST:
+
+			// Logic here (moving tiles)
+			this.tilePosX = this.tilePosX + 1;
+
+			anim = animRIGHT;
+			mba.setAmount(DefaultValues.TILESIZE, 0);				
+			break;
+		
+		case SOUTH:
+			// Logic here
+			this.tilePosY = this.tilePosY - 1;
+
+			anim = animDOWN;
+			mba.setAmount(0, -DefaultValues.TILESIZE);
+			break;
+		
+		case WEST:
+
+			// Logic here
+			this.tilePosX = this.tilePosX - 1;
+
+			anim = animLEFT;
+			mba.setAmount(-DefaultValues.TILESIZE, 0);
+			break;
+		}
+		
+		mba.setDuration(1f);
+		this.addAction(mba);
+
+		moveFlag = true;
+	
+	}
+	
+	
+	
+	private void doMovementMoonWalk() {
+		//if (moveFlag == false) {
+		mba = new MoveByAction();
+		switch (getfacing()) {
+		case NORTH:
+
+			// Logic here (moving tiles)
+			this.tilePosY = this.tilePosY - 1;
+
+			anim = animUP;
+			mba.setAmount(0, -DefaultValues.TILESIZE);
+			break;
+		case EAST:
+
+			// Logic here (moving tiles)
+			this.tilePosX = this.tilePosX - 1;
+
+			anim = animRIGHT;
+			mba.setAmount(-DefaultValues.TILESIZE, 0);				
+			break;
+		case SOUTH:
+
+			// Logic here (moving tiles)
+			this.tilePosY = this.tilePosY + 1;
+
+			anim = animDOWN;
+			mba.setAmount(0, DefaultValues.TILESIZE);
+			break;
+		case WEST:
+
+			// Logic here (moving tiles)
+			this.tilePosX = this.tilePosX + 1;
+
+			anim = animLEFT;
+			mba.setAmount(DefaultValues.TILESIZE, 0);
+			break;
+		}
+
+		mba.setDuration(1f);
+		this.addAction(mba);
+
+	}
+	
+	private void doMovementShoot() {
+		switch (facing) {
+		case NORTH:
+			anim = animPunchUP;
+			break;
+		case EAST:
+			anim = animPunchRIGHT;
+			break;
+		case SOUTH:
+			anim = animPunchDOWN;
+			break;
+		case WEST:
+			anim = animPunchLEFT;
+			break;
+		}
+		mba = new MoveByAction();
+		mba.setAmount(0, 0);
+		mba.setDuration(1f);
+		this.addAction(mba);
+
+		moveFlag = true;
+	}
+	
+	
+	private void doMovementTurn() {
+		this.rotate(nextAction.getdirection());
+		switch (getfacing()) {
+		case NORTH:
+			anim = animStopUP;
+			break;
+		case EAST:
+			anim = animStopRIGHT;
+			break;
+		case SOUTH:
+			anim = animStopDOWN;
+			break;
+		case WEST:
+			anim = animStopLEFT;
+			break;
+		}
+		mba = new MoveByAction();
+		mba.setAmount(0, 0);
+		mba.setDuration(1f);
+		this.addAction(mba);
+		//}
+	}
+
+	
+	
+	private void doMovementBlock() {
+		switch (getfacing()) {
+		case NORTH:
+			anim = animBlockUP;
+			break;
+		case EAST:
+			anim = animBlockRIGHT;
+			break;
+		case SOUTH:
+			anim = animBlockDOWN;
+			break;
+		case WEST:
+			anim = animBlockLEFT;
+			break;
+		}
+		mba = new MoveByAction();
+		mba.setAmount(0, 0);
+		mba.setDuration(1f);
+		this.addAction(mba);
+
+		moveFlag = true;
+	}
+	
+	
+	
+	public void doMovementConfusion() {
+		anim = animBirds;
+		mba = new MoveByAction();
+		mba.setAmount(0, 0);
+		mba.setDuration(5f);
+	}
+	
+	
+	
+	public void doMovementHit() {
+		switch (getfacing()) {
+		case NORTH:
+			anim = animHitUP;
+			break;
+		case EAST:
+			anim = animHitRIGHT;
+			break;
+		case SOUTH:
+			anim = animHitDOWN;
+			break;
+		case WEST:
+			anim = animHitLEFT;
+			break;
+		}
+		mba = new MoveByAction();
+		mba.setAmount(0, 0);
+		mba.setDuration(1f);
+		this.addAction(mba);
+
+		moveFlag = true;		
+	}
+	
+	
+	
+	public void doMovementShiftHit() {
+		mba = new MoveByAction();
+		switch (getfacing()) {
+		case NORTH:
+
+			// Logic here (moving tiles)
+			this.tilePosY = this.tilePosY - 1;
+
+			anim = animHitUP;
+			mba.setAmount(0, -DefaultValues.TILESIZE);
+			break;
+		case EAST:
+
+			// Logic here (moving tiles)
+			this.tilePosX = this.tilePosX - 1;
+
+			anim = animHitRIGHT;
+			mba.setAmount(-DefaultValues.TILESIZE, 0);				
+			break;
+		case SOUTH:
+
+			// Logic here (moving tiles)
+			this.tilePosY = this.tilePosY + 1;
+
+			anim = animHitDOWN;
+			mba.setAmount(0, DefaultValues.TILESIZE);
+			break;
+		case WEST:
+
+			// Logic here (moving tiles)
+			this.tilePosX = this.tilePosX + 1;
+
+			anim = animHitLEFT;
+			mba.setAmount(DefaultValues.TILESIZE, 0);
+			break;
+		}
+		mba.setDuration(1f);
+		this.addAction(mba);
+
+		moveFlag = true;		
+	}	
+	
 	@Override
 	public void doMovement(Action action) {
 		// TODO Auto-generated method stub
@@ -295,141 +553,48 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		switch (action.gettype()) {
 
 		case WALK:
-			//if (moveFlag == false) {
-			mba = new MoveByAction();
-			switch (getfacing()) {
-			case NORTH:
-
-				// Logic here (moving tiles)
-				this.tilePosY = this.tilePosY + 1;
-
-				anim = animUP;
-				mba.setAmount(0, DefaultValues.TILESIZE);
-				break;
-			case EAST:
-
-				// Logic here (moving tiles)
-				this.tilePosX = this.tilePosX + 1;
-
-				anim = animRIGHT;
-				mba.setAmount(DefaultValues.TILESIZE, 0);				
-				break;
-			case SOUTH:
-				// Logic here
-				this.tilePosY = this.tilePosY - 1;
-
-				anim = animDOWN;
-				mba.setAmount(0, -DefaultValues.TILESIZE);
-				break;
-			case WEST:
-
-				// Logic here
-				this.tilePosX = this.tilePosX - 1;
-
-				anim = animLEFT;
-				mba.setAmount(-DefaultValues.TILESIZE, 0);
-				break;
-			}
-			mba.setDuration(1f);
-			this.addAction(mba);
-
-			moveFlag = true;
-
-			//}			
+			doMovementWalk();	
 			break;
 		case MOONWALK:
-			//if (moveFlag == false) {
-			mba = new MoveByAction();
-			switch (getfacing()) {
-			case NORTH:
-
-				// Logic here (moving tiles)
-				this.tilePosY = this.tilePosY - 1;
-
-				anim = animUP;
-				mba.setAmount(0, -DefaultValues.TILESIZE);
-				break;
-			case EAST:
-
-				// Logic here (moving tiles)
-				this.tilePosX = this.tilePosX - 1;
-
-				anim = animRIGHT;
-				mba.setAmount(-DefaultValues.TILESIZE, 0);				
-				break;
-			case SOUTH:
-
-				// Logic here (moving tiles)
-				this.tilePosY = this.tilePosY + 1;
-
-				anim = animDOWN;
-				mba.setAmount(0, DefaultValues.TILESIZE);
-				break;
-			case WEST:
-
-				// Logic here (moving tiles)
-				this.tilePosX = this.tilePosX + 1;
-
-				anim = animLEFT;
-				mba.setAmount(DefaultValues.TILESIZE, 0);
-				break;
-			}
-
-			mba.setDuration(1f);
-			this.addAction(mba);
-
-
-			//}			
+			doMovementMoonWalk();
 			break;
 		case SHOOT:
-
-			// if (moveFlag == false) {
-			switch (getfacing()) {
-			case NORTH:
-				anim = animPunchUP;
-				break;
-			case EAST:
-				anim = animPunchRIGHT;
-				break;
-			case SOUTH:
-				anim = animPunchDOWN;
-				break;
-			case WEST:
-				anim = animPunchLEFT;
-				break;
-			}
-			mba = new MoveByAction();
-			mba.setAmount(0, 0);
-			mba.setDuration(1f);
-			this.addAction(mba);
-
-			moveFlag = true;
-			// }
+			doMovementShoot();
 			break;
-
-
 		case TURN:
-			//if (moveFlag == false) {
-			this.rotate(nextAction.getdirection());
-			switch (getfacing()) {
-			case NORTH:
-				anim = animStopUP;
-				break;
-			case EAST:
-				anim = animStopRIGHT;
-				break;
-			case SOUTH:
-				anim = animStopDOWN;
-				break;
-			case WEST:
-				anim = animStopLEFT;
-				break;
-			}
-			mba = new MoveByAction();
-			mba.setAmount(0, 0);
-			mba.setDuration(1f);
-			this.addAction(mba);
-			//}
+			doMovementTurn();
+			break;
+		case BLOCK:
+			doMovementBlock();
+			break;
+		case CONFUSION:
+			doMovementConfusion();
+			break;	
+		case DEATH:
+			//anim = animDeath;
+			break;
+		case DROP:
+			//anim = animDrop;
+			break;
+		case HELP:
+			break;
+		case HIT:
+			doMovementHit();
+			break;
+		case IDLE:
+			break;
+		case PICK:
+			break;
+		case RUN:
+			break;
+		case SHIFT_HIT:
+			doMovementShiftHit();
+			break;
+		case STOP:
+			break;
+		
+		default:
+			System.out.println("Action Type Unknown: " + action.gettype());
 			break;
 		}
 
