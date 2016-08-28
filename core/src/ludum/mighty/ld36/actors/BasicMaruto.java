@@ -4,8 +4,6 @@ import java.util.Vector;
 
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
-import ludum.mighty.ld36.textTerminal.CommandProcessor;
-import ludum.mighty.ld36.textTerminal.TextTerminal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -39,16 +37,11 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 	private MoveByAction mba;
 
-
-
-	private CommandProcessor commandProcessor;
-	private TextTerminal textTerminal;
-
 	// private boolean stopFlag;
 
 	Action nextAction;
 
-	public BasicMaruto(CommandProcessor cm,  String textureSheet) {
+	public BasicMaruto(String textureSheet) {
 
 		this.name = DefaultValues.ACTOR_NAME;
 
@@ -62,7 +55,6 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		// stopFlag = false;
 
 		facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
-		commandProcessor = cm;
 
 		kidTexture = new Texture(textureSheet);
 		kidTR = TextureRegion.split(kidTexture, KID_WIDTH, KID_HEIGHT);

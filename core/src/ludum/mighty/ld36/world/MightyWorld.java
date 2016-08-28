@@ -11,6 +11,7 @@ import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Punch;
 import ludum.mighty.ld36.actors.Powerup;
 import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.textTerminal.CommandProcessor;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
 
@@ -57,6 +58,7 @@ public class MightyWorld {
 	private TextTerminal textTerminal;
 	private TimeLeftLabel timeLeftLabel;
 
+	private CommandProcessor parser;
 
 	Random generator = new Random();
 
@@ -95,6 +97,8 @@ public class MightyWorld {
 				.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
 						- (float) this.timeSinceTurnStarted / 1000);
 
+		this.parser = new CommandProcessor();
+
 		// TODO: define user input here
 
 		this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
@@ -116,6 +120,15 @@ public class MightyWorld {
 		switch(this.currentState)
 		{
 		case DefaultValues.WORLD_STATE_ENTERING_COMMAND:
+
+			// if something new typed we parse it and load to the actor
+			if (this.textTerminal.isThereALineNotSent()) {
+				this.textTerminal.addLine(this.parser.next(this.textTerminal
+						.getOldestUnprocessedLine()));
+				// this.parser.getNextAction(); // this has to be feed to the
+				// actor!
+			}
+
 			this.timeSinceTurnStarted = TimeUtils.millis()
 					- this.timeWhenTurnStarted;
 			this.timeLeftLabel
@@ -211,7 +224,7 @@ public class MightyWorld {
 	// Creates all players
 	private void initPlayers() {
 		// Add playable player
-		basicMaruto = new GoodMaruto(this.textTerminal.commandProcessor);
+		basicMaruto = new GoodMaruto();
 
 		// set the xy for the tiles and stage position
 		//TODO: set this position randomly

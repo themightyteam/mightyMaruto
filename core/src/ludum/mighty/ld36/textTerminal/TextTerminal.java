@@ -1,6 +1,10 @@
 package ludum.mighty.ld36.textTerminal;
 
+import static ludum.mighty.ld36.settings.DefaultValues.LINELENGTH;
+
 import java.util.ArrayList;
+
+import ludum.mighty.ld36.settings.DefaultValues;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -14,14 +18,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
-import ludum.mighty.ld36.settings.DefaultValues;
-
-import static ludum.mighty.ld36.settings.DefaultValues.LINELENGTH;
 
 public class TextTerminal implements InputProcessor {
 
     private static final Color COLOR_INPUT = new Color(0f, 1f, 0f, 1f);
-    public CommandProcessor commandProcessor;
+	// public CommandProcessor commandProcessor;
 
     private boolean isdone = false;
 
@@ -57,7 +58,6 @@ public class TextTerminal implements InputProcessor {
         this.boxHeigh = height;
         this.hMargin = 5;
         this.vMargin = 5;
-        this.commandProcessor = new CommandProcessor();
 
         this.backgroudColor = new Color(0f, 0f, 0f, .5f);
 
@@ -134,17 +134,30 @@ public class TextTerminal implements InputProcessor {
             if (l.hasBeenSent())
                 continue;
             l.hasBeenSent(true);
-            return l.getText();
+			return l.getText().substring(2); // TODO: this substring is not good
         }
         return null;
     }
+
+	public boolean isThereALineNotSent() {
+		for (Line l : this.linesList) {
+			if (l.hasBeenSent())
+				continue;
+			return true;
+		}
+		return false;
+	}
+
+	public void addLine(Line line) {
+		this.linesList.add(line);
+	}
 
     @Override
     public boolean keyDown(int keycode) {
         if(!this.enabled) return false;
         if (keycode == Keys.ENTER) {
             this.linesList.add(new Line(this.currentString));
-            this.linesList.add(this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2)));
+			// this.linesList.add(this.commandProcessor.next(this.getOldestUnprocessedLine().substring(2)));
             this.isdone = true;
             //this.enabled = false;
             this.currentString = this.prompt;
