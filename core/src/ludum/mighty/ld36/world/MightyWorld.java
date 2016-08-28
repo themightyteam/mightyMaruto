@@ -62,6 +62,8 @@ public class MightyWorld {
 
 	private CommandProcessor parser;
 
+	boolean actionsPending = false;
+
 	Random generator = new Random();
 
 	// // WORLD API
@@ -166,17 +168,17 @@ public class MightyWorld {
 		case DefaultValues.WORLD_STATE_MOVEMENT_INIT:
 			System.out.println("WORLD_STATE_MOVEMENT_INIT");
 
-			if (this.isMovementStepFinished())
-			{
+			// if (this.isMovementStepFinished())
+			// {
 				System.out.println("WORLD_STATE_FIRST_MOVE");
 
-				this.nextMovementUpdate();
-				
-				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_END;
-				
+			this.actionsPending = this.nextMovementUpdate();
 
-			} else
-				System.out.println("NOT ALL FINISHED");
+				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_END;
+
+
+			// } else
+			// System.out.println("NOT ALL FINISHED");
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_END:
 			System.out.println("WORLD_STATE_MOVEMENT_END");
@@ -185,7 +187,7 @@ public class MightyWorld {
 			for (Actor actor : this.stage.getActors()) {
 				if (actor instanceof BasicMaruto) {
 					BasicMaruto myMaruto = (BasicMaruto) actor;
-					
+
 					System.out.println("X: "
 							+ Float.toString(actor.getX())
 							+ "  TILED X: "
@@ -202,16 +204,21 @@ public class MightyWorld {
 				}
 
 			}
+
 			//Wait till movements are finished
-			if (this.isMovementStepFinished())
-			{
+			// if (this.isMovementStepFinished())
+			// {
 				this.finishMovement();
 				this.checkRespawn();
 				this.updateInventory();
 
+			if (this.actionsPending)
+
 				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 
-			}
+			else
+				this.currentState = DefaultValues.WORLD_STATE_TURN_END;
+			// }
 
 			break;
 		}
@@ -347,7 +354,7 @@ public class MightyWorld {
 	public boolean nextMovementUpdate()
 	{
 
-		boolean actionsPending = false;
+		this.actionsPending = false;
 
 		Array<Actor> actorList = this.stage.getActors();
 		//Checking all actors (no unfinished movement)
@@ -378,7 +385,7 @@ public class MightyWorld {
 					for (int j = 0; j < actorList.size; j++)
 					{
 						Actor nextActor = actorList.get(j);
-						if (nextActor != actor)
+						if (i != j)
 						{
 
 							CommonActor otherActor = (CommonActor) nextActor;
@@ -644,6 +651,8 @@ public class MightyWorld {
 						}
 					}
 
+					System.out.println("MOVE" + movement.gettype().toString());
+
 					myMaruto.doMovement(movement);
 
 					//Check action outcome
@@ -651,7 +660,7 @@ public class MightyWorld {
 					for (int j = 0; j < actorList.size; j++)
 					{
 						Actor nextActor = actorList.get(j);
-						if (nextActor != actor)
+						if (i != j)
 						{
 							if (nextActor instanceof Actor_Powerup)
 							{
@@ -699,19 +708,30 @@ public class MightyWorld {
 							}
 							else if (nextActor instanceof BasicMaruto)
 							{
-								//Maruto Against Maruto (a headbump)
+								CommonActor otherActor = (CommonActor) nextActor;
 
-								myMaruto.setlife(myMaruto.getlife() - DefaultValues.MARUTO_HEADBUMP_DAMAGE);
+								if ((otherActor.getTilePosX() == myMaruto
+										.getTilePosX())
+										&& (otherActor.getTilePosY() == myMaruto
+												.getTilePosY())) {
 
-								if (myMaruto.getlife() <= 0)
-								{
-									myMaruto.getMovementList().clear();
-									myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
-								}
-								else
-								{
-									myMaruto.getMovementList().clear();
-									myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.SHIFT_HIT));
+									// Maruto Against Maruto (a headbump)
+
+									myMaruto.setlife(myMaruto.getlife()
+											- DefaultValues.MARUTO_HEADBUMP_DAMAGE);
+
+									if (myMaruto.getlife() <= 0) {
+										myMaruto.getMovementList().clear();
+										myMaruto.getMovementList()
+												.add(new Action(
+														DefaultValues.ACTIONS.DEATH));
+									} else {
+										myMaruto.getMovementList().clear();
+										myMaruto.getMovementList()
+												.add(new Action(
+														DefaultValues.ACTIONS.SHIFT_HIT));
+									}
+
 								}
 
 							}
