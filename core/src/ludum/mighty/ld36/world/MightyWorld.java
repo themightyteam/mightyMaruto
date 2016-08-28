@@ -107,8 +107,7 @@ public class MightyWorld {
 		this.parser = new CommandProcessor();
 
 		this.powerUpsViewer = new PowerUpsViewer(new Vector2(550f, 10f));
-		this.powerUpsViewer.setList(POWERUPS.ARRRGGGHHH, POWERUPS.CHOCO,
-				POWERUPS.INVISIBILITY, null);
+
 
 		// TODO: define user input here
 
@@ -217,6 +216,8 @@ public class MightyWorld {
 			// if (this.isMovementStepFinished())
 			// {
 
+			this.updatePowerupsPlayer();
+
 			this.deleteOutOfBordersActors();
 			this.deletePowerups();
 			this.checkRespawn();
@@ -250,6 +251,24 @@ public class MightyWorld {
 		 * 
 		 * 
 		 */
+	}
+
+	private void updatePowerupsPlayer() {
+
+		ArrayList<POWERUPS> powerList = new ArrayList<POWERUPS>();
+
+		for (int i = 0; i < this.basicMaruto.getPowerups().size(); i++) {
+
+			powerList.add(this.basicMaruto.getPowerups().get(i).getType());
+		}
+		
+		for (int i = powerList.size(); i < 4; i++)
+		{
+			powerList.add(null);
+		}
+
+		this.powerUpsViewer.setList(powerList.get(0), powerList.get(1),
+				powerList.get(2), powerList.get(3));
 	}
 
 	public void render() {
