@@ -115,6 +115,7 @@ public class MightyWorld {
 		this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 		initPlayers();
 		updatePowerUps();
+		initBlackBoxes();
 
 		this.timeWhenTurnStarted = TimeUtils.millis();
 	}
@@ -302,13 +303,18 @@ public class MightyWorld {
 
 	private void initBlackBoxes() {
 		ItemBlackBox ibb = new ItemBlackBox();
-		ibb.setTilePosX(25);
-		ibb.setTilePosY(25);
+		ibb.setInitialTilePosX(25);
+		ibb.setInitialTilePosY(25);
 		this.stage.addActor(ibb);
 
 		ibb = new ItemBlackBox();
-		ibb.setTilePosX(28);
-		ibb.setTilePosY(28);
+		ibb.setInitialTilePosX(28);
+		ibb.setInitialTilePosY(28);
+		this.stage.addActor(ibb);
+
+		ibb = new ItemBlackBox();
+		ibb.setInitialTilePosX(10);
+		ibb.setInitialTilePosY(10);
 		this.stage.addActor(ibb);
 
 	}

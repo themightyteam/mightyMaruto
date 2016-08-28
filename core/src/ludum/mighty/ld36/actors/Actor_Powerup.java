@@ -13,7 +13,17 @@ public abstract class Actor_Powerup extends CommonActor {
     boolean isLifeLimitedByTime;
     int turnsLife;
     
-    public Actor_Powerup()
+	boolean isHarmfull = true; // if makes damage on touch
+
+	public boolean isHarmfull() {
+		return isHarmfull;
+	}
+
+	public void setHarmfull(boolean isHarmfull) {
+		this.isHarmfull = isHarmfull;
+	}
+
+	public Actor_Powerup()
     {
     	this.isrespawnable = false;
     	this.isLifeLimitedByTime = true;
