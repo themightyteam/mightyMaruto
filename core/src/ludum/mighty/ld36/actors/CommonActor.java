@@ -47,6 +47,8 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	int turnsToRespawn = DefaultValues.TURNS_TO_RESPAWN;
 
 
+	Action nextAction;
+
 	public abstract void doMovement(Action action);
 
 	@Override
@@ -57,13 +59,7 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	}
 
 
-	@Override
-	public Action getNextAction() {
-		// TODO Auto-generated method stub
-		//TODO return next action from parser in the case of maruto player
 
-		return null;
-	}
 
 	//Getters and setters
 
@@ -277,5 +273,12 @@ public abstract class CommonActor extends Actor implements BasicActor {
 		this.facing = facing;
 	}
 	
+	public void setNextAction(Action nextAction) {
+		this.nextAction = nextAction;
+	}
+
+	public Action getNextAction() {
+		return nextAction;
+	}
 	
 }
