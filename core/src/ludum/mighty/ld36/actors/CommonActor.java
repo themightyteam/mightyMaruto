@@ -40,7 +40,7 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	ArrayList<Action> movementList;
 
 	//This flag is true if previous movement was finished (true by default)
-	boolean moveFlag = false;
+	boolean moveFlag = true;
 
 	//Respawn
 	boolean isrespawnable;
