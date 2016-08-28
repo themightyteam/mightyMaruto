@@ -19,7 +19,12 @@ public class Action {
                 (type == DefaultValues.ACTIONS.MOONWALK) ||
                 (type == DefaultValues.ACTIONS.RUN) ||
                 (type == DefaultValues.ACTIONS.STOP) ||
-                (type == DefaultValues.ACTIONS.HELP)) {
+                (type == DefaultValues.ACTIONS.HELP) ||
+                (type == DefaultValues.ACTIONS.CONFUSION) ||
+                (type == DefaultValues.ACTIONS.HIT) ||
+                (type == DefaultValues.ACTIONS.SHIFT_HIT) ||
+                (type == DefaultValues.ACTIONS.DEATH) ||
+                (type == DefaultValues.ACTIONS.IDLE)) {
             this.type = type;
             this.direction = null;
             this.powerup = null;
@@ -51,21 +56,11 @@ public class Action {
 
     // Get relative direction of action or null if none
     public DefaultValues.RELATIVE_ROTATIONS getdirection() {
-        if ((type == DefaultValues.ACTIONS.WALK) ||
-                (type == DefaultValues.ACTIONS.MOONWALK) ||
-                (type == DefaultValues.ACTIONS.RUN) ||
-                (type == DefaultValues.ACTIONS.STOP) ||
-                (type == DefaultValues.ACTIONS.HELP)) {
-            return null;
-        }
         return this.direction;
     }
 
     // Get powerup of action or null if none
     public DefaultValues.POWERUPS getpowerup() {
-        if (!((type == DefaultValues.ACTIONS.DROP) || (type == DefaultValues.ACTIONS.SHOOT))) {
-            return null;
-        }
         return this.powerup;
     }
 

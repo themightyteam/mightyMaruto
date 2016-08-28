@@ -84,6 +84,8 @@ public class CommandProcessor {
                         todo = new Action(DefaultValues.ACTIONS.DROP, DefaultValues.POWERUPS.GRENADE);
                     } else if (parts[1].compareToIgnoreCase("random") == 0){
                         todo = new Action(DefaultValues.ACTIONS.DROP, DefaultValues.POWERUPS.RANDOM);
+                    } else {
+                        return new Line(getRandomString(DefaultValues.ERRORS),true,COLOR_ERROR);
                     }
 
                     //System.out.println("---> " + todo);
@@ -98,6 +100,8 @@ public class CommandProcessor {
                         todo = new Action(DefaultValues.ACTIONS.SHOOT, DefaultValues.POWERUPS.GRENADE);
                     } else if (parts[1].compareToIgnoreCase("random") == 0){
                         todo = new Action(DefaultValues.ACTIONS.SHOOT, DefaultValues.POWERUPS.RANDOM);
+                    } else {
+                        return new Line(getRandomString(DefaultValues.ERRORS),true,COLOR_ERROR);
                     }
 
                     //System.out.println("---> " + todo);
