@@ -16,6 +16,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -35,7 +36,9 @@ public class MightyWorld {
 	private int currentState;
 
 	private Stage stage;
-
+	private TiledMap tiledMap;
+	private int mapWidthInTiles;
+	private int mapHeightInTiles;
 	// Rendering objects
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private OrthographicCamera cam;
@@ -54,6 +57,11 @@ public class MightyWorld {
 	// // WORLD API
 	// Loads stuff like the map and initializes things
 	public void init(TiledMap map) {
+
+		this.tiledMap = map;
+		MapProperties prop = this.tiledMap.getProperties();
+		this.mapWidthInTiles = prop.get("width", Integer.class);
+		this.mapHeightInTiles = prop.get("height", Integer.class);
 
 		int h = Gdx.graphics.getHeight();
 		// Render init
