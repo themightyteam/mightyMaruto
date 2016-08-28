@@ -58,8 +58,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 		setBounds(getX(), getY(), DefaultValues.TILESIZE, DefaultValues.TILESIZE);
 
-
-
+		this.powerups = new Vector<Item_Powerup>();
 
 	}
 

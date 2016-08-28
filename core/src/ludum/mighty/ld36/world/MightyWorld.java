@@ -170,19 +170,38 @@ public class MightyWorld {
 			{
 				System.out.println("WORLD_STATE_FIRST_MOVE");
 
-				if (this.nextMovementUpdate())
-				{
-					this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_END;
-				}
-				else
-				{
-					this.currentState = DefaultValues.WORLD_STATE_TURN_END;
-				}
+				this.nextMovementUpdate();
+				
+				this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_END;
+				
+
 			} else
 				System.out.println("NOT ALL FINISHED");
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_END:
 			System.out.println("WORLD_STATE_MOVEMENT_END");
+
+			// Checking Players
+			for (Actor actor : this.stage.getActors()) {
+				if (actor instanceof BasicMaruto) {
+					BasicMaruto myMaruto = (BasicMaruto) actor;
+					
+					System.out.println("X: "
+							+ Float.toString(actor.getX())
+							+ "  TILED X: "
+							+ Integer.toString(((BasicMaruto) actor)
+									.getTilePosX())
+							+ "   Y: "
+							+ Float.toString(actor.getY())
+							+ "  TILED Y: "
+							+ Integer.toString(((BasicMaruto) actor)
+									.getTilePosY())
+
+					);
+
+				}
+
+			}
 			//Wait till movements are finished
 			if (this.isMovementStepFinished())
 			{
@@ -936,6 +955,7 @@ public class MightyWorld {
 				BasicMaruto myMaruto = (BasicMaruto) actor;
 
 				ArrayList<String> droppableItems = new ArrayList<String>();
+
 
 				for (Item_Powerup item : myMaruto.getPowerups()) {
 					item.setDuration(item.getDuration() - 1);
