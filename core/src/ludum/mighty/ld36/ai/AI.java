@@ -7,6 +7,8 @@ import ludum.mighty.ld36.actors.Actor_Powerup;
 import ludum.mighty.ld36.actors.BasicMaruto;
 import ludum.mighty.ld36.actors.EvilMaruto;
 import ludum.mighty.ld36.actors.ItemBlackBox;
+import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
+import ludum.mighty.ld36.actors.Item_Boomerang;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.world.MightyWorld;
 
@@ -232,6 +234,29 @@ public class AI {
 					myActor.setNextAction(new Action(DefaultValues.ACTIONS.WALK));
 					break;
 				}
+			}
+			if (actor instanceof Item_ARRRGGGHHH) {
+				Item_ARRRGGGHHH myActor = (Item_ARRRGGGHHH) actor;
+
+				int r = this.randGenerator.nextInt(5);
+				switch (r) {
+				case 0:
+					myActor.setNextAction(new Action(
+							DefaultValues.ACTIONS.TURN,
+							DefaultValues.RELATIVE_ROTATIONS.LEFT));
+					break;
+				case 1:
+					myActor.setNextAction(new Action(
+							DefaultValues.ACTIONS.TURN,
+							DefaultValues.RELATIVE_ROTATIONS.RIGHT));
+				default:
+					myActor.setNextAction(new Action(DefaultValues.ACTIONS.WALK));
+					break;
+				}
+			}
+			if (actor instanceof Item_Boomerang) {
+				Item_Boomerang myActor = (Item_Boomerang) actor;
+				myActor.setNextAction(new Action(DefaultValues.ACTIONS.WALK));
 			}
 		}
 	}
