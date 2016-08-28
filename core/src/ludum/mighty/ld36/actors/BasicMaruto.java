@@ -44,7 +44,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	private CommandProcessor commandProcessor;
 	private TextTerminal textTerminal;
 
-	private boolean stopFlag;
+	// private boolean stopFlag;
 
 	Action nextAction;
 
@@ -59,12 +59,11 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		this.speed = DefaultValues.ACTOR_SPEED;
 		this.isrespawnable = true;
 		this.canBeHit = true;
-		stopFlag = false;
+		// stopFlag = false;
 
 		facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
 		commandProcessor = cm;
 
-		//FIXME pass this string as a parameter, so you can use this class for maruto and evil maruto
 		kidTexture = new Texture(textureSheet);
 		kidTR = TextureRegion.split(kidTexture, KID_WIDTH, KID_HEIGHT);
 		kidTRflip = TextureRegion.split(kidTexture, KID_WIDTH, KID_HEIGHT);
@@ -143,7 +142,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 			mba.setDuration(5f);
 			this.addAction(mba);
 			moveFlag = true;
-			stopFlag = true;
+			// stopFlag = true;
 		}
 
 		//System.out.println("BasicMaruto: " + this.getX() + " " + this.getY());
@@ -204,132 +203,57 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 
 
-
-	public void checkAction() {
-		if (this.getActions().size > 1) return;
-		if ((this.getActions().size == 1)&&(stopFlag == true)) {
-
-			nextAction = commandProcessor.getNextAction();
-			if (nextAction == null) return;
-			switch (nextAction.gettype()) {
-
-			case WALK:
-				//if (moveFlag == false) {
-				mba = new MoveByAction();
-				switch (getfacing()) {
-				case NORTH:
-					anim = animUP;
-					mba.setAmount(0, DefaultValues.TILESIZE);
-					break;
-				case EAST:
-					anim = animRIGHT;
-					mba.setAmount(DefaultValues.TILESIZE, 0);				
-					break;
-				case SOUTH:
-					anim = animDOWN;
-					mba.setAmount(0, -DefaultValues.TILESIZE);
-					break;
-				case WEST:
-					anim = animLEFT;
-					mba.setAmount(-DefaultValues.TILESIZE, 0);
-					break;
-				}
-				mba.setDuration(1f);
-				this.addAction(mba);
-
-				moveFlag = true;
-
-				//}			
-				break;
-			case MOONWALK:
-				//if (moveFlag == false) {
-				mba = new MoveByAction();
-				switch (getfacing()) {
-				case NORTH:
-					anim = animUP;
-					mba.setAmount(0, -DefaultValues.TILESIZE);
-					break;
-				case EAST:
-					anim = animRIGHT;
-					mba.setAmount(-DefaultValues.TILESIZE, 0);				
-					break;
-				case SOUTH:
-					anim = animDOWN;
-					mba.setAmount(0, DefaultValues.TILESIZE);
-					break;
-				case WEST:
-					anim = animLEFT;
-					mba.setAmount(DefaultValues.TILESIZE, 0);
-					break;
-				}
-
-				mba.setDuration(1f);
-				this.addAction(mba);
-
-
-				//}			
-				break;
-			case SHOOT:
-
-				// The shoot animation is independent of the the item type
-				switch(nextAction.getpowerup()) {
-				case PUNCH:
-					//if (moveFlag == false) {
-					switch (getfacing()) {
-					case NORTH:
-						anim = animPunchUP;
-						break;
-					case EAST:
-						anim = animPunchRIGHT;
-						break;
-					case SOUTH:
-						anim = animPunchDOWN;
-						break;
-					case WEST:
-						anim = animPunchLEFT;
-						break;
-					}
-					mba = new MoveByAction();
-					mba.setAmount(0, 0);
-					mba.setDuration(1f);
-					this.addAction(mba);
-
-					moveFlag = true;
-					//}
-					break;
-				}
-
-				break;
-
-			case TURN:
-				//if (moveFlag == false) {
-				this.rotate(nextAction.getdirection());
-				switch (getfacing()) {
-				case NORTH:
-					anim = animStopUP;
-					break;
-				case EAST:
-					anim = animStopRIGHT;
-					break;
-				case SOUTH:
-					anim = animStopDOWN;
-					break;
-				case WEST:
-					anim = animStopLEFT;
-					break;
-				}
-				mba = new MoveByAction();
-				mba.setAmount(0, 0);
-				mba.setDuration(1f);
-				this.addAction(mba);
-				//}
-				break;
-			}
-
-		}
-
-	}
-
+	/*
+	 * public void checkAction() { if (this.getActions().size > 1) return; if
+	 * ((this.getActions().size == 1)&&(stopFlag == true)) {
+	 * 
+	 * nextAction = commandProcessor.getNextAction(); if (nextAction == null)
+	 * return; switch (nextAction.gettype()) {
+	 * 
+	 * case WALK: //if (moveFlag == false) { mba = new MoveByAction(); switch
+	 * (getfacing()) { case NORTH: anim = animUP; mba.setAmount(0,
+	 * DefaultValues.TILESIZE); break; case EAST: anim = animRIGHT;
+	 * mba.setAmount(DefaultValues.TILESIZE, 0); break; case SOUTH: anim =
+	 * animDOWN; mba.setAmount(0, -DefaultValues.TILESIZE); break; case WEST:
+	 * anim = animLEFT; mba.setAmount(-DefaultValues.TILESIZE, 0); break; }
+	 * mba.setDuration(1f); this.addAction(mba);
+	 * 
+	 * moveFlag = true;
+	 * 
+	 * //} break; case MOONWALK: //if (moveFlag == false) { mba = new
+	 * MoveByAction(); switch (getfacing()) { case NORTH: anim = animUP;
+	 * mba.setAmount(0, -DefaultValues.TILESIZE); break; case EAST: anim =
+	 * animRIGHT; mba.setAmount(-DefaultValues.TILESIZE, 0); break; case SOUTH:
+	 * anim = animDOWN; mba.setAmount(0, DefaultValues.TILESIZE); break; case
+	 * WEST: anim = animLEFT; mba.setAmount(DefaultValues.TILESIZE, 0); break; }
+	 * 
+	 * mba.setDuration(1f); this.addAction(mba);
+	 * 
+	 * 
+	 * //} break; case SHOOT:
+	 * 
+	 * // The shoot animation is independent of the the item type
+	 * switch(nextAction.getpowerup()) { case PUNCH: //if (moveFlag == false) {
+	 * switch (getfacing()) { case NORTH: anim = animPunchUP; break; case EAST:
+	 * anim = animPunchRIGHT; break; case SOUTH: anim = animPunchDOWN; break;
+	 * case WEST: anim = animPunchLEFT; break; } mba = new MoveByAction();
+	 * mba.setAmount(0, 0); mba.setDuration(1f); this.addAction(mba);
+	 * 
+	 * moveFlag = true; //} break; }
+	 * 
+	 * break;
+	 * 
+	 * case TURN: //if (moveFlag == false) {
+	 * this.rotate(nextAction.getdirection()); switch (getfacing()) { case
+	 * NORTH: anim = animStopUP; break; case EAST: anim = animStopRIGHT; break;
+	 * case SOUTH: anim = animStopDOWN; break; case WEST: anim = animStopLEFT;
+	 * break; } mba = new MoveByAction(); mba.setAmount(0, 0);
+	 * mba.setDuration(1f); this.addAction(mba); //} break; }
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
 
 	@Override
 	public void doMovement(Action action) {

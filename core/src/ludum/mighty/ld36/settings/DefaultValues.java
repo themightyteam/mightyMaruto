@@ -36,6 +36,10 @@ public class DefaultValues {
 	public static final float RANDOM_SHIFT_PROB = (float) 0.3;
 	public static final int RANDOM_DAMAGE = 3;
 	public static final int RANDOM_SPEED = 2;
+	public static final int GRENADE_DAMAGE = 0;
+	public static final int GRENADE_SPEED = 0;
+	public static final int GRENADE_TURNS_LIFE = 5;
+	public static final float GRENADE_SHIFT_PROB = (float) 0.0;
 
     // Enumerated values
     public enum ABSOLUTE_DIRECTIONS {NORTH, SOUTH, EAST, WEST}

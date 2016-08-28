@@ -169,7 +169,7 @@ public class MightyWorld {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		updatePowerUps();
-		basicMaruto.checkAction();
+		// basicMaruto.checkAction();
 
 		this.cam.position.x = basicMaruto.getX();
 		this.cam.position.y = basicMaruto.getY();
