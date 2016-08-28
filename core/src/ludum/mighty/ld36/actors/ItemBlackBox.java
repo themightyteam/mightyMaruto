@@ -14,9 +14,17 @@ public class ItemBlackBox extends Actor_Powerup {
 	private TextureRegion textureRegion;
 
 	public ItemBlackBox() {
+
+		// These two variables have to be set for any item
+		this.turnsLife = DefaultValues.BLACKBOX_TURNS_LIFE;
+		this.life = 1;
+
+		this.isHarmfull = false;
+		this.canBeHit = false;
+
 		this.texture = new Texture(Gdx.files.internal("items_spreadsheet.png"));
-		this.textureRegion = new TextureRegion(texture, 0,
-				DefaultValues.TILESIZE, DefaultValues.TILESIZE,
+		this.textureRegion = new TextureRegion(texture, DefaultValues.TILESIZE,
+				0, DefaultValues.TILESIZE,
 				DefaultValues.TILESIZE);
 	}
 
@@ -26,6 +34,7 @@ public class ItemBlackBox extends Actor_Powerup {
 
 	@Override
 	public void draw(Batch batch, float alpha) {
-		batch.draw(this.textureRegion, getX(), getY());
+		batch.draw(this.textureRegion, getX(), getY(), DefaultValues.TILESIZE,
+				DefaultValues.TILESIZE);
 	}
 }

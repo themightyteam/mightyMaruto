@@ -52,6 +52,7 @@ public class DefaultValues {
 	public static final int GRENADE_SPEED = 0;
 	public static final int GRENADE_TURNS_LIFE = 5;
 	public static final float GRENADE_SHIFT_PROB = (float) 0.0;
+	public static final int BLACKBOX_TURNS_LIFE = Integer.MAX_VALUE;
 
     // Enumerated values
     public enum ABSOLUTE_DIRECTIONS {NORTH, SOUTH, EAST, WEST}
