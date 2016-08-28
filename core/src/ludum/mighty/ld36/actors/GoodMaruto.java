@@ -9,7 +9,7 @@ public class GoodMaruto extends BasicMaruto {
 		this(cm, null);
 	}
 	
-	public GoodMaruto(CommandProcessor cm, String textureSheet) {
+	public GoodMaruto(CommandProcessor cm,  String textureSheet) {
 		super(cm, "evil_maruto_spreadsheet.png");
 	}
 

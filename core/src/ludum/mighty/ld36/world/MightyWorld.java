@@ -276,9 +276,12 @@ public class MightyWorld {
 							if ((otherActor.getTilePosX() == mypowerup.getTilePosX()) &&
 									(otherActor.getTilePosY() == mypowerup.getTilePosY()))
 							{
-								otherActor.setlife(otherActor.getlife() - mypowerup.getpunch());
+
+
 								//Update life
-								otherActor.setlife(otherActor.getlife() - mypowerup.getpunch());
+
+								if (otherActor.isCanBeHit())
+									otherActor.setlife(otherActor.getlife() - mypowerup.getpunch());
 
 								//life of my powerup is also diminished by 1 (losing force after collision)
 								mypowerup.setlife(mypowerup.getlife() - 1);
@@ -299,13 +302,16 @@ public class MightyWorld {
 
 										float randomProb = this.generator.nextFloat();
 
-										if (randomProb < mypowerup.getShiftProbability())
-											otherActor.getMovementList().add(DefaultValues.STATE_MOVEMENTS.HIT);
-										else 
-											otherActor.getMovementList().add(DefaultValues.STATE_MOVEMENTS.SHIFT_HIT);
+										if (nextActor instanceof BasicMaruto)
+										{
+											if (randomProb < mypowerup.getShiftProbability())
+												otherActor.getMovementList().add(DefaultValues.STATE_MOVEMENTS.SHIFT_HIT);
+											else 
+												otherActor.getMovementList().add(DefaultValues.STATE_MOVEMENTS.HIT);
+
+										}
 									}
 								}
-
 
 								if (mypowerup.getlife() < 0 )
 								{
@@ -325,6 +331,91 @@ public class MightyWorld {
 		for (Actor actor : actorList)
 		{
 			//TODO
+			if (actor instanceof BasicMaruto)
+			{
+				BasicMaruto myMaruto = (BasicMaruto) actor;
+
+				if (myMaruto.getMovementList().size() > 0)
+				{
+					STATE_MOVEMENTS movement = myMaruto.getMovementList().remove(0);
+
+					myMaruto.setMovementFinished(false); //TODO:shold be set to true by the Actor after the render is finished
+					myMaruto.doMovement(movement);
+
+					//Check action outcome
+					for (Actor nextActor : actorList)
+					{
+						if (nextActor != actor)
+						{
+							if (nextActor instanceof Powerup)
+							{
+								CommonActor otherActor = (CommonActor) nextActor;
+
+								if ((otherActor.getTilePosX() == myMaruto.getTilePosX()) &&
+										(otherActor.getTilePosY() == myMaruto.getTilePosY()))
+								{
+
+
+									//Update life
+									otherActor.setlife(otherActor.getlife() - 1);
+
+									//life of my powerup is also diminished by 1 (losing force after collision)
+									otherActor.setlife(otherActor.getlife() - 1);
+									if (myMaruto.isCanBeHit())
+										myMaruto.setlife( myMaruto.getlife() - otherActor.getpunch());
+
+									//Check powerup life
+									if (otherActor.getlife() < 0)
+									{
+										otherActor.getMovementList().clear();
+										otherActor.getMovementList().add(DefaultValues.STATE_MOVEMENTS.DEATH);
+									}
+
+									//Check my maruto life
+
+									if (myMaruto.getlife() <= 0 )
+									{
+										myMaruto.getMovementList().clear();
+										myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.DEATH);
+									}
+									else
+									{
+										float randomProb = this.generator.nextFloat();
+										myMaruto.getMovementList().clear();
+										if (randomProb < myMaruto.getShiftProbability())
+											myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.SHIFT_HIT);
+										else 
+											myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.HIT);
+									}
+							
+								}
+
+							}
+							else if (nextActor instanceof BasicMaruto)
+							{
+								//Maruto Against Maruto (a headbump)
+								
+								myMaruto.setlife(myMaruto.getlife() - DefaultValues.MARUTO_HEADBUMP_DAMAGE);
+								
+								if (myMaruto.getlife() <= 0)
+								{
+									myMaruto.getMovementList().clear();
+									myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.DEATH);
+								}
+								else
+								{
+									myMaruto.getMovementList().clear();
+									myMaruto.getMovementList().add(DefaultValues.STATE_MOVEMENTS.SHIFT_HIT);
+								}
+								
+								
+							}
+						}
+					}
+				}
+
+			}
+
 		}
 
 		return actionsPending;
@@ -346,6 +437,7 @@ public class MightyWorld {
 
 		Array<Actor> newActorList = new Array<Actor>();
 
+		//Delete actors 
 		for (Actor actor : actorList)
 		{
 			if (actor instanceof Powerup)

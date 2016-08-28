@@ -45,8 +45,9 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	private CommandProcessor commandProcessor;
 	private TextTerminal textTerminal;
 	
-<<<<<<< HEAD
-	public BasicMaruto(CommandProcessor cm, String textureSheet) {
+	private boolean stopFlag;
+	
+	public BasicMaruto(CommandProcessor cm,  String textureSheet) {
 		
 		this.name = DefaultValues.ACTOR_NAME;
 		
@@ -55,15 +56,9 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		this.speed = DefaultValues.ACTOR_SPEED;
 		this.isrespawnable = true;
 		this.canBeHit = true;
-=======
-	private boolean stopFlag;
-	
-	public BasicMaruto(TextTerminal tt, CommandProcessor cm) {
-		
 		textTerminal = tt;
 		stopFlag = false;
->>>>>>> 552eab270ba4abc19d4bf8237c7a89b2e8487b35
-		
+
 		facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
 		commandProcessor = cm;
 		

@@ -13,6 +13,8 @@ public class DefaultValues {
     public static final int ACTOR_MAX_POWERUPS = 5;
     public static final int TURNS_TO_RESPAWN = 3;
     public static final ABSOLUTE_DIRECTIONS ACTOR_DEFAULT_FACING = ABSOLUTE_DIRECTIONS.SOUTH;
+    
+    public static final int MARUTO_HEADBUMP_DAMAGE = 1;
 
     // Default values for Powerups
     public static final boolean POWERUP_CAN_BE_DROPPED = true;
