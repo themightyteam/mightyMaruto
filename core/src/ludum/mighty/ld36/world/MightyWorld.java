@@ -150,6 +150,7 @@ public class MightyWorld {
 			//Update turn-based items, respawn, etc
 			this.finishTurn();
 
+			this.textTerminal.enable();
 			this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 
 			break;
