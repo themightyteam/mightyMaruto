@@ -49,7 +49,7 @@ public class CommandProcessor {
                 } else if (command.compareToIgnoreCase("run") == 0) {
                     todo = new Action(DefaultValues.ACTIONS.RUN);
                 } else if (command.compareToIgnoreCase("punch") == 0) {
-                    todo = new Action(DefaultValues.ACTIONS.PUNCH);
+                    todo = new Action(DefaultValues.ACTIONS.SHOOT, DefaultValues.POWERUPS.PUNCH);
                 } else if (command.compareToIgnoreCase("stop") == 0) {
                     todo = new Action(DefaultValues.ACTIONS.STOP);
                 } else if (command.compareToIgnoreCase("help") == 0) {

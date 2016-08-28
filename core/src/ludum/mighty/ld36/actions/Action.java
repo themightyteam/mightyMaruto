@@ -18,7 +18,6 @@ public class Action {
         if ((type == DefaultValues.ACTIONS.WALK) ||
                 (type == DefaultValues.ACTIONS.MOONWALK) ||
                 (type == DefaultValues.ACTIONS.RUN) ||
-                (type == DefaultValues.ACTIONS.PUNCH) ||
                 (type == DefaultValues.ACTIONS.STOP) ||
                 (type == DefaultValues.ACTIONS.HELP)) {
             this.type = type;
@@ -55,7 +54,6 @@ public class Action {
         if ((type == DefaultValues.ACTIONS.WALK) ||
                 (type == DefaultValues.ACTIONS.MOONWALK) ||
                 (type == DefaultValues.ACTIONS.RUN) ||
-                (type == DefaultValues.ACTIONS.PUNCH) ||
                 (type == DefaultValues.ACTIONS.STOP) ||
                 (type == DefaultValues.ACTIONS.HELP)) {
             return null;

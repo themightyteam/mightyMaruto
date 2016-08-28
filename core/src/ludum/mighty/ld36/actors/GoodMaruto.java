@@ -1,7 +1,6 @@
 package ludum.mighty.ld36.actors;
 
 import ludum.mighty.ld36.actions.Action;
-import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.textTerminal.CommandProcessor;
 
 public class GoodMaruto extends BasicMaruto {
@@ -17,9 +16,9 @@ public class GoodMaruto extends BasicMaruto {
 	}
 
 	@Override
-	public DefaultValues.ACTIONS getNextAction() {
+	public Action getNextAction() {
 		if (nextAction != null) {
-			return nextAction.gettype();
+			return nextAction;
 		} else {
 			return null;
 		}

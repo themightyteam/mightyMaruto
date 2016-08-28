@@ -266,35 +266,39 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 				mba.setDuration(1f);
 				this.addAction(mba);
 
-				moveFlag = true;
 
 				//}			
 				break;
 			case SHOOT:
+				switch(nextAction.getpowerup()) {
+				case PUNCH:
+					//if (moveFlag == false) {
+					switch (getfacing()) {
+					case NORTH:
+						anim = animPunchUP;
+						break;
+					case EAST:
+						anim = animPunchRIGHT;
+						break;
+					case SOUTH:
+						anim = animPunchDOWN;
+						break;
+					case WEST:
+						anim = animPunchLEFT;
+						break;
+					}
+					mba = new MoveByAction();
+					mba.setAmount(0, 0);
+					mba.setDuration(1f);
+					this.addAction(mba);
 
-				//if (moveFlag == false) {
-				switch (getfacing()) {
-				case NORTH:
-					anim = animPunchUP;
-					break;
-				case EAST:
-					anim = animPunchRIGHT;
-					break;
-				case SOUTH:
-					anim = animPunchDOWN;
-					break;
-				case WEST:
-					anim = animPunchLEFT;
+					moveFlag = true;
+					//}
 					break;
 				}
-				mba = new MoveByAction();
-				mba.setAmount(0, 0);
-				mba.setDuration(1f);
-				this.addAction(mba);
 
-				moveFlag = true;
-				//}
 				break;
+
 			case TURN:
 				//if (moveFlag == false) {
 				this.rotate(nextAction.getdirection());
@@ -331,7 +335,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	@Override
 	public void doMovement(Action action) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 

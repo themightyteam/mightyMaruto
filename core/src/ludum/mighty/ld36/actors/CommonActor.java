@@ -53,7 +53,7 @@ public abstract class CommonActor extends Actor implements BasicActor {
 
 
 	@Override
-	public ACTIONS getNextAction() {
+	public Action getNextAction() {
 		// TODO Auto-generated method stub
 		//TODO return next action from parser in the case of maruto player
 

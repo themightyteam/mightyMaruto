@@ -25,8 +25,11 @@ public interface BasicActor {
     boolean getvisibility();
     DefaultValues.ABSOLUTE_DIRECTIONS getfacing();
     
+
     void updateMovementList(ArrayList<Action> movementList);
-    DefaultValues.ACTIONS getNextAction();
+    
+    Action getNextAction();
+
 
 	boolean isPlayable();
 	void setPlayable(boolean playable);
