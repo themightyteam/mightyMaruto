@@ -15,20 +15,9 @@ public class Action {
 
     // Constructor for actions without parameters
     public Action(DefaultValues.ACTIONS type) {
-        if ((type == DefaultValues.ACTIONS.WALK) ||
-                (type == DefaultValues.ACTIONS.MOONWALK) ||
-                (type == DefaultValues.ACTIONS.RUN) ||
-                (type == DefaultValues.ACTIONS.STOP) ||
-                (type == DefaultValues.ACTIONS.HELP) ||
-                (type == DefaultValues.ACTIONS.CONFUSION) ||
-                (type == DefaultValues.ACTIONS.HIT) ||
-                (type == DefaultValues.ACTIONS.SHIFT_HIT) ||
-                (type == DefaultValues.ACTIONS.DEATH) ||
-                (type == DefaultValues.ACTIONS.IDLE)) {
             this.type = type;
             this.direction = null;
             this.powerup = null;
-        }
     }
 
     // Constructor for actions with direction parameters

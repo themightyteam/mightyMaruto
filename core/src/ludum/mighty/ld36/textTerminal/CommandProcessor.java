@@ -14,7 +14,7 @@ import java.util.Vector;
 
 public class CommandProcessor {
     private Vector<Action> commands;
-    private static final String[] validcommands_zero = {"walk", "moonwalk", "run", "punch", "stop", "help"};
+    private static final String[] validcommands_zero = {"walk", "moonwalk", "run", "punch", "stop", "help", "block"};
     private static final String[] validcommands_one = {"turn", "drop", "shoot"};
     private static final String[] powerups = {"arrrggghhh", "yendor", "choco", "grenade", "random" };
     private static final String[] directions = {"left","right"};
@@ -54,6 +54,8 @@ public class CommandProcessor {
                     todo = new Action(DefaultValues.ACTIONS.STOP);
                 } else if (command.compareToIgnoreCase("help") == 0) {
                     todo = new Action(DefaultValues.ACTIONS.HELP);
+                } else if (command.compareToIgnoreCase("block") == 0) {
+                todo = new Action(DefaultValues.ACTIONS.BLOCK);
                 }
 
                 //System.out.println("---> " + todo);
