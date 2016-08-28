@@ -6,7 +6,7 @@ public class EvilMaruto extends BasicMaruto {
 
 	public EvilMaruto(CommandProcessor cm)
 	{
-		super(cm, null);
+		super(cm, "evil_maruto_spreadsheet.png");
 	}
 	
 	public EvilMaruto(CommandProcessor cm, String textureSheet) {

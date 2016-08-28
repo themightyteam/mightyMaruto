@@ -2,6 +2,7 @@ package ludum.mighty.ld36.actors;
 
 import java.util.ArrayList;
 
+import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.STATE_MOVEMENTS;
 
@@ -25,7 +26,7 @@ public interface BasicActor {
     boolean getvisibility();
     DefaultValues.ABSOLUTE_DIRECTIONS getfacing();
     
-    public void updateMovementList(ArrayList<STATE_MOVEMENTS> movementList);
+    void updateMovementList(ArrayList<STATE_MOVEMENTS> movementList);
     DefaultValues.ACTIONS getNextAction();
 
 	boolean isPlayable();

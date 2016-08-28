@@ -45,7 +45,8 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	private CommandProcessor commandProcessor;
 
 	private boolean stopFlag;
-	
+	Action nextAction;
+
 	public BasicMaruto(CommandProcessor cm, String textureSheet) {
 
 		stopFlag = false;
@@ -186,9 +187,9 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	public void checkAction() {
 		if (this.getActions().size > 1) return;
 		if ((this.getActions().size == 1)&&(stopFlag == true)) {
-		Action ac = commandProcessor.getNextAction();
-		if (ac == null) return;
-		switch (ac.gettype()) {
+		nextAction = commandProcessor.getNextAction();
+		if (nextAction == null) return;
+		switch (nextAction.gettype()) {
 		case WALK:
 			//if (moveFlag == false) {
 				mba = new MoveByAction();
@@ -273,7 +274,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 				break;
 		case TURN:
 				//if (moveFlag == false) {
-					this.rotate(ac.getdirection());
+					this.rotate(nextAction.getdirection());
 					switch (getfacing()) {
 					case NORTH:
 						anim = animStopUP;
@@ -302,6 +303,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		}
 		
 	}
+
 
 
 	@Override
