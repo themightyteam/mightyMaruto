@@ -14,7 +14,7 @@ public class ScoreUtils implements Comparable<ScoreUtils> {
 	public int compareTo(ScoreUtils arg0) {
 		// TODO Auto-generated method stub
 
-		return this.score - arg0.score;
+		return arg0.score - this.score;
 	}
 
 	public String getName() {
