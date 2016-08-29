@@ -1272,9 +1272,13 @@ public class MightyWorld {
 			{
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
-				if (mypowerup.getlife() > 0 ) 
+				if (mypowerup.getlife() > 0 && mypowerup.getTurnsLife() > 0)
 				{
+					// Delete one turn of powerup
+					mypowerup.setTurnsLife(mypowerup.getTurnsLife() - 1);
+
 					newActorList.add(actor);
+
 				}
 			}
 			else

@@ -36,7 +36,7 @@ public class DefaultValues {
     public static final float ARRRGGGHHH_SHIFT_PROB = (float) 0.9;
 	public static final int ARRRGGGHHH_DAMAGE = 10;
 	public static final int ARRRGGGHHH_SPEED = 1;
-	public static final int PUNCH_TURNS_LIFE = 0;
+	public static final int PUNCH_TURNS_LIFE = 1;
 	public static final float PUNCH_SHIFT_PROB = (float) 0.1;
 	public static final int PUNCH_DAMAGE = 2;
 	public static final int PUNCH_SPEED = 0;
@@ -150,13 +150,13 @@ public class DefaultValues {
      * 
      */
 	public static final int POINTS_OUT_OF_BOUNDS_DEATH = -1;
-	public static final int POINTS_ITEM_DEATH = 0;
+	public static final int POINTS_ITEM_DEATH = -40;
 	public static final int POINTS_KILL = 3;
 	
 	/*** Init World Variables ***/
-	public static final int NUMBER_EVIL_MARUTOS = 50;
-	public static final int NUMBER_BLACKBOXES = 50;
+	public static final int NUMBER_EVIL_MARUTOS = 100;
+	public static final int NUMBER_BLACKBOXES = 100;
 	
-	public static final int MAXIMUM_NUMBER_TURNS = 10;
+	public static final int MAXIMUM_NUMBER_TURNS = 20;
     
 }
