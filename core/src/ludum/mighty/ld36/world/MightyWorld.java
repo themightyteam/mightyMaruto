@@ -376,7 +376,7 @@ public class MightyWorld {
 		this.stage.addActor(eM);
 
 		eM = new EvilMaruto();
-		eM.setInitialTilePosX(24);
+		eM.setInitialTilePosX(25);
 		eM.setInitialTilePosY(27);
 		this.stage.addActor(eM);
 

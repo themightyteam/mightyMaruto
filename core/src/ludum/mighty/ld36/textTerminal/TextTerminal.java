@@ -219,4 +219,7 @@ public class TextTerminal implements InputProcessor {
         return false;
     }
 
+    public void printLog(String log) {
+        this.linesList.add(new Line(this.currentString, true, Line.COLOR_LOG));
+    }
 }
