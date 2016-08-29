@@ -14,6 +14,7 @@ import ludum.mighty.ld36.actors.ItemBlackBox;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Boomerang;
 import ludum.mighty.ld36.actors.Item_Choco;
+import ludum.mighty.ld36.actors.Item_Grenade;
 import ludum.mighty.ld36.actors.Item_Powerup;
 import ludum.mighty.ld36.actors.Item_Punch;
 import ludum.mighty.ld36.actors.Item_SonicBoom;
@@ -195,7 +196,7 @@ public class MightyWorld {
 			System.out.println("WORLD_STATE_TURN_END");
 			//TODO: Doing Nothing?
 			//Update turn-based items, respawn, etc
-			
+
 			this.updateInventory();
 			this.finishTurn();
 
@@ -262,7 +263,7 @@ public class MightyWorld {
 
 
 			this.checkRespawn();
-		
+
 
 			if (this.actionsPending)
 
@@ -384,7 +385,7 @@ public class MightyWorld {
 			this.doRespawn(ibb);
 			this.stage.addActor(ibb);
 		}
-			
+
 	}
 
 	private void initBlackBoxesDebug() {
@@ -556,7 +557,7 @@ public class MightyWorld {
 												.getParentActor()
 												.setScore(
 														mypowerup
-																.getParentActor()
+												.getParentActor()
 																.getScore()
 																+ DefaultValues.POINTS_KILL);
 
@@ -658,15 +659,108 @@ public class MightyWorld {
 
 						if (movement.getpowerup() != null) {
 
-						switch (movement.getpowerup()) {
+							switch (movement.getpowerup()) {
 
-						case ARRRGGGHHH:
+							case ARRRGGGHHH:
 
-							if (myMaruto
-									.hasPowerUp(DefaultValues.POWERUPS.ARRRGGGHHH
-											.toString())) {
+								if (myMaruto
+										.hasPowerUp(DefaultValues.POWERUPS.ARRRGGGHHH
+												.toString())) {
 
-								newActor = new Item_ARRRGGGHHH(myMaruto);
+									newActor = new Item_ARRRGGGHHH(myMaruto);
+
+									newActor.setFacing(myMaruto.getfacing());
+
+									// Set x-y position of item (initial
+									// position)
+									newActor.setInitialTilePosX(this
+											.obtainItemSpawnX(myMaruto));
+									newActor.setInitialTilePosY(this
+											.obtainItemSpawnY(myMaruto));
+									newActorList.add(newActor);
+								} else {
+									myMaruto.getMovementList().clear();
+									myMaruto.getMovementList()
+											.add(new Action(
+													DefaultValues.ACTIONS.CONFUSION));
+								}
+
+								break;
+							case CHOCO:
+								if (myMaruto
+										.hasPowerUp(DefaultValues.POWERUPS.CHOCO
+												.toString())) {
+
+									newActor = new Item_Choco(myMaruto);
+
+									newActor.setFacing(myMaruto.getfacing());
+									// Set x-y position of item (initial
+									// position)
+									newActor.setInitialTilePosX(this
+											.obtainItemSpawnXBehind(myMaruto));
+									newActor.setInitialTilePosY(this
+											.obtainItemSpawnYBehind(myMaruto));
+									newActorList.add(newActor);
+
+								} else {
+									myMaruto.getMovementList().clear();
+									myMaruto.getMovementList()
+											.add(new Action(
+													DefaultValues.ACTIONS.CONFUSION));
+								}
+
+								break;
+							case SONICBOMB:
+								if (myMaruto
+										.hasPowerUp(DefaultValues.POWERUPS.SONICBOMB
+												.toString())) {
+
+									newActor = new Item_SonicBoom(myMaruto);
+									newActor.setFacing(myMaruto.getfacing());
+
+									// Set x-y position of item (initial
+									// position)
+									newActor.setInitialTilePosX(this
+											.obtainItemSpawnX(myMaruto));
+									newActor.setInitialTilePosY(this
+											.obtainItemSpawnY(myMaruto));
+									newActorList.add(newActor);
+
+								} else {
+									myMaruto.getMovementList().clear();
+									myMaruto.getMovementList()
+											.add(new Action(
+													DefaultValues.ACTIONS.CONFUSION));
+								}
+
+								break;
+							case GRENADE:
+
+								if (myMaruto
+										.hasPowerUp(DefaultValues.POWERUPS.GRENADE
+												.toString())) {
+									newActor = new Item_Grenade(myMaruto);
+
+									newActor.setFacing(myMaruto.getfacing());
+
+									// Set x-y position of item (initial
+									// position)
+									newActor.setInitialTilePosX(this
+											.obtainItemSpawnX(myMaruto));
+									newActor.setInitialTilePosY(this
+											.obtainItemSpawnY(myMaruto));
+									newActorList.add(newActor);
+
+								} else {
+									myMaruto.getMovementList().clear();
+									myMaruto.getMovementList()
+											.add(new Action(
+													DefaultValues.ACTIONS.CONFUSION));
+								}
+
+								break;
+							case PUNCH:
+								newActor = new Item_Punch(myMaruto);
 
 								newActor.setFacing(myMaruto.getfacing());
 
@@ -676,198 +770,109 @@ public class MightyWorld {
 								newActor.setInitialTilePosY(this
 										.obtainItemSpawnY(myMaruto));
 								newActorList.add(newActor);
-							} else {
-								myMaruto.getMovementList().clear();
-								myMaruto.getMovementList()
-								.add(new Action(
-										DefaultValues.ACTIONS.CONFUSION));
-							}
 
-							break;
-						case CHOCO:
-							if (myMaruto
-									.hasPowerUp(DefaultValues.POWERUPS.CHOCO
-											.toString())) {
+								System.out.println("Creating punch "
+										+ newActor.getTilePosX() + " "
+										+ newActor.getTilePosY());
 
-								newActor = new Item_Choco(myMaruto);
+								break;
+							case DIAG_SONICBOMB:
+								break;
+							case RANDOM:
+								if (myMaruto
+										.hasPowerUp(DefaultValues.POWERUPS.RANDOM
+												.toString())) {
 
-							newActor.setFacing(myMaruto.getfacing());
-							// Set x-y position of item (initial position)
-							newActor.setInitialTilePosX(this
-									.obtainItemSpawnX(myMaruto));
-							newActor.setInitialTilePosY(this
-									.obtainItemSpawnY(myMaruto));
-							newActorList.add(newActor);
+									newActor = new Item_Boomerang(myMaruto);
 
-							} else {
-								myMaruto.getMovementList().clear();
-								myMaruto.getMovementList()
-										.add(new Action(
-												DefaultValues.ACTIONS.CONFUSION));
-							}
+									newActor.setInitialTilePosX(this
+											.obtainItemSpawnX(myMaruto));
+									newActor.setInitialTilePosY(this
+											.obtainItemSpawnY(myMaruto));
 
-							break;
-						case SONICBOMB:
-							if (myMaruto
-									.hasPowerUp(DefaultValues.POWERUPS.SONICBOMB
-											.toString())) {
+									int nextFacing = this.generator.nextInt(4);
 
-								newActor = new Item_SonicBoom(myMaruto);
-							newActor.setFacing(myMaruto.getfacing());
+									if (nextFacing == 0)
+										newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.EAST);
+									else if (nextFacing == 1)
+										newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.WEST);
+									else if (nextFacing == 2)
+										newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.NORTH);
+									else
+										newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH);
 
-							// Set x-y position of item (initial position)
-							newActor.setInitialTilePosX(this
-									.obtainItemSpawnX(myMaruto));
-							newActor.setInitialTilePosY(this
-									.obtainItemSpawnY(myMaruto));
-							newActorList.add(newActor);
+									newActorList.add(newActor);
 
-							} else {
+								} else {
+									myMaruto.getMovementList().clear();
+									myMaruto.getMovementList()
+											.add(new Action(
+													DefaultValues.ACTIONS.CONFUSION));
+								}
+
+								break;
+
+							default:
+								// No item: confuse
 								myMaruto.getMovementList().clear();
 								myMaruto.getMovementList()
 										.add(new Action(
 												DefaultValues.ACTIONS.CONFUSION));
+
+								break;
 							}
-
-							break;
-						case GRENADE:
-
-							if (myMaruto
-									.hasPowerUp(DefaultValues.POWERUPS.GRENADE
-											.toString())) {
-								newActor = new Item_SonicBoom(myMaruto);
-
-							newActor.setFacing(myMaruto.getfacing());
-
-							// Set x-y position of item (initial position)
-							newActor.setInitialTilePosX(this
-									.obtainItemSpawnX(myMaruto));
-							newActor.setInitialTilePosY(this
-									.obtainItemSpawnY(myMaruto));
-							newActorList.add(newActor);
-
-							} else {
-								myMaruto.getMovementList().clear();
-								myMaruto.getMovementList()
-										.add(new Action(
-												DefaultValues.ACTIONS.CONFUSION));
-							}
-
-							break;
-						case PUNCH:
-							newActor = new Item_Punch(myMaruto);
-
-							newActor.setFacing(myMaruto.getfacing());
-
-							// Set x-y position of item (initial position)
-							newActor.setInitialTilePosX(this
-									.obtainItemSpawnX(myMaruto));
-							newActor.setInitialTilePosY(this
-									.obtainItemSpawnY(myMaruto));
-							newActorList.add(newActor);
-
-							System.out.println("Creating punch "
-									+ newActor.getTilePosX() + " "
-									+ newActor.getTilePosY());
-
-							break;
-						case DIAG_SONICBOMB:
-							break;
-						case RANDOM:
-							if (myMaruto
-									.hasPowerUp(DefaultValues.POWERUPS.RANDOM
-											.toString())) {
-
-								newActor = new Item_Boomerang(myMaruto);
-
-							newActor.setInitialTilePosX(this
-									.obtainItemSpawnX(myMaruto));
-							newActor.setInitialTilePosY(this
-									.obtainItemSpawnY(myMaruto));
-
-							int nextFacing = this.generator.nextInt(4);
-
-							if (nextFacing == 0)
-								newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.EAST);
-							else if (nextFacing == 1)
-								newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.WEST);
-							else if (nextFacing == 2)
-								newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.NORTH);
-							else
-								newActor.setFacing(DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH);
-
-							newActorList.add(newActor);
-
-							} else {
-								myMaruto.getMovementList().clear();
-								myMaruto.getMovementList()
-										.add(new Action(
-												DefaultValues.ACTIONS.CONFUSION));
-							}
-
-							break;
-
-						default:
-							// No item: confuse
-							myMaruto.getMovementList().clear();
-							myMaruto.getMovementList()
-									.add(new Action(
-											DefaultValues.ACTIONS.CONFUSION));
-
-							break;
-						}
 
 						}
 					} else if (movement.gettype() == DefaultValues.ACTIONS.DROP) {
 
 						if (movement.getpowerup() != null) {
 
-						switch (movement.getpowerup()) {
-						case ARRRGGGHHH:
-							myMaruto.drop(DefaultValues.POWERUPS.ARRRGGGHHH
-									.toString());
-							break;
-						case CHOCO:
-							myMaruto.drop(DefaultValues.POWERUPS.CHOCO
-									.toString());
-							break;
+							switch (movement.getpowerup()) {
+							case ARRRGGGHHH:
+								myMaruto.drop(DefaultValues.POWERUPS.ARRRGGGHHH
+										.toString());
+								break;
+							case CHOCO:
+								myMaruto.drop(DefaultValues.POWERUPS.CHOCO
+										.toString());
+								break;
 
-						case SONICBOMB:
-							myMaruto.drop(DefaultValues.POWERUPS.SONICBOMB
-									.toString());
-							break;
-						case GRENADE:
-							myMaruto.drop(DefaultValues.POWERUPS.GRENADE
-									.toString());
-							break;
-						case RING:
-							myMaruto.drop(DefaultValues.POWERUPS.RING
-									.toString());
-							break;
-						case YENDOR:
-							myMaruto.drop(DefaultValues.POWERUPS.YENDOR
-									.toString());
-							break;
-						case SHIELD:
-							myMaruto.drop(DefaultValues.POWERUPS.SHIELD
-									.toString());
-							break;
-						case SNEAKERS:
-							myMaruto.drop(DefaultValues.POWERUPS.SNEAKERS
-									.toString());
-							break;
-						case INVISIBILITY:
-							myMaruto.drop(DefaultValues.POWERUPS.INVISIBILITY
-									.toString());
-							break;
-						case DIAG_SONICBOMB:
-							myMaruto.drop(DefaultValues.POWERUPS.DIAG_SONICBOMB
-									.toString());
-							break;
+							case SONICBOMB:
+								myMaruto.drop(DefaultValues.POWERUPS.SONICBOMB
+										.toString());
+								break;
+							case GRENADE:
+								myMaruto.drop(DefaultValues.POWERUPS.GRENADE
+										.toString());
+								break;
+							case RING:
+								myMaruto.drop(DefaultValues.POWERUPS.RING
+										.toString());
+								break;
+							case YENDOR:
+								myMaruto.drop(DefaultValues.POWERUPS.YENDOR
+										.toString());
+								break;
+							case SHIELD:
+								myMaruto.drop(DefaultValues.POWERUPS.SHIELD
+										.toString());
+								break;
+							case SNEAKERS:
+								myMaruto.drop(DefaultValues.POWERUPS.SNEAKERS
+										.toString());
+								break;
+							case INVISIBILITY:
+								myMaruto.drop(DefaultValues.POWERUPS.INVISIBILITY
+										.toString());
+								break;
+							case DIAG_SONICBOMB:
+								myMaruto.drop(DefaultValues.POWERUPS.DIAG_SONICBOMB
+										.toString());
+								break;
 
-						default:
-							break;
-						}
+							default:
+								break;
+							}
 
 						}
 
@@ -875,156 +880,155 @@ public class MightyWorld {
 
 						if (movement.getpowerup() != null) {
 
-						switch (movement.getpowerup()) {
-						case RING:
+							switch (movement.getpowerup()) {
+							case RING:
 
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.RING,
-									DefaultValues.ITEM_RING_TURNS_DURATION, 0,
-									DefaultValues.ITEM_RING_STRENGTH_POWERUP,
-									false, false, false));
-							break;
-						case SHIELD:
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.SHIELD,
-									DefaultValues.ITEM_SHIELD_TURNS_DURATION,
-									0, 0, false, false, true));
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.RING,
+										DefaultValues.ITEM_RING_TURNS_DURATION,
+										0,
+										DefaultValues.ITEM_RING_STRENGTH_POWERUP,
+										false, false, false));
+								break;
+							case SHIELD:
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.SHIELD,
+										DefaultValues.ITEM_SHIELD_TURNS_DURATION,
+										0, 0, false, false, true));
 
-							break;
-						case INVISIBILITY:
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.INVISIBILITY,
-									DefaultValues.ITEM_INVISIBILITY_TURNS_DURATION,
-									0,
-									0, true, false, false));
+								break;
+							case INVISIBILITY:
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.INVISIBILITY,
+										DefaultValues.ITEM_INVISIBILITY_TURNS_DURATION,
+										0, 0, true, false, false));
 
-							break;
-						case DIZZY:
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.DIZZY,
-									DefaultValues.ITEM_DIZZY_TURNS_DURATION, 0,
-									0,
-									false, true, false));
-							break;
-						case SNEAKERS:
+								break;
+							case DIZZY:
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.DIZZY,
+										DefaultValues.ITEM_DIZZY_TURNS_DURATION,
+										0, 0, false, true, false));
+								break;
+							case SNEAKERS:
 
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.SNEAKERS,
-									DefaultValues.ITEM_SNEAKER_TURNS_DURATION,
-									DefaultValues.ITEM_SNEAKER_SPEED_POWERUP,
-									0, false, false, false));
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.SNEAKERS,
+										DefaultValues.ITEM_SNEAKER_TURNS_DURATION,
+										DefaultValues.ITEM_SNEAKER_SPEED_POWERUP,
+										0, false, false, false));
 
-							break;
+								break;
 
-						case ARRRGGGHHH:
+							case ARRRGGGHHH:
 
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.ARRRGGGHHH,
-									DefaultValues.ITEM_ARRRGGGHHH_TURNS_DURATION,
-									0, 0, false, false, false));
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.ARRRGGGHHH,
+										DefaultValues.ITEM_ARRRGGGHHH_TURNS_DURATION,
+										0, 0, false, false, false));
 
-							break;
-						case YENDOR:
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.YENDOR,
-									DefaultValues.ITEM_YENDOR_TURNS_DURATION,
-									0, 0, false, false, false));
+								break;
+							case YENDOR:
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.YENDOR,
+										DefaultValues.ITEM_YENDOR_TURNS_DURATION,
+										0, 0, false, false, false));
 
-							break;
-						case CHOCO:
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.CHOCO,
-									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
-									0, 0, false, false, false));
+								break;
+							case CHOCO:
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.CHOCO,
+										DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+										0, 0, false, false, false));
 
-							break;
-						case GRENADE:
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.GRENADE,
-									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
-									0, 0, false, false, false));
+								break;
+							case GRENADE:
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.GRENADE,
+										DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+										0, 0, false, false, false));
 
-							break;
-						case SONICBOMB:
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.SONICBOMB,
-									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
-									0, 0, false, false, false));
+								break;
+							case SONICBOMB:
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.SONICBOMB,
+										DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+										0, 0, false, false, false));
 
-							break;
-						case RANDOM:
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.RANDOM,
-									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
-									0, 0, false, false, false));
-							break;
+								break;
+							case RANDOM:
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.RANDOM,
+										DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+										0, 0, false, false, false));
+								break;
 
-						case DIAG_SONICBOMB:
-							myMaruto.pickup(new Item_Powerup(
-									DefaultValues.POWERUPS.DIAG_SONICBOMB,
-									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
-									0, 0, false, false, false));
+							case DIAG_SONICBOMB:
+								myMaruto.pickup(new Item_Powerup(
+										DefaultValues.POWERUPS.DIAG_SONICBOMB,
+										DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+										0, 0, false, false, false));
 
-							break;
-						case BLACKBOX:
+								break;
+							case BLACKBOX:
 
-							for (int j = 0; j < actorList.size; j++)
-							{
-								Actor possibleItem = actorList.get(j);	
+								for (int j = 0; j < actorList.size; j++) {
+									Actor possibleItem = actorList.get(j);
 
-								// Handling the special case of ItemBlackBox
-								if (possibleItem instanceof ItemBlackBox) {
+									// Handling the special case of ItemBlackBox
+									if (possibleItem instanceof ItemBlackBox) {
 
-									ItemBlackBox itemActor = (ItemBlackBox) possibleItem;
-									if ((itemActor.getTilePosX() == myMaruto.getTilePosX()) &&
-											(itemActor.getTilePosY() == myMaruto.getTilePosY()))
-									{
+										ItemBlackBox itemActor = (ItemBlackBox) possibleItem;
 										if ((itemActor.getTilePosX() == myMaruto
 												.getTilePosX())
 												&& (itemActor.getTilePosY() == myMaruto
-												.getTilePosY())) {
+														.getTilePosY())) {
+											if ((itemActor.getTilePosX() == myMaruto
+													.getTilePosX())
+													&& (itemActor.getTilePosY() == myMaruto
+															.getTilePosY())) {
 
-											// Pick the object
+												// Pick the object
 
-											Action nextAction = this
-													.obtainItemInBox();
-											// Grab the item in the next
-											// movement
-											myMaruto.getMovementList().add(0,
-													nextAction);
+												Action nextAction = this
+														.obtainItemInBox();
+												// Grab the item in the next
+												// movement
+												myMaruto.getMovementList().add(
+														0, nextAction);
 
-											// Respawn the object
-											int xTile = this.generator
-													.nextInt(this.mapWidthInTiles) / 2; // FIXME:
-											// nhapa:
-											// dentro
-											// del
-											// tatami
-											int yTile = this.generator
-													.nextInt(this.mapHeightInTiles) / 2; // FIXME:
-											// nhapa
-											// dentro
-											// del
-											// tatami
+												// Respawn the object
+												int xTile = this.generator
+														.nextInt(this.mapWidthInTiles) / 2; // FIXME:
+												// nhapa:
+												// dentro
+												// del
+												// tatami
+												int yTile = this.generator
+														.nextInt(this.mapHeightInTiles) / 2; // FIXME:
+												// nhapa
+												// dentro
+												// del
+												// tatami
 
-											xTile += this.mapWidthInTiles / 4;
+												xTile += this.mapWidthInTiles / 4;
 
-											yTile += this.generator
-													.nextInt(this.mapWidthInTiles) / 4;
+												yTile += this.generator
+														.nextInt(this.mapWidthInTiles) / 4;
 
-											itemActor.setX(xTile);
-											itemActor.setY(yTile);
+												itemActor.setX(xTile);
+												itemActor.setY(yTile);
 
+											}
 										}
 									}
+
 								}
 
-							}
+								break;
 
-							break;
-
-						default:
-							break;
+							default:
+								break;
 
 							}
 						}
@@ -1041,10 +1045,10 @@ public class MightyWorld {
 						Actor nextActor = actorList.get(j);
 						if (i != j)
 						{
-							
+
 							if (nextActor instanceof Actor_Powerup)
 							{
-							
+
 								CommonActor otherActor = (CommonActor) nextActor;
 
 								if ((otherActor.getTilePosX() == myMaruto.getTilePosX()) &&
@@ -1088,7 +1092,7 @@ public class MightyWorld {
 												.getParentActor()
 												.setScore(
 														mypowerup
-																.getParentActor()
+												.getParentActor()
 																.getScore()
 																+ DefaultValues.POINTS_KILL);
 
@@ -1431,6 +1435,28 @@ public class MightyWorld {
 		return moveList;
 	}
 
+	int obtainItemSpawnXBehind(BasicMaruto myActor) {
+
+		if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.EAST) {
+			return myActor.getTilePosX() - 1;
+		} else if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.WEST) {
+			return myActor.getTilePosX() + 1;
+		} else {
+			return myActor.getTilePosX();
+		}
+
+	}
+
+	int obtainItemSpawnYBehind(BasicMaruto myActor) {
+		if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.NORTH) {
+			return myActor.getTilePosY() - 1;
+		} else if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH) {
+			return myActor.getTilePosY() + 1;
+		} else {
+			return myActor.getTilePosY();
+		}
+	}
+
 	int obtainItemSpawnX(BasicMaruto myActor) {
 
 		if (myActor.getfacing() == DefaultValues.ABSOLUTE_DIRECTIONS.EAST) {
@@ -1468,14 +1494,16 @@ public class MightyWorld {
 			action = new Action(DefaultValues.ACTIONS.PICK,
 					DefaultValues.POWERUPS.YENDOR);
 		}
-		/*
-		 * else if (nextItem == 2) { action = new
-		 * Action(DefaultValues.ACTIONS.PICK, DefaultValues.POWERUPS.CHOCO); }
-		 */
-		/*
-		 * else if (nextItem == 3) { action = new
-		 * Action(DefaultValues.ACTIONS.PICK, DefaultValues.POWERUPS.GRENADE); }
-		 */
+
+		else if (nextItem == 2) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.CHOCO);
+		}
+
+		else if (nextItem == 3) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.GRENADE);
+		}
 		else if (nextItem == 4) {
 			action = new Action(DefaultValues.ACTIONS.PICK,
 					DefaultValues.POWERUPS.RANDOM);
@@ -1512,6 +1540,7 @@ public class MightyWorld {
 			action = new Action(DefaultValues.ACTIONS.PICK,
 					DefaultValues.POWERUPS.YENDOR);
 		}
+
 
 		return action;
 	}
@@ -1580,9 +1609,9 @@ public class MightyWorld {
 	}
 
 	public ArrayList<ScoreUtils> obtainMarutoScores() {
-		
+
 		ArrayList<ScoreUtils> nextScores = new ArrayList<ScoreUtils>();
-		
+
 		for (Actor actor : this.stage.getActors()) {
 			if (actor instanceof BasicMaruto) {
 
