@@ -187,7 +187,7 @@ public class MightyWorld {
 			break;
 		case DefaultValues.WORLD_STATE_TURN_INIT:
 			System.out.println("WORLD_STATE_TURN_INIT");
-			// this.ai.updateActors();
+			this.ai.updateActors();
 			this.checkTurnUpdate();
 			this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 			break;
