@@ -101,8 +101,9 @@ public class MightyWorld {
 
 		this.mapRenderer = new OrthogonalTiledMapRenderer(map);
 		this.cam = new OrthographicCamera();
-		this.sv = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), this.cam);
-		this.cam.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
+		//this.sv = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), this.cam);
+		this.sv = new StretchViewport(640, 480, this.cam);
+		//this.cam.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
 
 		batch = new SpriteBatch();
 
