@@ -123,7 +123,12 @@ public class AI {
 					}
 				}
 
-				// see if we are near something interesting to get
+				// if it's in the same square than a BlackBox, pick it
+				if (isOverABlackBox(myActor, actorList)) {
+					myActor.setNextAction(new Action(DefaultValues.ACTIONS.PICK));
+				}
+				
+				// see if it's near something interesting to get
 				Array<Actor_Powerup> nearList2 = getSomethingDesirableTouching(
 						myActor, actorList);
 				if (nearList2 != null) {
@@ -275,7 +280,6 @@ public class AI {
 	}
 
 
-
 	private boolean isSomebodyOnTheLeft(EvilMaruto a,
 			Array<BasicMaruto> nearList) {
 		int tileX = a.getTilePosX();
@@ -410,7 +414,7 @@ public class AI {
 				}
 			}
 		}
-		return null;
+		return res;
 	}
 
 	private Array<Actor_Powerup> getSomethingDesirableTouching(EvilMaruto a,
@@ -433,7 +437,24 @@ public class AI {
 			}
 		}
 
-		return null;
+		return res;
+	}
+
+	private boolean isOverABlackBox(EvilMaruto a, Array<Actor> actorList) {
+		int tileX = a.getTilePosX();
+		int tileY = a.getTilePosY();
+
+		for (int i = 0; i < actorList.size; i++) {
+			Actor actor = actorList.get(i);
+			if (actor instanceof ItemBlackBox) {
+				Actor_Powerup ba = (Actor_Powerup) actor;
+				if ((ba.getTilePosX() == tileX) & (ba.getTilePosY() == tileY)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 }
