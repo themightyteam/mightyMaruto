@@ -30,7 +30,12 @@ public class Item_Boomerang extends Actor_Powerup
 		
 		// Put an idle action by default
 		ArrayList<Action> actionList = new ArrayList<Action>();
-		actionList.add(new Action(DefaultValues.ACTIONS.IDLE));
+		actionList.add(new Action(DefaultValues.ACTIONS.WALK));
+		/**
+		 * // Put an idle action by default ArrayList<Action> actionList = new
+		 * ArrayList<Action>(); actionList.add(new
+		 * Action(DefaultValues.ACTIONS.IDLE));
+		 **/
 
 		this.movementList = actionList;
 

@@ -953,6 +953,13 @@ public class MightyWorld {
 									0, 0, false, false, false));
 
 							break;
+						case RANDOM:
+							myMaruto.pickup(new Item_Powerup(
+									DefaultValues.POWERUPS.RANDOM,
+									DefaultValues.ITEM_PROYECTIL_TURNS_DURATION,
+									0, 0, false, false, false));
+							break;
+
 						case DIAG_SONICBOMB:
 							myMaruto.pickup(new Item_Powerup(
 									DefaultValues.POWERUPS.DIAG_SONICBOMB,
@@ -1459,13 +1466,16 @@ public class MightyWorld {
 		} else if (nextItem == 1) {
 			action = new Action(DefaultValues.ACTIONS.PICK,
 					DefaultValues.POWERUPS.YENDOR);
-		} else if (nextItem == 2) {
-			action = new Action(DefaultValues.ACTIONS.PICK,
-					DefaultValues.POWERUPS.CHOCO);
-		} else if (nextItem == 3) {
-			action = new Action(DefaultValues.ACTIONS.PICK,
-					DefaultValues.POWERUPS.GRENADE);
-		} else if (nextItem == 4) {
+		}
+		/*
+		 * else if (nextItem == 2) { action = new
+		 * Action(DefaultValues.ACTIONS.PICK, DefaultValues.POWERUPS.CHOCO); }
+		 */
+		/*
+		 * else if (nextItem == 3) { action = new
+		 * Action(DefaultValues.ACTIONS.PICK, DefaultValues.POWERUPS.GRENADE); }
+		 */
+		else if (nextItem == 4) {
 			action = new Action(DefaultValues.ACTIONS.PICK,
 					DefaultValues.POWERUPS.RANDOM);
 		} else if (nextItem == 5) {
@@ -1480,10 +1490,14 @@ public class MightyWorld {
 		} else if (nextItem == 8) {
 			action = new Action(DefaultValues.ACTIONS.PICK,
 					DefaultValues.POWERUPS.SONICBOMB);
-		} else if (nextItem == 9) {
-			action = new Action(DefaultValues.ACTIONS.PICK,
-					DefaultValues.POWERUPS.DIAG_SONICBOMB);
-		} else if (nextItem == 10) {
+
+		}
+		/*
+		 * else if (nextItem == 9) { action = new
+		 * Action(DefaultValues.ACTIONS.PICK,
+		 * DefaultValues.POWERUPS.DIAG_SONICBOMB); }
+		 */
+		else if (nextItem == 10) {
 			action = new Action(DefaultValues.ACTIONS.PICK,
 					DefaultValues.POWERUPS.DIZZY);
 
@@ -1493,8 +1507,6 @@ public class MightyWorld {
 
 		}
 
-		action = new Action(DefaultValues.ACTIONS.PICK,
-				DefaultValues.POWERUPS.SONICBOMB);
 
 		return action;
 	}
