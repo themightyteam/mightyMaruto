@@ -187,13 +187,13 @@ public class MightyWorld {
 			}
 			break;
 		case DefaultValues.WORLD_STATE_TURN_INIT:
-			System.out.println("WORLD_STATE_TURN_INIT");
+			// System.out.println("WORLD_STATE_TURN_INIT");
 			this.ai.updateActors();
 			this.checkTurnUpdate();
 			this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 			break;
 		case DefaultValues.WORLD_STATE_TURN_END:
-			System.out.println("WORLD_STATE_TURN_END");
+			// System.out.println("WORLD_STATE_TURN_END");
 			//TODO: Doing Nothing?
 			//Update turn-based items, respawn, etc
 
@@ -218,11 +218,11 @@ public class MightyWorld {
 
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_INIT:
-			System.out.println("WORLD_STATE_MOVEMENT_INIT");
+			// System.out.println("WORLD_STATE_MOVEMENT_INIT");
 
 			// if (this.isMovementStepFinished())
 			// {
-			System.out.println("WORLD_STATE_FIRST_MOVE");
+			// System.out.println("WORLD_STATE_FIRST_MOVE");
 
 			this.actionsPending = this.nextMovementUpdate();
 
@@ -233,7 +233,7 @@ public class MightyWorld {
 			// System.out.println("NOT ALL FINISHED");
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_END:
-			System.out.println("WORLD_STATE_MOVEMENT_END");
+			// System.out.println("WORLD_STATE_MOVEMENT_END");
 			/**
 			 * // Checking Players for (Actor actor : this.stage.getActors()) {
 			 * if (actor instanceof BasicMaruto) { BasicMaruto myMaruto =
@@ -771,9 +771,9 @@ public class MightyWorld {
 										.obtainItemSpawnY(myMaruto));
 								newActorList.add(newActor);
 
-								System.out.println("Creating punch "
-										+ newActor.getTilePosX() + " "
-										+ newActor.getTilePosY());
+								// System.out.println("Creating punch "
+								// + newActor.getTilePosX() + " "
+								// + newActor.getTilePosY());
 
 								break;
 							case DIAG_SONICBOMB:
@@ -1036,7 +1036,8 @@ public class MightyWorld {
 						}
 					}
 
-					System.out.println("MOVE" + movement.gettype().toString());
+					// System.out.println("MOVE" +
+					// movement.gettype().toString());
 
 					myMaruto.doMovement(movement);
 
