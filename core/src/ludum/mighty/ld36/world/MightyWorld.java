@@ -19,6 +19,7 @@ import ludum.mighty.ld36.actors.Item_SonicBoom;
 import ludum.mighty.ld36.ai.AI;
 import ludum.mighty.ld36.powerUpsViewer.PowerUpsViewer;
 import ludum.mighty.ld36.score.ScoreLabel;
+import ludum.mighty.ld36.score.TurnLabel;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.POWERUPS;
 import ludum.mighty.ld36.textTerminal.CommandProcessor;
@@ -70,6 +71,7 @@ public class MightyWorld {
 	private TextTerminal textTerminal;
 	private TimeLeftLabel timeLeftLabel;
 	private ScoreLabel scoreLabel;
+	private TurnLabel turnsLabel;
 	private PowerUpsViewer powerUpsViewer;
 
 	private CommandProcessor parser;
@@ -115,7 +117,11 @@ public class MightyWorld {
 		this.scoreLabel = new ScoreLabel(new Vector2(200f, h - 10f), 120, 20);
 		this.scoreLabel.setYourScore(0);
 
-		this.timeLeftLabel = new TimeLeftLabel(new Vector2(10f, h - 10f), 120,
+		this.turnsLabel = new TurnLabel(new Vector2(400f, h - 10f), 120, 20,
+				DefaultValues.MAXIMUM_NUMBER_TURNS);
+		this.turnsLabel.setTurns(this.numberOfTurns);
+
+		this.timeLeftLabel = new TimeLeftLabel(new Vector2(10f, h - 10f), 160,
 				20);
 		this.timeLeftLabel
 				.setTimeLeft(((float) DefaultValues.WORLD_SECONDS_FOR_COMMAND_INPUT)
@@ -198,8 +204,13 @@ public class MightyWorld {
 			// Increment the number of turns played
 			this.numberOfTurns += 1;
 
+
+			// Update labels
 			// Update score in label
 			this.scoreLabel.setYourScore(this.basicMaruto.getScore());
+
+			// Update turns label
+			this.turnsLabel.setTurns(this.numberOfTurns);
 
 			this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 
@@ -221,29 +232,19 @@ public class MightyWorld {
 			break;
 		case DefaultValues.WORLD_STATE_MOVEMENT_END:
 			System.out.println("WORLD_STATE_MOVEMENT_END");
-
-			// Checking Players
-			for (Actor actor : this.stage.getActors()) {
-				if (actor instanceof BasicMaruto) {
-					BasicMaruto myMaruto = (BasicMaruto) actor;
-
-					System.out.println("X: "
-							+ Float.toString(actor.getX())
-							+ "  TILED X: "
-							+ Integer.toString(((BasicMaruto) actor)
-									.getTilePosX())
-							+ "   Y: "
-							+ Float.toString(actor.getY())
-							+ "  TILED Y: "
-							+ Integer.toString(((BasicMaruto) actor)
-									.getTilePosY())
-					);
-				}
-			}
-			System.out
-.println("1 BASIC MARUTO SCORE " + basicMaruto.getScore()
-					+ " NAME " + basicMaruto.getName());
-
+			/**
+			 * // Checking Players for (Actor actor : this.stage.getActors()) {
+			 * if (actor instanceof BasicMaruto) { BasicMaruto myMaruto =
+			 * (BasicMaruto) actor;
+			 * 
+			 * System.out.println("X: " + Float.toString(actor.getX()) +
+			 * "  TILED X: " + Integer.toString(((BasicMaruto) actor)
+			 * .getTilePosX()) + "   Y: " + Float.toString(actor.getY()) +
+			 * "  TILED Y: " + Integer.toString(((BasicMaruto) actor)
+			 * .getTilePosY()) ); } } System.out
+			 * .println("1 BASIC MARUTO SCORE " + basicMaruto.getScore() +
+			 * " NAME " + basicMaruto.getName());
+			 */
 			//Wait till movements are finished
 			// if (this.isMovementStepFinished())
 			// {
@@ -333,6 +334,8 @@ public class MightyWorld {
 		this.timeLeftLabel.render(batch);
 		this.powerUpsViewer.render(batch);
 		this.scoreLabel.render(batch);
+		this.turnsLabel.render(batch);
+
 	}
 
 	// // END OF WORLD API
@@ -349,7 +352,7 @@ public class MightyWorld {
 		this.stage.addActor(basicMaruto);
 
 		for (int i = 0; i < DefaultValues.NUMBER_EVIL_MARUTOS; i++) {
-			EvilMaruto eM = new EvilMaruto();
+			EvilMaruto eM = new EvilMaruto(i);
 			doRespawn(eM);
 			this.stage.addActor(eM);
 		}
@@ -644,8 +647,12 @@ public class MightyWorld {
 				BasicMaruto myMaruto = (BasicMaruto) actor;
 
 				// If the player was already death do nothing
-				if (myMaruto.getlife() <= 0)
-					continue;
+
+				/*
+				 * if (myMaruto.getlife() <= 0) { if
+				 * (myMaruto.getMovementList().size() > 0) {
+				 * myMaruto.getMovementList().clear(); } continue; }
+				 */
 
 				if (myMaruto.getMovementList().size() > 0)
 				{

@@ -157,6 +157,8 @@ public class DefaultValues {
 	public static final int NUMBER_EVIL_MARUTOS = 100;
 	public static final int NUMBER_BLACKBOXES = 100;
 	
-	public static final int MAXIMUM_NUMBER_TURNS = 20;
+	public static final int MAXIMUM_NUMBER_TURNS = 100;
+
+	public static final int MAXIMUM_LEADERS_SCORESCREEN = 5;
     
 }

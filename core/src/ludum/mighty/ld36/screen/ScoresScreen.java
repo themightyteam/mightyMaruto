@@ -3,6 +3,7 @@ package ludum.mighty.ld36.screen;
 import java.util.ArrayList;
 
 import ludum.mighty.ld36.assets.SoundAssets;
+import ludum.mighty.ld36.score.TopScorersLabel;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.utils.ScoreUtils;
 
@@ -15,6 +16,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class ScoresScreen extends DefaultScreen implements Screen {
@@ -24,6 +26,7 @@ public class ScoresScreen extends DefaultScreen implements Screen {
 	Sprite spr;
 	OrthographicCamera cam;
 	StretchViewport sv;
+	TopScorersLabel topLabel;
 
 	int waitFramesForHandle = DefaultValues.WAIT_TIME;
 
@@ -34,6 +37,11 @@ public class ScoresScreen extends DefaultScreen implements Screen {
 		super(game, sa);
 
 		this.scoreList = scoreList;
+
+		int h = Gdx.graphics.getHeight();
+
+		this.topLabel = new TopScorersLabel(new Vector2(150f, h - 290f), 320,
+				100, scoreList);
 
 		this.cam = new OrthographicCamera();
 		this.sv = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), this.cam);
@@ -60,6 +68,8 @@ public class ScoresScreen extends DefaultScreen implements Screen {
 		this.batch.begin();
 		this.spr.draw(batch);
 		this.batch.end();
+
+		this.topLabel.render(batch);
 	}
 
 	@Override
