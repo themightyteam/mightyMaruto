@@ -7,7 +7,9 @@ import ludum.mighty.ld36.settings.DefaultValues;
 
 public class Item_Punch extends Actor_Powerup {
 
-	public Item_Punch() {
+	public Item_Punch(BasicMaruto parent) {
+		super(parent);
+
 		this.turnsLife = DefaultValues.PUNCH_TURNS_LIFE;
 		this.life = Integer.MAX_VALUE;
 		this.shiftProbability = DefaultValues.PUNCH_SHIFT_PROB;

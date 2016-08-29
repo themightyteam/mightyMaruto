@@ -33,7 +33,13 @@ public class GameScreen extends DefaultScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		if (this.gameWorld.getNumberOfTurns() > DefaultValues.MAXIMUM_NUMBER_TURNS) {
+			// Maximum number of turns. Go to Score screen
+			this.mightyGame.setScreen(new ScoresScreen(this.mightyGame,
+					this.soundAssets, this.gameWorld.obtainMarutoScores()));
 
+		}
+		
 		this.gameWorld.update();
 		this.gameWorld.render();
 	}

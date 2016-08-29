@@ -4,8 +4,9 @@ import ludum.mighty.ld36.actions.Action;
 
 public class Item_Grenade extends Actor_Powerup {
 
-	public Item_Grenade() {
+	public Item_Grenade(BasicMaruto parent) {
 
+		super(parent);
 	}
 
 	@Override

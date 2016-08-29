@@ -5,6 +5,7 @@ import java.util.Vector;
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.animations.AnimatorMaruto;
 import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.settings.DefaultValues.RELATIVE_ROTATIONS;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -27,6 +28,8 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	private float elapsedTime = 0;
 
 	private MoveByAction mba;
+
+	int score = 0;
 
 	// private boolean stopFlag;
 
@@ -91,7 +94,9 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 	@Override
 	public void draw(Batch batch, float alpha) {
+
 		elapsedTime += Gdx.graphics.getDeltaTime();
+		if (this.visibility)
 		batch.draw(anim.getKeyFrame(elapsedTime, moveFlag), getX(), getY());
 		//		batch.draw(anim.getKeyFrame(elapsedTime, true), getX(), getY());
 
@@ -161,8 +166,9 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 						this.punch -= pup.getStrengthPowerup();
 					} else if (pup.getType() == DefaultValues.POWERUPS.SNEAKERS) {
 						this.speed -= pup.getSpeedPowerup();
+					} else if (pup.getType() == DefaultValues.POWERUPS.DIZZY) {
+						this.dizzyness = false;
 					}
-
 					this.powerups.remove(pup);
 				} else { // Powerup cannot be dropped
 					// TODO: error message (audio)?
@@ -194,12 +200,13 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		switch (facing) {
 
 		case NORTH:
-
 			// Logic here (moving tiles)
 			this.tilePosY = this.tilePosY + 1;
 
 			anim = animator.animUP;
 			mba.setAmount(0, DefaultValues.TILESIZE);
+
+
 			break;
 
 		case EAST:
@@ -306,7 +313,16 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	
 	
 	private void doMovementTurn() {
-		this.rotate(nextAction.getdirection());
+
+		if (this.dizzyness) {
+			if (nextAction.getdirection() == RELATIVE_ROTATIONS.LEFT) {
+				this.rotate(RELATIVE_ROTATIONS.RIGHT);
+			} else {
+				this.rotate(RELATIVE_ROTATIONS.LEFT);
+			}
+		} else
+			this.rotate(nextAction.getdirection());
+
 		switch (getfacing()) {
 		case NORTH:
 			anim = animator.animStopUP;
@@ -445,7 +461,12 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		switch (action.gettype()) {
 
 		case WALK:
-			doMovementWalk();	
+			if (this.dizzyness) {
+				doMovementMoonWalk();
+			} else {
+				doMovementWalk();
+			}
+
 			break;
 		case MOONWALK:
 			doMovementMoonWalk();
@@ -492,7 +513,6 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 	public boolean hasPowerUp(String name) {
 		for (Item_Powerup item : this.powerups) {
-
 			if (item.name.equals(name)) {
 				return true;
 			}
@@ -507,6 +527,14 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 	public void setPowerups(Vector<Item_Powerup> powerups) {
 		this.powerups = powerups;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 }

@@ -14,8 +14,8 @@ public class DefaultValues {
 	public static final int ACTOR_MAX_POWERUPS = 4;
 	public static final int TURNS_TO_RESPAWN = 5;
 
-	public static final int ITEM_SNEAKER_SPEED_POWERUP = 15;
-	public static final int ITEM_RING_STRENGTH_POWERUP = 15;
+	public static final int ITEM_SNEAKER_SPEED_POWERUP = 5;
+	public static final int ITEM_RING_STRENGTH_POWERUP = 5;
 	public static final int ITEM_SNEAKER_TURNS_DURATION = 14;
 	public static final int ITEM_RING_TURNS_DURATION = 13;
 	public static final int ITEM_SHIELD_TURNS_DURATION = 14;
@@ -29,7 +29,7 @@ public class DefaultValues {
     
     public static final int MARUTO_HEADBUMP_DAMAGE = 1;
 
-    // Default values for Powerups
+	// Default values for Powerups //SONICBOMB Configure
     public static final boolean POWERUP_CAN_BE_DROPPED = true;
     public static final int POWERUP_TURNS_LIFE = 3;
     public static final int ARRRGGGHHH_TURNS_LIFE = 5;
@@ -47,11 +47,18 @@ public class DefaultValues {
 	public static final int RANDOM_TURNS_LIFE = 4;
 	public static final float RANDOM_SHIFT_PROB = (float) 0.3;
 	public static final int RANDOM_DAMAGE = 3;
+	public static final int RANDOM_LIFE = 1;
 	public static final int RANDOM_SPEED = 2;
 	public static final int GRENADE_DAMAGE = 0;
 	public static final int GRENADE_SPEED = 0;
 	public static final int GRENADE_TURNS_LIFE = 5;
 	public static final float GRENADE_SHIFT_PROB = (float) 0.0;
+	public static final int SONICBOMB_TURNS_LIFE = 4;
+	public static final int SONICBOMB_LIFE = 1;
+	public static final float SONICBOMB_SHIFT_PROB = (float) 0.3;
+	public static final int SONICBOMB_DAMAGE = 3;
+	public static final int SONICBOMB_SPEED = 2;
+
 	public static final int BLACKBOX_TURNS_LIFE = Integer.MAX_VALUE;
 
     // Enumerated values
@@ -135,5 +142,21 @@ public class DefaultValues {
         "This mission is too important for me to allow you to jeopardize it.",
         "I feel much better now."
     };
+    
+    
+    /*
+     * SCORE DEFAULTS
+     * 
+     * 
+     */
+	public static final int POINTS_OUT_OF_BOUNDS_DEATH = -1;
+	public static final int POINTS_ITEM_DEATH = 0;
+	public static final int POINTS_KILL = 3;
 	
+	/*** Init World Variables ***/
+	public static final int NUMBER_EVIL_MARUTOS = 50;
+	public static final int NUMBER_BLACKBOXES = 50;
+	
+	public static final int MAXIMUM_NUMBER_TURNS = 10;
+    
 }

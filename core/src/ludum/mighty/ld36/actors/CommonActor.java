@@ -174,15 +174,8 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	}
 
 
-	@Override
-	public void setname(String name) {
-		this.name = name;
-	}
 
-	@Override
-	public String getname() {
-		return name;
-	}
+
 
 	@Override
 	public int getlife() {
@@ -279,6 +272,22 @@ public abstract class CommonActor extends Actor implements BasicActor {
 
 	public Action getNextAction() {
 		return nextAction;
+	}
+
+	public boolean isShielded() {
+		return shielded;
+	}
+
+	public void setShielded(boolean shielded) {
+		this.shielded = shielded;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }

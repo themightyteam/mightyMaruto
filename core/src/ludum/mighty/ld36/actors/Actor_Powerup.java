@@ -9,11 +9,16 @@ import ludum.mighty.ld36.settings.DefaultValues.RELATIVE_ROTATIONS;
  */
 public abstract class Actor_Powerup extends CommonActor {
 
+	BasicMaruto parentActor = null;
     
     boolean isLifeLimitedByTime;
     int turnsLife;
     
 	boolean isHarmfull = true; // if makes damage on touch
+
+	public Actor_Powerup(BasicMaruto parent) {
+		this.parentActor = parent;
+	}
 
 	public boolean isHarmfull() {
 		return isHarmfull;
@@ -94,6 +99,13 @@ public abstract class Actor_Powerup extends CommonActor {
 
 	}
 
+	public BasicMaruto getParentActor() {
+		return parentActor;
+	}
+
+	public void setParentActor(BasicMaruto parentActor) {
+		this.parentActor = parentActor;
+	}
 
 
 

@@ -1,11 +1,13 @@
 package ludum.mighty.ld36.actors;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import java.util.ArrayList;
 
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.animations.AnimatorArrrggghhh;
 import ludum.mighty.ld36.settings.DefaultValues;
+
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 /**
  * Created by dchaves on 27/08/16.
@@ -16,14 +18,23 @@ public class Item_ARRRGGGHHH extends Actor_Powerup
 	private AnimatorArrrggghhh animator;
 	private Animation anim;
 	
-	public Item_ARRRGGGHHH()
+	public Item_ARRRGGGHHH(BasicMaruto parent)
 	{
+		super(parent);
+
 		this.turnsLife = DefaultValues.ARRRGGGHHH_TURNS_LIFE;
 		this.life = Integer.MAX_VALUE;
 		this.shiftProbability = (float) DefaultValues.ARRRGGGHHH_SHIFT_PROB;
 		this.punch = DefaultValues.ARRRGGGHHH_DAMAGE;
 		this.speed = DefaultValues.ARRRGGGHHH_SPEED;
+		this.name = DefaultValues.POWERUPS.ARRRGGGHHH.toString();
 		
+		// Put an idle action by default
+		ArrayList<Action> actionList = new ArrayList<Action>();
+		actionList.add(new Action(DefaultValues.ACTIONS.IDLE));
+
+		this.movementList = actionList;
+
 		this.animator = new AnimatorArrrggghhh("items_spreadsheet.png");
 		anim = animator.anim;
 	}

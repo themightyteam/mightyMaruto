@@ -172,7 +172,7 @@ public class CommandProcessor {
 						todo = new Action(DefaultValues.ACTIONS.SHOOT,
 								DefaultValues.POWERUPS.RANDOM);
                     } else if (parts[1].compareToIgnoreCase("sonicbomb") == 0) {
-						todo = new Action(DefaultValues.ACTIONS.DROP,
+						todo = new Action(DefaultValues.ACTIONS.SHOOT,
 								DefaultValues.POWERUPS.SONICBOMB);
                     } else if (parts[1].compareToIgnoreCase("diag_sonicbomb") == 0) {
                         todo = new Action(DefaultValues.ACTIONS.SHOOT,

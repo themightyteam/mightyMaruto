@@ -18,11 +18,13 @@ import ludum.mighty.ld36.actors.Item_Punch;
 import ludum.mighty.ld36.actors.Item_SonicBoom;
 import ludum.mighty.ld36.ai.AI;
 import ludum.mighty.ld36.powerUpsViewer.PowerUpsViewer;
+import ludum.mighty.ld36.score.ScoreLabel;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.POWERUPS;
 import ludum.mighty.ld36.textTerminal.CommandProcessor;
 import ludum.mighty.ld36.textTerminal.TextTerminal;
 import ludum.mighty.ld36.timeLeftLabel.TimeLeftLabel;
+import ludum.mighty.ld36.utils.ScoreUtils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -67,6 +69,7 @@ public class MightyWorld {
 	private SpriteBatch batch;
 	private TextTerminal textTerminal;
 	private TimeLeftLabel timeLeftLabel;
+	private ScoreLabel scoreLabel;
 	private PowerUpsViewer powerUpsViewer;
 
 	private CommandProcessor parser;
@@ -74,6 +77,8 @@ public class MightyWorld {
 	boolean actionsPending = false;
 
 	Random generator = new Random();
+
+	int numberOfTurns;
 
 	private AI ai;
 
@@ -106,6 +111,10 @@ public class MightyWorld {
 		this.timeWhenTurnStarted = TimeUtils.millis();
 		this.timeSinceTurnStarted = TimeUtils.millis()
 				- this.timeWhenTurnStarted;
+
+		this.scoreLabel = new ScoreLabel(new Vector2(200f, h - 10f), 120, 20);
+		this.scoreLabel.setYourScore(0);
+
 		this.timeLeftLabel = new TimeLeftLabel(new Vector2(10f, h - 10f), 120,
 				20);
 		this.timeLeftLabel
@@ -116,13 +125,18 @@ public class MightyWorld {
 
 		this.powerUpsViewer = new PowerUpsViewer(new Vector2(550f, 10f));
 
+		// Init the number of turns
+		this.numberOfTurns = 0;
 
 		// TODO: define user input here
 
 		this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
-		initPlayers();
+		// initPlayersDebug();
+		this.initPlayers();
 		updatePowerUps();
-		initBlackBoxes();
+		// initBlackBoxesDebug();
+		this.initBlackBoxes();
+
 
 		this.timeWhenTurnStarted = TimeUtils.millis();
 	}
@@ -166,7 +180,7 @@ public class MightyWorld {
 			break;
 		case DefaultValues.WORLD_STATE_TURN_INIT:
 			System.out.println("WORLD_STATE_TURN_INIT");
-			this.ai.updateActors();
+			// this.ai.updateActors();
 			this.checkTurnUpdate();
 			this.currentState = DefaultValues.WORLD_STATE_MOVEMENT_INIT;
 			break;
@@ -174,10 +188,19 @@ public class MightyWorld {
 			System.out.println("WORLD_STATE_TURN_END");
 			//TODO: Doing Nothing?
 			//Update turn-based items, respawn, etc
+			
+			this.updateInventory();
 			this.finishTurn();
 
 			this.textTerminal.enable();
 			this.timeWhenTurnStarted = TimeUtils.millis();
+
+			// Increment the number of turns played
+			this.numberOfTurns += 1;
+
+			// Update score in label
+			this.scoreLabel.setYourScore(this.basicMaruto.getScore());
+
 			this.currentState = DefaultValues.WORLD_STATE_ENTERING_COMMAND;
 
 			break;
@@ -214,12 +237,12 @@ public class MightyWorld {
 							+ "  TILED Y: "
 							+ Integer.toString(((BasicMaruto) actor)
 									.getTilePosY())
-
 					);
-
 				}
-
 			}
+			System.out
+.println("1 BASIC MARUTO SCORE " + basicMaruto.getScore()
+					+ " NAME " + basicMaruto.getName());
 
 			//Wait till movements are finished
 			// if (this.isMovementStepFinished())
@@ -231,11 +254,13 @@ public class MightyWorld {
 
 
 			this.deleteOutOfBordersActors();
+
+
 			this.deletePowerups();
 
-			this.checkRespawn();
-			this.updateInventory();
 
+			this.checkRespawn();
+		
 
 			if (this.actionsPending)
 
@@ -279,7 +304,7 @@ public class MightyWorld {
 
 			powerList.add(this.basicMaruto.getPowerups().get(i).getType());
 		}
-		
+
 		for (int i = powerList.size(); i < 4; i++)
 		{
 			powerList.add(null);
@@ -307,12 +332,31 @@ public class MightyWorld {
 		this.textTerminal.render(batch);
 		this.timeLeftLabel.render(batch);
 		this.powerUpsViewer.render(batch);
+		this.scoreLabel.render(batch);
 	}
 
 	// // END OF WORLD API
 
 	// Creates all players
+
 	private void initPlayers() {
+		// Add playable player
+		basicMaruto = new GoodMaruto();
+
+		// set the xy for the tiles and stage position
+		// TODO: set this position randomly
+		doRespawn(basicMaruto);
+		this.stage.addActor(basicMaruto);
+
+		for (int i = 0; i < DefaultValues.NUMBER_EVIL_MARUTOS; i++) {
+			EvilMaruto eM = new EvilMaruto();
+			doRespawn(eM);
+			this.stage.addActor(eM);
+		}
+
+	}
+
+	private void initPlayersDebug() {
 		// Add playable player
 		basicMaruto = new GoodMaruto();
 
@@ -340,7 +384,18 @@ public class MightyWorld {
 		// TODO: Add rest of players
 	}
 
-	private void initBlackBoxes() {
+	private void initBlackBoxes() 
+	{
+		for (int i = 0; i < DefaultValues.NUMBER_BLACKBOXES; i++)
+		{
+			ItemBlackBox ibb = new ItemBlackBox();
+			this.doRespawn(ibb);
+			this.stage.addActor(ibb);
+		}
+			
+	}
+
+	private void initBlackBoxesDebug() {
 		ItemBlackBox ibb = new ItemBlackBox();
 		ibb.setInitialTilePosX(25);
 		ibb.setInitialTilePosY(25);
@@ -428,9 +483,8 @@ public class MightyWorld {
 		Array<Actor> newActorList = new Array<Actor>();
 
 		//Checking powerups
-
 		for (int i = 0; i < actorList.size; i++)
- {
+		{
 			Actor actor = actorList.get(i);
 
 			if (actor instanceof Actor_Powerup)
@@ -457,8 +511,15 @@ public class MightyWorld {
 						if (i != j)
 						{
 
+
 							CommonActor otherActor = (CommonActor) nextActor;
 
+							// Jump if the player was already dead
+							if (otherActor.getlife() <= 0)
+								continue;
+
+							// Check if the player and the powerup are in the
+							// same tile
 							if ((otherActor.getTilePosX() == mypowerup.getTilePosX()) &&
 									(otherActor.getTilePosY() == mypowerup.getTilePosY()))
 							{
@@ -466,21 +527,62 @@ public class MightyWorld {
 								//Update life
 
 								if (otherActor.isCanBeHit())
-									otherActor.setlife(otherActor.getlife() - mypowerup.getpunch());
+								{
+									//Check if the user is shielded 
+									if (nextActor instanceof BasicMaruto)
+									{
+										BasicMaruto otherMaruto = (BasicMaruto) nextActor;
+										if (!otherMaruto.isShielded())
+											otherActor.setlife(otherActor
+													.getlife()
+													- mypowerup.getpunch());
+									}
+									else
+									{
+
+										otherActor.setlife(otherActor.getlife() - mypowerup.getpunch());
+									}
+								}
 
 								//life of my powerup is also diminished by 1 (losing force after collision)
 								mypowerup.setlife(mypowerup.getlife() - 1);
 
 
 
-								//If the other actor is death remove its actions and add a DEATH
+								// If the other actor is dead remove its actions
+								// and add a DEATH
 								if (otherActor.getlife() <= 0 )
 								{
+
+									// Update scores
+									if (otherActor instanceof BasicMaruto) {
+
+										BasicMaruto otherMaruto = (BasicMaruto) otherActor;
+
+										mypowerup
+												.getParentActor()
+												.setScore(
+														mypowerup
+																.getParentActor()
+																.getScore()
+																+ DefaultValues.POINTS_KILL);
+
+										otherMaruto
+												.setScore(otherMaruto
+														.getScore()
+														+ DefaultValues.POINTS_ITEM_DEATH);
+
+									}
+
+
 									otherActor.getMovementList().clear();
 									otherActor.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
 								}
 								else
 								{
+
+									// If the other actor was hit, change the
+									// actions
 
 									if (otherActor.isCanBeHit())
 									{
@@ -491,11 +593,30 @@ public class MightyWorld {
 
 										if (nextActor instanceof BasicMaruto)
 										{
-											if (randomProb < mypowerup.getShiftProbability())
-												otherActor.getMovementList().add(new Action(DefaultValues.ACTIONS.SHIFT_HIT));
-											else 
-												otherActor.getMovementList().add(new Action(DefaultValues.ACTIONS.HIT));
+											BasicMaruto otherMaruto = (BasicMaruto) nextActor;
 
+											// Check if the other player was
+											// shielded
+											if (!otherMaruto.isShielded()) {
+												if (randomProb < mypowerup
+														.getShiftProbability())
+ {
+													otherActor
+															.setFacing(this
+																	.obtainOppositeFacing(mypowerup
+																			.getFacing()));
+
+													otherActor
+															.getMovementList()
+															.add(new Action(
+																	DefaultValues.ACTIONS.SHIFT_HIT));
+												}
+												else
+													otherActor
+															.getMovementList()
+															.add(new Action(
+																	DefaultValues.ACTIONS.HIT));
+											}
 										}
 									}
 								}
@@ -513,15 +634,18 @@ public class MightyWorld {
 			}
 		}
 
+		// Checking Marutos
 		for (int i = 0; i < actorList.size; i++)
 		{
-
 			Actor actor = actorList.get(i);
-
 			//TODO
 			if (actor instanceof BasicMaruto)
 			{
 				BasicMaruto myMaruto = (BasicMaruto) actor;
+
+				// If the player was already death do nothing
+				if (myMaruto.getlife() <= 0)
+					continue;
 
 				if (myMaruto.getMovementList().size() > 0)
 				{
@@ -537,21 +661,44 @@ public class MightyWorld {
 						switch (movement.getpowerup()) {
 
 						case ARRRGGGHHH:
-							
+
 							if (myMaruto
 									.hasPowerUp(DefaultValues.POWERUPS.ARRRGGGHHH
 											.toString())) {
 
-							newActor = new Item_ARRRGGGHHH();
+								newActor = new Item_ARRRGGGHHH(myMaruto);
 
 								newActor.setFacing(myMaruto.getfacing());
 
+								// Set x-y position of item (initial position)
+								newActor.setInitialTilePosX(this
+										.obtainItemSpawnX(myMaruto));
+								newActor.setInitialTilePosY(this
+										.obtainItemSpawnY(myMaruto));
+								newActorList.add(newActor);
+							} else {
+								myMaruto.getMovementList().clear();
+								myMaruto.getMovementList()
+								.add(new Action(
+										DefaultValues.ACTIONS.CONFUSION));
+							}
+
+							break;
+						case CHOCO:
+							if (myMaruto
+									.hasPowerUp(DefaultValues.POWERUPS.CHOCO
+											.toString())) {
+
+								newActor = new Item_Choco(myMaruto);
+
+							newActor.setFacing(myMaruto.getfacing());
 							// Set x-y position of item (initial position)
 							newActor.setInitialTilePosX(this
 									.obtainItemSpawnX(myMaruto));
 							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
+
 							} else {
 								myMaruto.getMovementList().clear();
 								myMaruto.getMovementList()
@@ -560,20 +707,12 @@ public class MightyWorld {
 							}
 
 							break;
-						case CHOCO:
-							newActor = new Item_Choco();
-
-							newActor.setFacing(myMaruto.getfacing());
-							// Set x-y position of item (initial position)
-							newActor.setInitialTilePosX(this
-									.obtainItemSpawnX(myMaruto));
-							newActor.setInitialTilePosY(this
-									.obtainItemSpawnY(myMaruto));
-							newActorList.add(newActor);
-
-							break;
 						case SONICBOMB:
-							newActor = new Item_SonicBoom();
+							if (myMaruto
+									.hasPowerUp(DefaultValues.POWERUPS.SONICBOMB
+											.toString())) {
+
+								newActor = new Item_SonicBoom(myMaruto);
 							newActor.setFacing(myMaruto.getfacing());
 
 							// Set x-y position of item (initial position)
@@ -582,10 +721,21 @@ public class MightyWorld {
 							newActor.setInitialTilePosY(this
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
+
+							} else {
+								myMaruto.getMovementList().clear();
+								myMaruto.getMovementList()
+										.add(new Action(
+												DefaultValues.ACTIONS.CONFUSION));
+							}
 
 							break;
 						case GRENADE:
-							newActor = new Item_SonicBoom();
+
+							if (myMaruto
+									.hasPowerUp(DefaultValues.POWERUPS.GRENADE
+											.toString())) {
+								newActor = new Item_SonicBoom(myMaruto);
 
 							newActor.setFacing(myMaruto.getfacing());
 
@@ -596,9 +746,16 @@ public class MightyWorld {
 									.obtainItemSpawnY(myMaruto));
 							newActorList.add(newActor);
 
+							} else {
+								myMaruto.getMovementList().clear();
+								myMaruto.getMovementList()
+										.add(new Action(
+												DefaultValues.ACTIONS.CONFUSION));
+							}
+
 							break;
 						case PUNCH:
-							newActor = new Item_Punch();
+							newActor = new Item_Punch(myMaruto);
 
 							newActor.setFacing(myMaruto.getfacing());
 
@@ -617,7 +774,11 @@ public class MightyWorld {
 						case DIAG_SONICBOMB:
 							break;
 						case RANDOM:
-							newActor = new Item_Boomerang();
+							if (myMaruto
+									.hasPowerUp(DefaultValues.POWERUPS.RANDOM
+											.toString())) {
+
+								newActor = new Item_Boomerang(myMaruto);
 
 							newActor.setInitialTilePosX(this
 									.obtainItemSpawnX(myMaruto));
@@ -637,9 +798,22 @@ public class MightyWorld {
 
 							newActorList.add(newActor);
 
+							} else {
+								myMaruto.getMovementList().clear();
+								myMaruto.getMovementList()
+										.add(new Action(
+												DefaultValues.ACTIONS.CONFUSION));
+							}
+
 							break;
 
 						default:
+							// No item: confuse
+							myMaruto.getMovementList().clear();
+							myMaruto.getMovementList()
+									.add(new Action(
+											DefaultValues.ACTIONS.CONFUSION));
+
 							break;
 						}
 
@@ -782,12 +956,11 @@ public class MightyWorld {
 
 							for (int j = 0; j < actorList.size; j++)
 							{
-								
 								Actor possibleItem = actorList.get(j);	
-							
+
 								// Handling the special case of ItemBlackBox
 								if (possibleItem instanceof ItemBlackBox) {
-									
+
 									ItemBlackBox itemActor = (ItemBlackBox) possibleItem;
 									if ((itemActor.getTilePosX() == myMaruto.getTilePosX()) &&
 											(itemActor.getTilePosY() == myMaruto.getTilePosY()))
@@ -795,10 +968,10 @@ public class MightyWorld {
 										if ((itemActor.getTilePosX() == myMaruto
 												.getTilePosX())
 												&& (itemActor.getTilePosY() == myMaruto
-														.getTilePosY())) {
+												.getTilePosY())) {
 
 											// Pick the object
-										
+
 											Action nextAction = this
 													.obtainItemInBox();
 											// Grab the item in the next
@@ -829,16 +1002,10 @@ public class MightyWorld {
 											itemActor.setY(yTile);
 
 										}
-										
-									
 									}
-
 								}
 
-								
 							}
-							
-
 
 							break;
 
@@ -858,8 +1025,10 @@ public class MightyWorld {
 						Actor nextActor = actorList.get(j);
 						if (i != j)
 						{
+							
 							if (nextActor instanceof Actor_Powerup)
 							{
+							
 								CommonActor otherActor = (CommonActor) nextActor;
 
 								if ((otherActor.getTilePosX() == myMaruto.getTilePosX()) &&
@@ -880,7 +1049,11 @@ public class MightyWorld {
 									//life of my powerup is also diminished by 1 (losing force after collision)
 									otherActor.setlife(otherActor.getlife() - 1);
 									if (myMaruto.isCanBeHit())
-										myMaruto.setlife( myMaruto.getlife() - otherActor.getpunch());
+ {
+										if (!myMaruto.isShielded())
+											myMaruto.setlife(myMaruto.getlife()
+													- otherActor.getpunch());
+									}
 
 									//Check powerup life
 									if (otherActor.getlife() < 0)
@@ -890,25 +1063,57 @@ public class MightyWorld {
 									}
 
 									//Check my maruto life
-
 									if (myMaruto.getlife() <= 0 )
 									{
+
+										Actor_Powerup mypowerup = (Actor_Powerup) otherActor;
+
+										mypowerup
+												.getParentActor()
+												.setScore(
+														mypowerup
+																.getParentActor()
+																.getScore()
+																+ DefaultValues.POINTS_KILL);
+
+										// Update scores
+										myMaruto.setScore(myMaruto.getScore()
+												+ DefaultValues.POINTS_ITEM_DEATH);
+
 										myMaruto.getMovementList().clear();
 										myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
 									}
 									else
 									{
-										float randomProb = this.generator.nextFloat();
-										myMaruto.getMovementList().clear();
-										if (randomProb < myMaruto.getShiftProbability())
-											myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.SHIFT_HIT));
-										else 
-											myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.HIT));
+										if (!myMaruto.isShielded()
+												&& myMaruto.isCanBeHit()) {
+											float randomProb = this.generator
+													.nextFloat();
+											myMaruto.getMovementList().clear();
+											if (randomProb < myMaruto
+													.getShiftProbability())
+ {
+												myMaruto.setFacing(this
+														.obtainOppositeFacing(otherActor
+																.getFacing()));
+
+												myMaruto.getMovementList()
+														.add(new Action(
+																DefaultValues.ACTIONS.SHIFT_HIT));
+											}
+											else
+												myMaruto.getMovementList()
+														.add(new Action(
+																DefaultValues.ACTIONS.HIT));
+										}
 									}
 
 								}
 
-							}
+							} 
+
+							// Special Case: maruto headbump
+							// The headbump also affects if maruto is shielded
 							else if (nextActor instanceof BasicMaruto)
 							{
 								CommonActor otherActor = (CommonActor) nextActor;
@@ -916,7 +1121,7 @@ public class MightyWorld {
 								if ((otherActor.getTilePosX() == myMaruto
 										.getTilePosX())
 										&& (otherActor.getTilePosY() == myMaruto
-												.getTilePosY())) {
+										.getTilePosY())) {
 
 									// Maruto Against Maruto (a headbump)
 
@@ -925,19 +1130,24 @@ public class MightyWorld {
 
 
 									if (myMaruto.getlife() <= 0) {
+
+										// Update score
+										myMaruto.setScore(myMaruto.getScore()
+												+ DefaultValues.POINTS_ITEM_DEATH);
+
 										myMaruto.getMovementList().clear();
 										myMaruto.getMovementList()
-												.add(new Action(
-														DefaultValues.ACTIONS.DEATH));
+										.add(new Action(
+												DefaultValues.ACTIONS.DEATH));
 									} else {
 										myMaruto.getMovementList().clear();
 										myMaruto.getMovementList()
-												.add(new Action(
-														DefaultValues.ACTIONS.SHIFT_HIT));
+										.add(new Action(
+												DefaultValues.ACTIONS.SHIFT_HIT));
 									}
 
 								}
- else {
+								else {
 
 								}
 
@@ -952,7 +1162,7 @@ public class MightyWorld {
 
 
 
-		
+
 		// Finally Add actors to scene
 		for (Actor actor : newActorList) {
 			this.stage.addActor(actor);
@@ -1020,6 +1230,11 @@ public class MightyWorld {
 								new Action(DefaultValues.ACTIONS.DEATH));
 
 						myMaruto.setlife(Integer.MIN_VALUE);
+
+						// Update score
+						myMaruto.setScore(myMaruto.getScore()
+								+ DefaultValues.POINTS_OUT_OF_BOUNDS_DEATH);
+
 
 					}
 
@@ -1095,30 +1310,11 @@ public class MightyWorld {
 					if (myMaruto.getTurnsToRespawn() <= 0)
 					{
 
-						int xTile = this.generator
-								.nextInt(this.mapWidthInTiles) / 2; // FIXME:
-						// nhapa:
-						// dentro
-						// del
-						// tatami
-						int yTile = this.generator
-								.nextInt(this.mapHeightInTiles) / 2; // FIXME:
-						// nhapa
-						// dentro
-						// del
-						// tatami
-
-						xTile += this.mapWidthInTiles / 4;
-
-						yTile += this.generator.nextInt(this.mapWidthInTiles) / 4;
-
-						//TODO : check this tile is not water
-
-						myMaruto.setInitialTilePosX(xTile);
-						myMaruto.setInitialTilePosY(yTile);
+						this.doRespawn(myMaruto);
 						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
 						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
 						myMaruto.getMovementList().clear();
+
 
 
 					}
@@ -1131,6 +1327,29 @@ public class MightyWorld {
 			}
 
 		}
+	}
+
+	public void doRespawn(CommonActor actor) {
+		int xTile = this.generator.nextInt(this.mapWidthInTiles) / 2; // FIXME:
+		// nhapa:
+		// dentro
+		// del
+		// tatami
+		int yTile = this.generator.nextInt(this.mapHeightInTiles) / 2; // FIXME:
+		// nhapa
+		// dentro
+		// del
+		// tatami
+
+		xTile += this.mapWidthInTiles / 4;
+
+		yTile += this.mapHeightInTiles / 4;
+
+		// TODO : check this tile is not water
+
+		actor.setInitialTilePosX(xTile);
+		actor.setInitialTilePosY(yTile);
+
 	}
 
 	/**
@@ -1217,7 +1436,7 @@ public class MightyWorld {
 
 	public Action obtainItemInBox() {
 
-		int nextItem = this.generator.nextInt(11);// FIXME: number of powerups
+		int nextItem = this.generator.nextInt(12);// FIXME: number of powerups
 		// hardcoded
 
 		Action action = null;
@@ -1256,7 +1475,14 @@ public class MightyWorld {
 			action = new Action(DefaultValues.ACTIONS.PICK,
 					DefaultValues.POWERUPS.DIZZY);
 
+		} else if (nextItem == 11) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.SNEAKERS);
+
 		}
+
+		action = new Action(DefaultValues.ACTIONS.PICK,
+				DefaultValues.POWERUPS.SONICBOMB);
 
 		return action;
 	}
@@ -1291,6 +1517,54 @@ public class MightyWorld {
 		}
 
 
+	}
+
+	DefaultValues.ABSOLUTE_DIRECTIONS obtainOppositeFacing(
+			DefaultValues.ABSOLUTE_DIRECTIONS direction) {
+		DefaultValues.ABSOLUTE_DIRECTIONS newDirection;
+
+		switch (direction) {
+		case NORTH:
+			newDirection = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
+			break;
+		case SOUTH:
+			newDirection = DefaultValues.ABSOLUTE_DIRECTIONS.NORTH;
+			break;
+		case EAST:
+			newDirection = DefaultValues.ABSOLUTE_DIRECTIONS.WEST;
+			break;
+		case WEST:
+			newDirection = DefaultValues.ABSOLUTE_DIRECTIONS.EAST;
+		default:
+			newDirection = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
+		}
+
+		return newDirection;
+	}
+
+	public int getNumberOfTurns() {
+		return numberOfTurns;
+	}
+
+	public void setNumberOfTurns(int numberOfTurns) {
+		this.numberOfTurns = numberOfTurns;
+	}
+
+	public ArrayList<ScoreUtils> obtainMarutoScores() {
+		
+		ArrayList<ScoreUtils> nextScores = new ArrayList<ScoreUtils>();
+		
+		for (Actor actor : this.stage.getActors()) {
+			if (actor instanceof BasicMaruto) {
+
+				BasicMaruto myMaruto = (BasicMaruto) actor;
+
+				nextScores.add(new ScoreUtils(myMaruto.getName(), myMaruto
+						.getScore()));
+			}
+		}
+
+		return nextScores;
 	}
 
 }

@@ -1,6 +1,10 @@
 package ludum.mighty.ld36.screen;
 
+import java.util.ArrayList;
+
 import ludum.mighty.ld36.assets.SoundAssets;
+import ludum.mighty.ld36.settings.DefaultValues;
+import ludum.mighty.ld36.utils.ScoreUtils;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -12,7 +16,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import ludum.mighty.ld36.settings.DefaultValues;
 
 public class ScoresScreen extends DefaultScreen implements Screen {
 
@@ -24,12 +27,18 @@ public class ScoresScreen extends DefaultScreen implements Screen {
 
 	int waitFramesForHandle = DefaultValues.WAIT_TIME;
 
-	public ScoresScreen(Game game, SoundAssets sa) {
+	ArrayList<ScoreUtils> scoreList;
+
+	public ScoresScreen(Game game, SoundAssets sa,
+			ArrayList<ScoreUtils> scoreList) {
 		super(game, sa);
+
+		this.scoreList = scoreList;
 
 		this.cam = new OrthographicCamera();
 		this.sv = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), this.cam);
-		this.cam.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0);
+		this.cam.position.set(Gdx.graphics.getWidth() / 2,
+				Gdx.graphics.getHeight() / 2, 0);
 
 		this.batch = new SpriteBatch();
 		this.img = new Texture("scores.png");
@@ -59,6 +68,9 @@ public class ScoresScreen extends DefaultScreen implements Screen {
 	}
 
 	private void handleInput() {
+
+
+
 		if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
 			this.mightyGame.setScreen(new IntroScreen(this.mightyGame,
 					this.soundAssets));

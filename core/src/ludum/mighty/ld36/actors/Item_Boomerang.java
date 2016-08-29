@@ -1,13 +1,13 @@
 package ludum.mighty.ld36.actors;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import java.util.ArrayList;
 
 import ludum.mighty.ld36.actions.Action;
-import ludum.mighty.ld36.animations.AnimatorArrrggghhh;
 import ludum.mighty.ld36.animations.AnimatorBoomerang;
-import ludum.mighty.ld36.animations.AnimatorSonicBoom;
 import ludum.mighty.ld36.settings.DefaultValues;
+
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 /**
  * Created by dchaves on 27/08/16.
@@ -18,14 +18,23 @@ public class Item_Boomerang extends Actor_Powerup
 	private AnimatorBoomerang animator;
 	private Animation anim;
 	
-	public Item_Boomerang()
+	public Item_Boomerang(BasicMaruto parent)
 	{
-		this.turnsLife = DefaultValues.ARRRGGGHHH_TURNS_LIFE;
-		this.life = Integer.MAX_VALUE;
-		this.shiftProbability = (float) DefaultValues.ARRRGGGHHH_SHIFT_PROB;
-		this.punch = DefaultValues.ARRRGGGHHH_DAMAGE;
-		this.speed = DefaultValues.ARRRGGGHHH_SPEED;
+		super(parent);
+
+		this.turnsLife = DefaultValues.RANDOM_TURNS_LIFE;
+		this.life = DefaultValues.RANDOM_LIFE;
+		this.shiftProbability = (float) DefaultValues.RANDOM_SHIFT_PROB;
+		this.punch = DefaultValues.RANDOM_DAMAGE;
+		this.speed = DefaultValues.RANDOM_SPEED;
+		this.name = DefaultValues.POWERUPS.RANDOM.toString();
 		
+		// Put an idle action by default
+		ArrayList<Action> actionList = new ArrayList<Action>();
+		actionList.add(new Action(DefaultValues.ACTIONS.IDLE));
+
+		this.movementList = actionList;
+
 		this.animator = new AnimatorBoomerang("items_spreadsheet.png");
 		anim = animator.anim;
 	}
