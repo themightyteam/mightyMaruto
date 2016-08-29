@@ -1,7 +1,7 @@
 # mightyLD36
 Code for a LD36 game
 
-#Mighty Maruto and the mighty brutes
+#Mighty Maruto and the Mighty Brutes
 
 
 ##Mighty Maruto in his most exciting and probably last adventure after a long period of solitude.
