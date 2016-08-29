@@ -366,26 +366,14 @@ public class MightyWorld {
 
 		// set the xy for the tiles and stage position
 		//TODO: set this position randomly
-		basicMaruto.setInitialTilePosX(24);
-		basicMaruto.setInitialTilePosY(24);
+		basicMaruto.setInitialTilePosX(50);
+		basicMaruto.setInitialTilePosY(50);
 		this.stage.addActor(basicMaruto);
 
 		EvilMaruto eM = new EvilMaruto();
-		eM.setInitialTilePosX(27);
-		eM.setInitialTilePosY(24);
+		eM.setInitialTilePosX(52);
+		eM.setInitialTilePosY(52);
 		this.stage.addActor(eM);
-
-		eM = new EvilMaruto();
-		eM.setInitialTilePosX(25);
-		eM.setInitialTilePosY(27);
-		this.stage.addActor(eM);
-
-		eM = new EvilMaruto();
-		eM.setInitialTilePosX(27);
-		eM.setInitialTilePosY(27);
-		this.stage.addActor(eM);
-
-		// TODO: Add rest of players
 	}
 
 	private void initBlackBoxes() 
