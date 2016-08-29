@@ -105,7 +105,8 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH) {
 						if (isSomebodyOnTheBottom(myActor, nearList)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT));
+									DefaultValues.ACTIONS.SHOOT,
+									DefaultValues.POWERUPS.PUNCH));
 							continue; // next actor, this one has finished
 						}
 						if (isSomebodyOnTheRight(myActor, nearList)) {
