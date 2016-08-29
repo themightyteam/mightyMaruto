@@ -19,16 +19,16 @@ public class AudioClips {
     private static Sound wilhem;
 
     public AudioClips(){
-        this.arg = Gdx.audio.newSound(Gdx.files.internal("sounds/arg.wav"));
-        this.choco = Gdx.audio.newSound(Gdx.files.internal("sounds/choco.wav"));
-        this.explosion = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
-        this.hadouken = Gdx.audio.newSound(Gdx.files.internal("sounds/hadouken.wav"));
-        this.hit = Gdx.audio.newSound(Gdx.files.internal("sounds/hit1.wav"));
-        this.shift_hit = Gdx.audio.newSound(Gdx.files.internal("sounds/hit2.wav"));
-        this.powerup = Gdx.audio.newSound(Gdx.files.internal("sounds/powerup.wav"));
-        this.punch = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
-        this.timeout = Gdx.audio.newSound(Gdx.files.internal("sounds/timeout.wav"));
-        this.wilhem = Gdx.audio.newSound(Gdx.files.internal("sounds/wilhem.wav"));
+        arg = Gdx.audio.newSound(Gdx.files.internal("sounds/arg.wav"));
+        choco = Gdx.audio.newSound(Gdx.files.internal("sounds/choco.wav"));
+        explosion = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
+        hadouken = Gdx.audio.newSound(Gdx.files.internal("sounds/hadouken.wav"));
+        hit = Gdx.audio.newSound(Gdx.files.internal("sounds/hit1.wav"));
+        shift_hit = Gdx.audio.newSound(Gdx.files.internal("sounds/hit2.wav"));
+        powerup = Gdx.audio.newSound(Gdx.files.internal("sounds/powerup.wav"));
+        punch = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
+        timeout = Gdx.audio.newSound(Gdx.files.internal("sounds/timeout.wav"));
+        //wilhem = Gdx.audio.newSound(Gdx.files.internal("sounds/wilhem.wav"));
     }
 
     public void play_arg() {

@@ -36,19 +36,19 @@ public class Line {
     // (to process or whatever)
 
     Line(String text) {
-        this.text = text.substring(0,LINELENGTH);
+        this.text = text.substring(0,Math.min(this.text.length(),LINELENGTH));
         this.hasBeenSent = false;
         this.color = new Color(0f, 1f, 0f, 1f);
     }
 
     Line (String text, boolean hasBeenSent) {
-        this.text = text.substring(0,LINELENGTH);
+        this.text = text.substring(0,Math.min(this.text.length(),LINELENGTH));
         this.hasBeenSent = hasBeenSent;
         this.color = new Color(0f, 1f, 0f, 1f);
     }
 
     Line (String text, boolean hasBeenSent, Color color) {
-        this.text = text.substring(0,LINELENGTH);
+        this.text = text.substring(0,Math.min(this.text.length(),LINELENGTH));
         this.hasBeenSent = hasBeenSent;
         this.color = color;
     }
