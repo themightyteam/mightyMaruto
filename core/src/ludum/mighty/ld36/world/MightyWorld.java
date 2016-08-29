@@ -344,7 +344,7 @@ public class MightyWorld {
 
 	// Creates all players
 
-	private void initPlayers_() {
+	private void initPlayers() {
 		// Add playable player
 		basicMaruto = new GoodMaruto();
 
@@ -361,7 +361,7 @@ public class MightyWorld {
 
 	}
 
-	private void initPlayers/* Debug */() {
+	private void initPlayersDebug() {
 		// Add playable player
 		basicMaruto = new GoodMaruto();
 
@@ -379,7 +379,7 @@ public class MightyWorld {
 
 	private void initBlackBoxes() 
 	{
-		for (int i = 0; i < DefaultValues.NUMBER_BLACKBOXES * 4; i++)
+		for (int i = 0; i < DefaultValues.NUMBER_BLACKBOXES; i++)
 		{
 			ItemBlackBox ibb = new ItemBlackBox();
 			this.doRespawn(ibb);
