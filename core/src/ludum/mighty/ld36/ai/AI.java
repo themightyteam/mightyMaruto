@@ -9,6 +9,7 @@ import ludum.mighty.ld36.actors.EvilMaruto;
 import ludum.mighty.ld36.actors.ItemBlackBox;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Boomerang;
+import ludum.mighty.ld36.actors.Item_SonicBoom;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.world.MightyWorld;
 
@@ -264,6 +265,10 @@ public class AI {
 			}
 			if (actor instanceof Item_Boomerang) {
 				Item_Boomerang myActor = (Item_Boomerang) actor;
+				myActor.setNextAction(new Action(DefaultValues.ACTIONS.WALK));
+			}
+			if (actor instanceof Item_SonicBoom) {
+				Item_SonicBoom myActor = (Item_SonicBoom) actor;
 				myActor.setNextAction(new Action(DefaultValues.ACTIONS.WALK));
 			}
 		}
