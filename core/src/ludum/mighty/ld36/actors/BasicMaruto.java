@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.animations.AnimatorMaruto;
+import ludum.mighty.ld36.assets.AudioClips;
 import ludum.mighty.ld36.settings.DefaultValues;
 
 import com.badlogic.gdx.Gdx;
@@ -28,6 +29,8 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 	private MoveByAction mba;
 
+	private AudioClips audioClips;
+
 	// private boolean stopFlag;
 
 
@@ -36,14 +39,14 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 
 		this.name = DefaultValues.ACTOR_NAME;
 
-
-
 		this.life = DefaultValues.ACTOR_LIFE;
 		this.punch = DefaultValues.ACTOR_PUNCH_DAMAGE;
 		this.speed = DefaultValues.ACTOR_SPEED;
 		this.isrespawnable = true;
 		this.canBeHit = true;
 		// stopFlag = false;
+
+		this.audioClips = new AudioClips();
 
 		facing = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
 
@@ -451,6 +454,46 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 			doMovementMoonWalk();
 			break;
 		case SHOOT:
+			switch(action.getpowerup()) {
+				case YENDOR:
+					this.audioClips.play_timeout();
+					break;
+				case CHOCO:
+					this.audioClips.play_choco();
+					break;
+				case ARRRGGGHHH:
+					this.audioClips.play_arg();
+					break;
+				case GRENADE:
+					break;
+				case RANDOM:
+					break;
+				case SHIELD:
+					break;
+				case INVISIBILITY:
+					break;
+				case RING:
+					break;
+				case SONICBOMB:
+					this.audioClips.play_hadouken();
+					break;
+				case DIAG_SONICBOMB:
+					this.audioClips.play_hadouken();
+					break;
+				case SNEAKERS:
+					break;
+				case DIZZY:
+					break;
+				case PUNCH:
+					this.audioClips.play_punch();
+					break;
+				case EXPLOSION:
+					this.audioClips.play_explosion();
+					break;
+				case BLACKBOX:
+				default:
+					break;
+			}
 			doMovementShoot();
 			break;
 		case TURN:
@@ -463,6 +506,7 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 			doMovementConfusion();
 			break;	
 		case DEATH:
+			this.audioClips.play_wilhem();
 			doMovementDeath();
 			break;
 		case DROP:
@@ -470,15 +514,18 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		case HELP:
 			break;
 		case HIT:
+			this.audioClips.play_hit();
 			doMovementHit();
 			break;
 		case IDLE:
 			break;
 		case PICK:
+			this.audioClips.play_powerup();
 			break;
 		case RUN:
 			break;
 		case SHIFT_HIT:
+			this.audioClips.play_shift_hit();
 			doMovementShiftHit();
 			break;
 		case STOP:
