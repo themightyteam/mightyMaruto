@@ -662,10 +662,13 @@ public class MightyWorld {
 
 					Action movement = myMaruto.getMovementList().remove(0);
 
+
 					// Check changes
 					if (movement.gettype() == DefaultValues.ACTIONS.SHOOT) {
 
 						CommonActor newActor;
+
+						if (movement.getpowerup() != null) {
 
 						switch (movement.getpowerup()) {
 
@@ -826,7 +829,10 @@ public class MightyWorld {
 							break;
 						}
 
+						}
 					} else if (movement.gettype() == DefaultValues.ACTIONS.DROP) {
+
+						if (movement.getpowerup() != null) {
 
 						switch (movement.getpowerup()) {
 						case ARRRGGGHHH:
@@ -875,7 +881,11 @@ public class MightyWorld {
 							break;
 						}
 
+						}
+
 					} else if (movement.gettype() == DefaultValues.ACTIONS.PICK) {
+
+						if (movement.getpowerup() != null) {
 
 						switch (movement.getpowerup()) {
 						case RING:
@@ -1027,6 +1037,8 @@ public class MightyWorld {
 
 						default:
 							break;
+
+							}
 						}
 					}
 
