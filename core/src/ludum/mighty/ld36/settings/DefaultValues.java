@@ -53,7 +53,7 @@ public class DefaultValues {
 	public static final int GRENADE_SPEED = 0;
 	public static final int GRENADE_TURNS_LIFE = 5;
 	public static final float GRENADE_SHIFT_PROB = (float) 0.0;
-	public static final int SONICBOMB_TURNS_LIFE = 4;
+	public static final int SONICBOMB_TURNS_LIFE = 10;
 	public static final int SONICBOMB_LIFE = 1;
 	public static final float SONICBOMB_SHIFT_PROB = (float) 0.3;
 	public static final int SONICBOMB_DAMAGE = 3;

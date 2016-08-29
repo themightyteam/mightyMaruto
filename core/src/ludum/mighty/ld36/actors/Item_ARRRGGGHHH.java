@@ -6,7 +6,6 @@ import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.animations.AnimatorArrrggghhh;
 import ludum.mighty.ld36.settings.DefaultValues;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 /**
@@ -16,7 +15,7 @@ public class Item_ARRRGGGHHH extends Actor_Powerup
 {
 	
 	private AnimatorArrrggghhh animator;
-	private Animation anim;
+
 	
 	public Item_ARRRGGGHHH(BasicMaruto parent)
 	{

@@ -6,7 +6,6 @@ import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.animations.AnimatorBoomerang;
 import ludum.mighty.ld36.settings.DefaultValues;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 /**
@@ -16,8 +15,8 @@ public class Item_Boomerang extends Actor_Powerup
 {
 	
 	private AnimatorBoomerang animator;
-	private Animation anim;
 	
+
 	public Item_Boomerang(BasicMaruto parent)
 	{
 		super(parent);

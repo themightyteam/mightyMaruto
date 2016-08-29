@@ -7,9 +7,6 @@ import ludum.mighty.ld36.animations.AnimatorMaruto;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.RELATIVE_ROTATIONS;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 /**
@@ -23,9 +20,8 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 	private Vector<Item_Powerup> powerups;
 
     private AnimatorMaruto animator;
-	private Animation anim;
-	
-	private float elapsedTime = 0;
+
+
 
 	private MoveByAction mba;
 
@@ -91,17 +87,6 @@ public class BasicMaruto extends CommonActor implements BasicActor {
 		//System.out.println("BasicMaruto: " + this.getX() + " " + this.getY());
 
 	}
-
-	@Override
-	public void draw(Batch batch, float alpha) {
-
-		elapsedTime += Gdx.graphics.getDeltaTime();
-		if (this.visibility)
-		batch.draw(anim.getKeyFrame(elapsedTime, moveFlag), getX(), getY());
-		//		batch.draw(anim.getKeyFrame(elapsedTime, true), getX(), getY());
-
-	}
-
 
 	@Override
 	public void move(int x, int y) {

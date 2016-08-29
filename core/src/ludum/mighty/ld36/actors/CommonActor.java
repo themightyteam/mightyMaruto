@@ -6,11 +6,18 @@ import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.settings.DefaultValues.ABSOLUTE_DIRECTIONS;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class CommonActor extends Actor implements BasicActor {
 
 	String name;
+
+	Animation anim;
+
+	float elapsedTime = 0;
 
 	boolean visibility = DefaultValues.ACTOR_VISIBILITY;
 
@@ -136,6 +143,16 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	}
 
 
+
+	@Override
+	public void draw(Batch batch, float alpha) {
+
+		elapsedTime += Gdx.graphics.getDeltaTime();
+		if (this.visibility)
+			batch.draw(anim.getKeyFrame(elapsedTime, moveFlag), getX(), getY());
+		// batch.draw(anim.getKeyFrame(elapsedTime, true), getX(), getY());
+
+	}
 
 	public int getTilePosX() {
 		return tilePosX;

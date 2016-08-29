@@ -495,6 +495,7 @@ public class MightyWorld {
 				Actor_Powerup mypowerup = (Actor_Powerup) actor;
 
 
+
 				if (!mypowerup.isHarmfull())
 					continue;
 

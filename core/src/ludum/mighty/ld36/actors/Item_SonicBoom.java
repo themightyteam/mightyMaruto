@@ -6,7 +6,6 @@ import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.animations.AnimatorSonicBoom;
 import ludum.mighty.ld36.settings.DefaultValues;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 
 /**
@@ -16,7 +15,6 @@ public class Item_SonicBoom extends Actor_Powerup
 {
 
 	private AnimatorSonicBoom animator;
-	private Animation anim;
 
 	public Item_SonicBoom(BasicMaruto parent)
 	{
@@ -154,6 +152,8 @@ public class Item_SonicBoom extends Actor_Powerup
 		//TODO Do render of actor here
 
 	}
+
+
 
 
 }
