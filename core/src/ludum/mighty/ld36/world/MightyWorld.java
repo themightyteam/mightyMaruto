@@ -1016,8 +1016,10 @@ public class MightyWorld {
 												yTile += this.generator
 														.nextInt(this.mapWidthInTiles) / 4;
 
-												itemActor.setX(xTile);
-												itemActor.setY(yTile);
+												itemActor
+														.setInitialTilePosX(xTile);
+												itemActor
+														.setInitialTilePosY(yTile);
 
 											}
 										}
