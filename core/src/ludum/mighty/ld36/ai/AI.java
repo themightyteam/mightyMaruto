@@ -39,7 +39,7 @@ public class AI {
 				// see if we are near somebody interesting
 				Array<BasicMaruto> nearList = getPlayersTouching(myActor,
 						actorList);
-				if (nearList != null) {
+				if (nearList.size > 0) {
 					DefaultValues.ABSOLUTE_DIRECTIONS direction = myActor
 							.getFacing();
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.EAST) {
@@ -125,20 +125,22 @@ public class AI {
 
 				// if it's in the same square than a BlackBox, pick it
 				if (isOverABlackBox(myActor, actorList)) {
-					myActor.setNextAction(new Action(DefaultValues.ACTIONS.PICK));
+					myActor.setNextAction(new Action(
+							DefaultValues.ACTIONS.PICK,
+							DefaultValues.POWERUPS.BLACKBOX));
+					continue;
 				}
 				
 				// see if it's near something interesting to get
 				Array<Actor_Powerup> nearList2 = getSomethingDesirableTouching(
 						myActor, actorList);
-				if (nearList2 != null) {
+				if (nearList2.size > 0) {
 					DefaultValues.ABSOLUTE_DIRECTIONS direction = myActor
 							.getFacing();
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.EAST) {
 						if (isSomethingOnTheRight(myActor, nearList2)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT,
-									DefaultValues.POWERUPS.PUNCH));
+									DefaultValues.ACTIONS.WALK));
 							continue; // next actor, this one has finished
 						}
 						if (isSomethingOnTheTop(myActor, nearList2)) {
@@ -157,8 +159,7 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.WEST) {
 						if (isSomethingOnTheLeft(myActor, nearList2)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT,
-									DefaultValues.POWERUPS.PUNCH));
+									DefaultValues.ACTIONS.WALK));
 							continue; // next actor, this one has finished
 						}
 						if (isSomethingOnTheTop(myActor, nearList2)) {
@@ -177,8 +178,7 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.NORTH) {
 						if (isSomethingOnTheTop(myActor, nearList2)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT,
-									DefaultValues.POWERUPS.PUNCH));
+									DefaultValues.ACTIONS.WALK));
 							continue; // next actor, this one has finished
 						}
 						if (isSomethingOnTheLeft(myActor, nearList2)) {
@@ -197,8 +197,7 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH) {
 						if (isSomethingOnTheBottom(myActor, nearList2)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT,
-									DefaultValues.POWERUPS.PUNCH));
+									DefaultValues.ACTIONS.WALK));
 							continue; // next actor, this one has finished
 						}
 						if (isSomethingOnTheRight(myActor, nearList2)) {
@@ -263,6 +262,7 @@ public class AI {
 					myActor.setNextAction(new Action(
 							DefaultValues.ACTIONS.TURN,
 							DefaultValues.RELATIVE_ROTATIONS.RIGHT));
+					break;
 				default:
 					myActor.setNextAction(new Action(DefaultValues.ACTIONS.WALK));
 					break;
@@ -342,7 +342,7 @@ public class AI {
 
 		for (int i = 0; i < nearList.size; i++) {
 			BasicMaruto ba = nearList.get(i);
-			if ((ba.getTilePosX() == tileX + 1)
+			if ((ba.getTilePosX() == tileX)
 					& (ba.getTilePosY() == tileY + 1)) {
 				return true;
 			}
@@ -357,7 +357,7 @@ public class AI {
 
 		for (int i = 0; i < nearList.size; i++) {
 			Actor_Powerup ba = nearList.get(i);
-			if ((ba.getTilePosX() == tileX + 1)
+			if ((ba.getTilePosX() == tileX)
 					& (ba.getTilePosY() == tileY + 1)) {
 				return true;
 			}
@@ -372,7 +372,7 @@ public class AI {
 
 		for (int i = 0; i < nearList.size; i++) {
 			BasicMaruto ba = nearList.get(i);
-			if ((ba.getTilePosX() == tileX + 1)
+			if ((ba.getTilePosX() == tileX)
 					& (ba.getTilePosY() == tileY - 1)) {
 				return true;
 			}
@@ -387,7 +387,7 @@ public class AI {
 
 		for (int i = 0; i < nearList.size; i++) {
 			Actor_Powerup ba = nearList.get(i);
-			if ((ba.getTilePosX() == tileX + 1)
+			if ((ba.getTilePosX() == tileX)
 					& (ba.getTilePosY() == tileY - 1)) {
 				return true;
 			}
