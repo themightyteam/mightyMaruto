@@ -40,7 +40,7 @@ public class DefaultValues {
 	public static final float PUNCH_SHIFT_PROB = (float) 0.1;
 	public static final int PUNCH_DAMAGE = 2;
 	public static final int PUNCH_SPEED = 0;
-	public static final int CHOCO_TURNS_LIFE = 4;
+	public static final int CHOCO_TURNS_LIFE = 10;
 	public static final float CHOCO_SHIFT_PROB = (float) 0.7;
 	public static final int CHOCO_DAMAGE = 1;
 	public static final int CHOCO_SPEED = 0;
