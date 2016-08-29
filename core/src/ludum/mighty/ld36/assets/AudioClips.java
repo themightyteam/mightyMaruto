@@ -28,7 +28,7 @@ public class AudioClips {
         powerup = Gdx.audio.newSound(Gdx.files.internal("sounds/powerup.wav"));
         punch = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
         timeout = Gdx.audio.newSound(Gdx.files.internal("sounds/timeout.wav"));
-        //wilhem = Gdx.audio.newSound(Gdx.files.internal("sounds/wilhem.wav"));
+        wilhem = Gdx.audio.newSound(Gdx.files.internal("sounds/wilhem.wav"));
     }
 
     public void play_arg() {
