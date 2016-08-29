@@ -7,22 +7,22 @@ package ludum.mighty.ld36.settings;
 public class DefaultValues {
     // Default values for Actors
     public static final String ACTOR_NAME = "Maruto";
-	public static final int ACTOR_LIFE = 3;
-    public static final int ACTOR_SPEED = 1;
-    public static final int ACTOR_PUNCH_DAMAGE = 1;
+	public static final int ACTOR_LIFE = 10;
+	public static final int ACTOR_SPEED = 2;
+	public static final int ACTOR_PUNCH_DAMAGE = 2;
     public static final boolean ACTOR_VISIBILITY = true;
 	public static final int ACTOR_MAX_POWERUPS = 4;
-	public static final int TURNS_TO_RESPAWN = 5;
+	public static final int TURNS_TO_RESPAWN = 3;
 
 	public static final int ITEM_SNEAKER_SPEED_POWERUP = 5;
 	public static final int ITEM_RING_STRENGTH_POWERUP = 5;
-	public static final int ITEM_SNEAKER_TURNS_DURATION = 14;
-	public static final int ITEM_RING_TURNS_DURATION = 13;
-	public static final int ITEM_SHIELD_TURNS_DURATION = 14;
-	public static final int ITEM_INVISIBILITY_TURNS_DURATION = 14;
-	public static final int ITEM_DIZZY_TURNS_DURATION = 15;
-	public static final int ITEM_ARRRGGGHHH_TURNS_DURATION = 13;
-	public static final int ITEM_PROYECTIL_TURNS_DURATION = 15;
+	public static final int ITEM_SNEAKER_TURNS_DURATION = 10;
+	public static final int ITEM_RING_TURNS_DURATION = 10;
+	public static final int ITEM_SHIELD_TURNS_DURATION = 8;
+	public static final int ITEM_INVISIBILITY_TURNS_DURATION = 8;
+	public static final int ITEM_DIZZY_TURNS_DURATION = 10;
+	public static final int ITEM_ARRRGGGHHH_TURNS_DURATION = 10;
+	public static final int ITEM_PROYECTIL_TURNS_DURATION = 10;
 	public static final int ITEM_YENDOR_TURNS_DURATION = Integer.MAX_VALUE;
 
     public static final ABSOLUTE_DIRECTIONS ACTOR_DEFAULT_FACING = ABSOLUTE_DIRECTIONS.SOUTH;
@@ -32,7 +32,7 @@ public class DefaultValues {
 	// Default values for Powerups //SONICBOMB Configure
     public static final boolean POWERUP_CAN_BE_DROPPED = true;
     public static final int POWERUP_TURNS_LIFE = 3;
-    public static final int ARRRGGGHHH_TURNS_LIFE = 5;
+	public static final int ARRRGGGHHH_TURNS_LIFE = 10;
     public static final float ARRRGGGHHH_SHIFT_PROB = (float) 0.9;
 	public static final int ARRRGGGHHH_DAMAGE = 10;
 	public static final int ARRRGGGHHH_SPEED = 1;
@@ -45,17 +45,17 @@ public class DefaultValues {
 	public static final int CHOCO_DAMAGE = 1;
 	public static final int CHOCO_SPEED = 3;
 	public static final int RANDOM_TURNS_LIFE = 4;
-	public static final float RANDOM_SHIFT_PROB = (float) 0.3;
-	public static final int RANDOM_DAMAGE = 3;
+	public static final float RANDOM_SHIFT_PROB = (float) 0.7;
+	public static final int RANDOM_DAMAGE = 4;
 	public static final int RANDOM_LIFE = 1;
 	public static final int RANDOM_SPEED = 2;
 	public static final int GRENADE_DAMAGE = 0;
 	public static final int GRENADE_SPEED = 0;
 	public static final int GRENADE_TURNS_LIFE = 5;
 	public static final float GRENADE_SHIFT_PROB = (float) 0.0;
-	public static final int SONICBOMB_TURNS_LIFE = 10;
+	public static final int SONICBOMB_TURNS_LIFE = 3;
 	public static final int SONICBOMB_LIFE = 1;
-	public static final float SONICBOMB_SHIFT_PROB = (float) 0.3;
+	public static final float SONICBOMB_SHIFT_PROB = (float) 0.4;
 	public static final int SONICBOMB_DAMAGE = 3;
 	public static final int SONICBOMB_SPEED = 2;
 
