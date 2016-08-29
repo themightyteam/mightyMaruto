@@ -48,9 +48,6 @@ public class CommandProcessor {
             "right"
 	};
 
-	private static final Color COLOR_RESPONSE = new Color(0f, .8f, 0f, 1f);
-	private static final Color COLOR_ERROR = new Color(1f, 0f, 0f, 1f);
-
 	public CommandProcessor() {
 		this.commands = new Vector<Action>();
 	}
@@ -71,7 +68,7 @@ public class CommandProcessor {
 				if (parts.length != 1) {
 					// TODO : error "too many parameters"
 					return new Line(getRandomString(DefaultValues.ERRORS),
-							true, COLOR_ERROR);
+							true, Line.COLOR_ERROR);
 				}
 				if (command.compareToIgnoreCase("walk") == 0) {
 					todo = new Action(DefaultValues.ACTIONS.WALK);
@@ -100,7 +97,7 @@ public class CommandProcessor {
 				if (parts.length != 2) {
 					// TODO : error "invalid parameter number"
 					return new Line(getRandomString(DefaultValues.ERRORS),
-							true, COLOR_ERROR);
+							true, Line.COLOR_ERROR);
 				}
 				if (command.compareToIgnoreCase("turn") == 0) {
 					if (parts[1].compareToIgnoreCase("left") == 0) {
@@ -112,7 +109,7 @@ public class CommandProcessor {
 					} else {
 						// TODO : invalid direction
 						return new Line(getRandomString(DefaultValues.ERRORS),
-								true, COLOR_ERROR);
+								true, Line.COLOR_ERROR);
 					}
 					// System.out.println("---> " + todo);
 				} else if (command.compareToIgnoreCase("drop") == 0) {
@@ -151,7 +148,7 @@ public class CommandProcessor {
                                 DefaultValues.POWERUPS.SNEAKERS);
 					} else {
 						return new Line(getRandomString(DefaultValues.ERRORS),
-								true, COLOR_ERROR);
+								true, Line.COLOR_ERROR);
 					}
 
 					// System.out.println("---> " + todo);
@@ -179,7 +176,7 @@ public class CommandProcessor {
                                 DefaultValues.POWERUPS.RANDOM);
                     } else {
 						return new Line(getRandomString(DefaultValues.ERRORS),
-								true, COLOR_ERROR);
+								true, Line.COLOR_ERROR);
 					}
 
 					// System.out.println("---> " + todo);
@@ -187,7 +184,7 @@ public class CommandProcessor {
 			} else {
 				// TODO : invalid command
 				return new Line(getRandomString(DefaultValues.ERRORS), true,
-						COLOR_ERROR);
+						Line.COLOR_ERROR);
 			}
 			if (todo != null) {
 				tempcommands.add(todo);
@@ -201,7 +198,7 @@ public class CommandProcessor {
 		toprint = toprint.substring(0, toprint.lastIndexOf(" then "));
 		// System.out.println(toprint);
 
-		return new Line(toprint, true, COLOR_RESPONSE);
+		return new Line(toprint, true, Line.COLOR_RESPONSE);
 	}
 
 	public Action getNextAction() {
