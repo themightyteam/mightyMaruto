@@ -149,8 +149,8 @@ public class DefaultValues {
      * 
      * 
      */
-	public static final int POINTS_OUT_OF_BOUNDS_DEATH = -1;
-	public static final int POINTS_ITEM_DEATH = -40;
+	public static final int POINTS_OUT_OF_BOUNDS_DEATH = -3;
+	public static final int POINTS_ITEM_DEATH = -1;
 	public static final int POINTS_KILL = 3;
 	
 	/*** Init World Variables ***/

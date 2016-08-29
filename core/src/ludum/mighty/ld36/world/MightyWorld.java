@@ -1,6 +1,7 @@
 package ludum.mighty.ld36.world;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import ludum.mighty.ld36.actions.Action;
@@ -1507,6 +1508,10 @@ public class MightyWorld {
 
 		}
 
+		if (action == null) {
+			action = new Action(DefaultValues.ACTIONS.PICK,
+					DefaultValues.POWERUPS.YENDOR);
+		}
 
 		return action;
 	}
@@ -1587,6 +1592,8 @@ public class MightyWorld {
 						.getScore()));
 			}
 		}
+
+		Collections.sort(nextScores);
 
 		return nextScores;
 	}

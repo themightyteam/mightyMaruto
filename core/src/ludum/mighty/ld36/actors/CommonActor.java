@@ -147,11 +147,14 @@ public abstract class CommonActor extends Actor implements BasicActor {
 	@Override
 	public void draw(Batch batch, float alpha) {
 
+		if (this.anim != null) {
+
 		elapsedTime += Gdx.graphics.getDeltaTime();
 		if (this.visibility)
 			batch.draw(anim.getKeyFrame(elapsedTime, moveFlag), getX(), getY());
 		// batch.draw(anim.getKeyFrame(elapsedTime, true), getX(), getY());
 
+		}
 	}
 
 	public int getTilePosX() {
