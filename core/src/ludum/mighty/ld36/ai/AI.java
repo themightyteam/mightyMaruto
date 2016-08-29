@@ -9,6 +9,7 @@ import ludum.mighty.ld36.actors.EvilMaruto;
 import ludum.mighty.ld36.actors.ItemBlackBox;
 import ludum.mighty.ld36.actors.Item_ARRRGGGHHH;
 import ludum.mighty.ld36.actors.Item_Boomerang;
+import ludum.mighty.ld36.actors.Item_SonicBoom;
 import ludum.mighty.ld36.settings.DefaultValues;
 import ludum.mighty.ld36.world.MightyWorld;
 
@@ -44,7 +45,8 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.EAST) {
 						if (isSomebodyOnTheRight(myActor, nearList)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT));
+									DefaultValues.ACTIONS.SHOOT,
+									DefaultValues.POWERUPS.PUNCH));
 							continue; // next actor, this one has finished
 						}
 						if (isSomebodyOnTheTop(myActor, nearList)) {
@@ -63,7 +65,8 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.WEST) {
 						if (isSomebodyOnTheLeft(myActor, nearList)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT));
+									DefaultValues.ACTIONS.SHOOT,
+									DefaultValues.POWERUPS.PUNCH));
 							continue; // next actor, this one has finished
 						}
 						if (isSomebodyOnTheTop(myActor, nearList)) {
@@ -82,7 +85,8 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.NORTH) {
 						if (isSomebodyOnTheTop(myActor, nearList)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT));
+									DefaultValues.ACTIONS.SHOOT,
+									DefaultValues.POWERUPS.PUNCH));
 							continue; // next actor, this one has finished
 						}
 						if (isSomebodyOnTheLeft(myActor, nearList)) {
@@ -128,7 +132,8 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.EAST) {
 						if (isSomethingOnTheRight(myActor, nearList2)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT));
+									DefaultValues.ACTIONS.SHOOT,
+									DefaultValues.POWERUPS.PUNCH));
 							continue; // next actor, this one has finished
 						}
 						if (isSomethingOnTheTop(myActor, nearList2)) {
@@ -147,7 +152,8 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.WEST) {
 						if (isSomethingOnTheLeft(myActor, nearList2)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT));
+									DefaultValues.ACTIONS.SHOOT,
+									DefaultValues.POWERUPS.PUNCH));
 							continue; // next actor, this one has finished
 						}
 						if (isSomethingOnTheTop(myActor, nearList2)) {
@@ -166,7 +172,8 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.NORTH) {
 						if (isSomethingOnTheTop(myActor, nearList2)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT));
+									DefaultValues.ACTIONS.SHOOT,
+									DefaultValues.POWERUPS.PUNCH));
 							continue; // next actor, this one has finished
 						}
 						if (isSomethingOnTheLeft(myActor, nearList2)) {
@@ -185,7 +192,8 @@ public class AI {
 					if (direction == DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH) {
 						if (isSomethingOnTheBottom(myActor, nearList2)) {
 							myActor.setNextAction(new Action(
-									DefaultValues.ACTIONS.SHOOT));
+									DefaultValues.ACTIONS.SHOOT,
+									DefaultValues.POWERUPS.PUNCH));
 							continue; // next actor, this one has finished
 						}
 						if (isSomethingOnTheRight(myActor, nearList2)) {
@@ -228,7 +236,8 @@ public class AI {
 					break;
 				case 5:
 					myActor.setNextAction(new Action(
-							DefaultValues.ACTIONS.SHOOT));
+							DefaultValues.ACTIONS.SHOOT,
+							DefaultValues.POWERUPS.PUNCH));
 					break;
 				default:
 					myActor.setNextAction(new Action(DefaultValues.ACTIONS.WALK));
@@ -256,6 +265,10 @@ public class AI {
 			}
 			if (actor instanceof Item_Boomerang) {
 				Item_Boomerang myActor = (Item_Boomerang) actor;
+				myActor.setNextAction(new Action(DefaultValues.ACTIONS.WALK));
+			}
+			if (actor instanceof Item_SonicBoom) {
+				Item_SonicBoom myActor = (Item_SonicBoom) actor;
 				myActor.setNextAction(new Action(DefaultValues.ACTIONS.WALK));
 			}
 		}
