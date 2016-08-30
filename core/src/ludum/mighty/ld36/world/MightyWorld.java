@@ -198,6 +198,7 @@ public class MightyWorld {
 			//TODO: Doing Nothing?
 			//Update turn-based items, respawn, etc
 
+			this.deletePowerups();
 			this.updateInventory();
 			this.finishTurn();
 
@@ -253,15 +254,11 @@ public class MightyWorld {
 			// {
 
 
-
+			this.deletePowerupsByLife();
 			this.updatePowerupsPlayer();
 
 
 			this.deleteOutOfBordersActors();
-
-
-			this.deletePowerups();
-
 
 			this.checkRespawn();
 
@@ -1278,6 +1275,43 @@ public class MightyWorld {
 	/**
 	 * 
 	 * 
+	 * - It deletes power-ups after their collide with something and they do not
+	 * have life remaining (typically a power-up will have 1 value of live,
+	 * least the arrrggghhh monster which is invincible )
+	 * 
+	 */
+	public void deletePowerupsByLife() {
+		Array<Actor> actorList = this.stage.getActors();
+		// Checking all actors (no unfinished movement)
+
+		Array<Actor> newActorList = new Array<Actor>();
+
+		// Delete actors
+		for (Actor actor : actorList) {
+			if (actor instanceof Actor_Powerup) {
+				Actor_Powerup mypowerup = (Actor_Powerup) actor;
+
+				if (mypowerup.getlife() > 0) {
+
+					newActorList.add(actor);
+
+				}
+			} else {
+				newActorList.add(actor);
+			}
+		}
+
+		this.stage.getActors().clear();
+
+		for (Actor actor : newActorList) {
+			this.stage.addActor(actor);
+		}
+
+	}
+
+	/**
+	 * 
+	 * 
 	 * - It deletes power-ups after their collide with something and they do not have life remaining
 	 * (typically a power-up will have 1 value of live, least the arrrggghhh monster which is invincible )
 	 * 
@@ -1342,8 +1376,6 @@ public class MightyWorld {
 						myMaruto.setlife(DefaultValues.ACTOR_LIFE);
 						myMaruto.setTurnsToRespawn(DefaultValues.TURNS_TO_RESPAWN);
 						myMaruto.getMovementList().clear();
-
-
 
 					}
 					else
@@ -1425,14 +1457,19 @@ public class MightyWorld {
 	{
 		ArrayList<Action> moveList = new ArrayList<Action>();
 		if(action == null) return moveList;
+
 		if (action.gettype() == DefaultValues.ACTIONS.RUN && isPlayer )
 		{
 			for (int i = 0; i< moveMultiplier; i++)
 				moveList.add(new Action(DefaultValues.ACTIONS.WALK));
 		}
 
-		else
+		else if (!isPlayer && action.gettype() == DefaultValues.ACTIONS.WALK)
 		{
+			for (int i = 0; i < moveMultiplier; i++)
+				moveList.add(new Action(DefaultValues.ACTIONS.WALK));
+		} else {
+
 			moveList.add(action);
 		}
 
@@ -1597,6 +1634,7 @@ public class MightyWorld {
 			break;
 		case WEST:
 			newDirection = DefaultValues.ABSOLUTE_DIRECTIONS.EAST;
+			break;
 		default:
 			newDirection = DefaultValues.ABSOLUTE_DIRECTIONS.SOUTH;
 		}

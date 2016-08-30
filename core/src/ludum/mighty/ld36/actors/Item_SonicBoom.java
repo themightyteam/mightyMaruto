@@ -45,11 +45,13 @@ public class Item_SonicBoom extends Actor_Powerup
 
 		case NORTH:
 
+
 			anim = animator.animUP;
 			mba.setAmount(0, DefaultValues.TILESIZE);
 			break;
 
 		case EAST:
+
 
 			anim = animator.animRIGHT;
 			mba.setAmount(DefaultValues.TILESIZE, 0);				
@@ -57,32 +59,46 @@ public class Item_SonicBoom extends Actor_Powerup
 
 		case SOUTH:
 
+
 			anim = animator.animDOWN;
 			mba.setAmount(0, -DefaultValues.TILESIZE);
 			break;
 
 		case WEST:
 
+
+
 			anim = animator.animLEFT;
 			mba.setAmount(-DefaultValues.TILESIZE, 0);
 			break;
 
 		case NORTHEAST:
+
+
+
 			anim = animator.animNE;
 			mba.setAmount(DefaultValues.TILESIZE, DefaultValues.TILESIZE);
 			break;
 
 		case NORTHWEST:
+
+
 			anim = animator.animNE;
 			mba.setAmount(-DefaultValues.TILESIZE, DefaultValues.TILESIZE);
 			break;
 
 		case SOUTHEAST:
+
+
+
 			anim = animator.animNE;
 			mba.setAmount(DefaultValues.TILESIZE, -DefaultValues.TILESIZE);
 			break;
 
 		case SOUTHWEST:
+
+
+
 			anim = animator.animNE;
 			mba.setAmount(-DefaultValues.TILESIZE, -DefaultValues.TILESIZE);
 			break;
@@ -134,22 +150,13 @@ public class Item_SonicBoom extends Actor_Powerup
 	@Override
 	public void doMovement(Action action) {
 
-		switch(action.gettype())
-		{
-		case TURN:
-			this.rotate(action.getdirection());
-			doMovementTurn();
 
-			break;
-
-		case WALK:
 			this.doTilesetWalk();
 			doMovementWalk();
-			break;
-		}
-
 
 		//TODO Do render of actor here
+
+		this.nextAction = new Action(DefaultValues.ACTIONS.WALK);
 
 	}
 

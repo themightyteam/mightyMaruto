@@ -1,6 +1,7 @@
 package ludum.mighty.ld36.actors;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import ludum.mighty.ld36.actions.Action;
 import ludum.mighty.ld36.animations.AnimatorArrrggghhh;
@@ -17,6 +18,8 @@ public class Item_ARRRGGGHHH extends Actor_Powerup
 	private AnimatorArrrggghhh animator;
 
 	
+	Random generator = new Random();
+
 	public Item_ARRRGGGHHH(BasicMaruto parent)
 	{
 		super(parent);
@@ -53,6 +56,7 @@ private void doMovementWalk() {
 
 		case EAST:
 
+
 			anim = animator.animRIGHT;
 			mba.setAmount(DefaultValues.TILESIZE, 0);				
 			break;
@@ -64,6 +68,7 @@ private void doMovementWalk() {
 			break;
 		
 		case WEST:
+
 
 			anim = animator.animLEFT;
 			mba.setAmount(-DefaultValues.TILESIZE, 0);
@@ -121,6 +126,11 @@ private void doMovementTurn() {
 		
 		//TODO Do render of actor here
 		
+
+		// FIXME as the AI is not working put next action here.
+
+
+
 	}
 
 	

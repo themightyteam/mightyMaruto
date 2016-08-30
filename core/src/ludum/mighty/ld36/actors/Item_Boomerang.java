@@ -52,43 +52,62 @@ private void doMovementWalk() {
 		switch (facing) {
 
 		case NORTH:
+
+
+
 			mba.setAmount(0, DefaultValues.TILESIZE);
 			break;
 
 		case EAST:
+
+
+
 			mba.setAmount(DefaultValues.TILESIZE, 0);				
 			break;
 		
 		case SOUTH:
+
+
+
 			mba.setAmount(0, -DefaultValues.TILESIZE);
 			break;
 		
 		case WEST:
+
+
+
 			mba.setAmount(-DefaultValues.TILESIZE, 0);
 			break;
 
 		case NORTHEAST:
+
+
+
 			mba.setAmount(DefaultValues.TILESIZE, DefaultValues.TILESIZE);
 			break;
 			
 		case NORTHWEST:
+
+
+
 			mba.setAmount(-DefaultValues.TILESIZE, DefaultValues.TILESIZE);
 			break;
 			
 		case SOUTHEAST:
+
+
+
 			mba.setAmount(DefaultValues.TILESIZE, -DefaultValues.TILESIZE);
 			break;
 			
 		case SOUTHWEST:
+
+
+
 			mba.setAmount(-DefaultValues.TILESIZE, -DefaultValues.TILESIZE);
 			break;
 			
 		}
-
-		
-		
-		
-		
 		
 		mba.setDuration(1f);
 		this.addAction(mba);
@@ -111,23 +130,11 @@ private void doMovementTurn() {
 	@Override
 	public void doMovement(Action action) {
 		
-		switch(action.gettype())
-		{
-		case TURN:
-			this.rotate(action.getdirection());
-			doMovementTurn();
-			
-			break;
-			
-		case WALK:
+
 			this.doTilesetWalk();
 			doMovementWalk();
-			break;
-		}
 		
-		
-		//TODO Do render of actor here
-		
+
 	}
 
 	

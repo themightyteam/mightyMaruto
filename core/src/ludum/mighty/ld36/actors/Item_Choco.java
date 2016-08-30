@@ -36,6 +36,7 @@ public class Item_Choco extends Actor_Powerup
 		this.animator = new AnimatorChoco("items_spreadsheet.png");
 		anim = animator.anim;
 
+
 	}
 
 	public void doMovementIdle() {
@@ -44,11 +45,15 @@ public class Item_Choco extends Actor_Powerup
 		mba.setAmount(0, 0);
 		mba.setDuration(1f);
 		this.addAction(mba);
+
 	}
 
 	@Override
 	public void doMovement(Action action) {
+
 		doMovementIdle();
+
+		this.setNextAction(new Action(DefaultValues.ACTIONS.IDLE));
 	}
 	
 	

@@ -53,6 +53,9 @@ public class Item_Grenade extends Actor_Powerup {
 		// TODO Auto-generated method stub
 
 		doMovementIdle();
+
+		this.setNextAction(new Action(DefaultValues.ACTIONS.IDLE));
+
 	}
 
 }

@@ -11,7 +11,7 @@ public class Item_Punch extends Actor_Powerup {
 		super(parent);
 
 		this.turnsLife = DefaultValues.PUNCH_TURNS_LIFE;
-		this.life = Integer.MAX_VALUE;
+		this.life = DefaultValues.PUNCH_LIFE;
 		this.shiftProbability = DefaultValues.PUNCH_SHIFT_PROB;
 		this.speed = DefaultValues.PUNCH_SPEED; // No speed in punch
 		this.punch = DefaultValues.PUNCH_DAMAGE;
