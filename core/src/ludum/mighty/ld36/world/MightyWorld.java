@@ -551,6 +551,8 @@ public class MightyWorld {
 
 										BasicMaruto otherMaruto = (BasicMaruto) otherActor;
 
+										if (mypowerup.getParentActor() != otherMaruto) {
+
 										mypowerup
 												.getParentActor()
 												.setScore(
@@ -563,6 +565,13 @@ public class MightyWorld {
 												.setScore(otherMaruto
 														.getScore()
 														+ DefaultValues.POINTS_ITEM_DEATH);
+
+										} else {
+											otherMaruto
+													.setScore(otherMaruto
+															.getScore()
+															+ DefaultValues.POINTS_SUICIDE);
+										}
 
 									}
 
@@ -1089,6 +1098,8 @@ public class MightyWorld {
 
 										Actor_Powerup mypowerup = (Actor_Powerup) otherActor;
 
+										if (mypowerup.getParentActor() != myMaruto) {
+
 										mypowerup
 												.getParentActor()
 												.setScore(
@@ -1100,6 +1111,13 @@ public class MightyWorld {
 										// Update scores
 										myMaruto.setScore(myMaruto.getScore()
 												+ DefaultValues.POINTS_ITEM_DEATH);
+
+										} else {
+											// Update scores
+											myMaruto.setScore(myMaruto
+													.getScore()
+													+ DefaultValues.POINTS_SUICIDE);
+										}
 
 										myMaruto.getMovementList().clear();
 										myMaruto.getMovementList().add(new Action(DefaultValues.ACTIONS.DEATH));
